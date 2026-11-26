@@ -1,37 +1,37 @@
-import { getSharedWebLlmClient } from './audio-explainer.mjs?v=d09b12cf45';
-import { connectAudiologistSandbox } from './audiologist-sandbox.mjs?v=d09b12cf45';
-import { assembleComparisonZip } from './bundle.mjs?v=d09b12cf45';
-import { connectConcertStage } from './concert-stage.mjs?v=d09b12cf45';
-import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs?v=d09b12cf45';
-import { connectEar3DStage } from './ear-3d-stage.mjs?v=d09b12cf45';
-import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs?v=d09b12cf45';
-import { connectFreqBandSim } from './freq-band-sim.mjs?v=d09b12cf45';
-import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs?v=d09b12cf45';
-import { connectHomeVideo } from './home-video.mjs?v=d09b12cf45';
-import { connectHomeVideoEffects } from './home-video-effects.mjs?v=d09b12cf45';
-import { connectListeningPreviews } from './listening-previews.mjs?v=d09b12cf45';
-import { connectLiveMic } from './live-mic.mjs?v=d09b12cf45';
-import { attachMarkerDrag } from './marker-scrubber.mjs?v=d09b12cf45';
-import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs?v=d09b12cf45';
-import { connectNIHLExamples } from './nihl-examples.mjs?v=d09b12cf45';
+import { getSharedWebLlmClient } from './audio-explainer.mjs?v=1e03b2b326';
+import { connectAudiologistSandbox } from './audiologist-sandbox.mjs?v=1e03b2b326';
+import { assembleComparisonZip } from './bundle.mjs?v=1e03b2b326';
+import { connectConcertStage } from './concert-stage.mjs?v=1e03b2b326';
+import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs?v=1e03b2b326';
+import { connectEar3DStage } from './ear-3d-stage.mjs?v=1e03b2b326';
+import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs?v=1e03b2b326';
+import { connectFreqBandSim } from './freq-band-sim.mjs?v=1e03b2b326';
+import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs?v=1e03b2b326';
+import { connectHomeVideo } from './home-video.mjs?v=1e03b2b326';
+import { connectHomeVideoEffects } from './home-video-effects.mjs?v=1e03b2b326';
+import { connectListeningPreviews } from './listening-previews.mjs?v=1e03b2b326';
+import { connectLiveMic } from './live-mic.mjs?v=1e03b2b326';
+import { attachMarkerDrag } from './marker-scrubber.mjs?v=1e03b2b326';
+import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs?v=1e03b2b326';
+import { connectNIHLExamples } from './nihl-examples.mjs?v=1e03b2b326';
 import {
   connectCalibrationControls,
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=d09b12cf45';
-import { connectVolumeGuardrail } from './safe-listening.mjs?v=d09b12cf45';
-import { connectListeningShare, readListeningLink } from './share.mjs?v=d09b12cf45';
-import { connectSpectrogram } from './spectrogram.mjs?v=d09b12cf45';
-import { connectStoryJourney } from './story-journey.mjs?v=d09b12cf45';
-import { connectStudioExplainer } from './studio-explainer.mjs?v=d09b12cf45';
-import { connectStudioFilterResponse } from './studio-filter-response.mjs?v=d09b12cf45';
-import { displayProfileName, updateStudioFilter } from './studio-filters.mjs?v=d09b12cf45';
-import { connectThemeToggle, onThemeChange } from './theme.mjs?v=d09b12cf45';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=d09b12cf45';
-import { connectUploadPreview, isVideoFile } from './upload-preview.mjs?v=d09b12cf45';
-import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=d09b12cf45';
-import { connectViewNavigation } from './views.mjs?v=d09b12cf45';
+} from './output-calibration.mjs?v=1e03b2b326';
+import { connectVolumeGuardrail } from './safe-listening.mjs?v=1e03b2b326';
+import { connectListeningShare, readListeningLink } from './share.mjs?v=1e03b2b326';
+import { connectSpectrogram } from './spectrogram.mjs?v=1e03b2b326';
+import { connectStoryJourney } from './story-journey.mjs?v=1e03b2b326';
+import { connectStudioExplainer } from './studio-explainer.mjs?v=1e03b2b326';
+import { connectStudioFilterResponse } from './studio-filter-response.mjs?v=1e03b2b326';
+import { displayProfileName, updateStudioFilter } from './studio-filters.mjs?v=1e03b2b326';
+import { connectThemeToggle, onThemeChange } from './theme.mjs?v=1e03b2b326';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=1e03b2b326';
+import { connectUploadPreview, isVideoFile } from './upload-preview.mjs?v=1e03b2b326';
+import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=1e03b2b326';
+import { connectViewNavigation } from './views.mjs?v=1e03b2b326';
 
 const demo = new URL('./demo/', import.meta.url);
 const collection = new URL('music/collection.json', demo);
@@ -180,51 +180,16 @@ if (typeof IntersectionObserver === 'function' && !window.matchMedia?.('(prefers
   }
 }
 
-const earModeMap = {
-  original: 'original',
-  post_gig: 'muffled',
-  permanent_notch: 'stronger',
-  severe_hf: 'stronger',
-  asymmetric: 'right',
-  foam_plugs: 'foam',
-  musician_plugs: 'filtered',
-};
-
 const ear3D = connectEar3DStage({
   getWebLlmClient: () => getSharedWebLlmClient(),
   onSelectPreset: ({ effectKey, tinnitus }) => {
-    stopConcertStage.setState?.({ effectKey, tinnitus: tinnitus || 'off' });
-    if (stopHomeVideo.select) {
-      stopHomeVideo.select({
-        mode: earModeMap[effectKey] || 'original',
-        sound: tinnitus || 'off',
-      });
-      return;
-    }
-    if (effectKey === 'foam_plugs' || effectKey === 'musician_plugs') {
-      stopFreqBandSim.applyPreset?.(effectKey, { autoPlay: true });
-    }
+    stopConcertStage.play?.({ effectKey, tinnitus: tinnitus || 'off' });
   },
-  onToggleAudio: ({ effectKey, tinnitus, currentlyPlaying }) => {
-    if (currentlyPlaying) {
-      stopConcertStage();
-      stopHomeVideo();
-      stopFreqBandSim();
-      ear3D.setState({ playing: false });
-      return;
-    }
-    stopConcertStage.setState?.({ effectKey, tinnitus: tinnitus || 'off' });
-    stopHomeVideo.select?.({
-      mode: earModeMap[effectKey] || 'original',
-      sound: tinnitus || 'off',
-    });
+  onToggleAudio: ({ effectKey, tinnitus }) => {
+    stopConcertStage.toggle?.({ effectKey, tinnitus: tinnitus || 'off' });
   },
   onCrowdChange: (pct) => {
-    const crowdInput = document.querySelector('#freq-band-crowd');
-    if (crowdInput) {
-      crowdInput.value = String(pct);
-      crowdInput.dispatchEvent(new Event('input', { bubbles: true }));
-    }
+    stopConcertStage.setCrowdPercent?.(pct);
   },
 });
 
@@ -297,7 +262,12 @@ stopFreqBandSim = connectFreqBandSim({
   volume: playbackVolume,
   onVisualState: (patch) => {
     ear3D.setState(patch);
-    if (patch.effectKey) stopConcertStage.setState?.({ effectKey: patch.effectKey });
+    if (patch.effectKey || patch.crowdPercent !== undefined) {
+      stopConcertStage.setState?.({
+        ...(patch.effectKey ? { effectKey: patch.effectKey } : {}),
+        ...(patch.crowdPercent !== undefined ? { crowdPercent: patch.crowdPercent } : {}),
+      });
+    }
   },
 });
 stopLiveMic = connectLiveMic({
@@ -329,7 +299,7 @@ const storyJourney = connectStoryJourney({
     if (window.location.hash !== hash) window.location.hash = hash;
   },
   onUpdateEar3D: (patch) => ear3D.setState(patch),
-  onTriggerBandPreset: (presetId) => stopFreqBandSim.applyPreset?.(presetId, { autoPlay: true }),
+  onTriggerBandPreset: (presetId) => stopConcertStage.play?.({ effectKey: presetId, tinnitus: 'off', crowdPercent: 0 }),
   onTriggerPubDemo: () => stopFreqBandSim.triggerPubDemo?.(),
   onConfigureStudio: ({ profileId, tinnitus }) => {
     const applyStudioConfig = (chosenTin) => {

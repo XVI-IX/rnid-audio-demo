@@ -6,7 +6,7 @@ import {
   generateEarPartAiResponse,
   getInstantEarPartExplanation,
   getPartStarterQuestions,
-} from './ear-anatomy-ai.mjs?v=d09b12cf45';
+} from './ear-anatomy-ai.mjs?v=1e03b2b326';
 import {
   ANATOMY_PARTS,
   ANATOMY_PART_BY_ID,
@@ -15,10 +15,10 @@ import {
   buildSpatialLabFloor,
   createStudioEnvironmentTexture,
   normalisePartId,
-} from './ear-anatomy-geometry.mjs?v=d09b12cf45';
-import { getEffectTheme } from './output-calibration.mjs?v=d09b12cf45';
-import { getTheme, onThemeChange } from './theme.mjs?v=d09b12cf45';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=d09b12cf45';
+} from './ear-anatomy-geometry.mjs?v=1e03b2b326';
+import { getEffectTheme } from './output-calibration.mjs?v=1e03b2b326';
+import { getTheme, onThemeChange } from './theme.mjs?v=1e03b2b326';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=1e03b2b326';
 
 export const ANATOMY_IMPACT_GUIDES = Object.freeze({
   original: {
@@ -865,6 +865,9 @@ export function connectEar3DStage({
       if (state.sceneMode === 'pub' && (!state.crowdPercent || state.crowdPercent < 10)) {
         state.crowdPercent = 45;
         onCrowdChange?.(45);
+      } else if (state.sceneMode !== 'pub' && state.crowdPercent > 0) {
+        state.crowdPercent = 0;
+        onCrowdChange?.(0);
       }
       syncHud();
       focusCameraCallback?.(state.sceneMode === 'pub' ? 'pub' : 'overview', null);
@@ -913,7 +916,7 @@ export function connectEar3DStage({
         state.focusPart = 'earplug';
       } else if (next === 'original') {
         state.tinnitus = 'off';
-      } else if (next === 'post_gig' || next === 'permanent_notch') {
+      } else if (next === 'post_gig' || next === 'permanent_notch' || next === 'severe_hf') {
         state.focusPart = 'cochlea';
       }
       syncHud({ clearExtraTurns: true });

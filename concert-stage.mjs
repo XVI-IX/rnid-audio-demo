@@ -3,16 +3,17 @@
 // + 6 telescoping linear-phase FIR convolution kernels (exact bit-accurate sum at 0 dB!),
 // isolating true 340 Hz–7.5 kHz center vocals (body vs sibilant consonants) with smooth musical crossfades.
 
-import { buildConcert3DScene } from './concert-3d-scene.mjs?v=d09b12cf45';
-import { createBandKernels } from './freq-band-audio.mjs?v=d09b12cf45';
+import { buildConcert3DScene } from './concert-3d-scene.mjs?v=1e03b2b326';
+import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=1e03b2b326';
+import { createBandKernels } from './freq-band-audio.mjs?v=1e03b2b326';
 import {
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=d09b12cf45';
-import { getTheme, onThemeChange } from './theme.mjs?v=d09b12cf45';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=d09b12cf45';
-import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=d09b12cf45';
+} from './output-calibration.mjs?v=1e03b2b326';
+import { getTheme, onThemeChange } from './theme.mjs?v=1e03b2b326';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=1e03b2b326';
+import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=1e03b2b326';
 
 export const CONCERT_SONGS = Object.freeze([
   {
@@ -341,6 +342,10 @@ export function connectConcertStage({
   if (!sectionEl) {
     const noop = () => {};
     noop.setState = () => {};
+    noop.play = () => {};
+    noop.toggle = () => {};
+    noop.setCrowdPercent = () => {};
+    noop.isPlaying = () => false;
     return noop;
   }
 
@@ -419,6 +424,7 @@ export function connectConcertStage({
     loading: false,
     condition: 'original',
     tinnitus: 'off',
+    crowdPercent: 0,
     soloInstrument: null,
     mutedIds: new Set(),
     hoveredStem: null,
@@ -435,6 +441,7 @@ export function connectConcertStage({
   let calibrationStage = null;
   let tinnitusBus = null;
   let liveTinnitus = null;
+  let liveCrowd = null;
   let graphBuiltRate = 0;
   let stemNodes = null;
   let activeRun = null;
@@ -623,6 +630,52 @@ export function connectConcertStage({
 
     calibrationStage?.sync();
     syncTinnitusAudio();
+    syncCrowdAudio();
+  }
+
+  function stopCrowdAudio() {
+    if (!liveCrowd || !audioCtx) return;
+    const prev = liveCrowd;
+    liveCrowd = null;
+    try {
+      const now = audioCtx.currentTime;
+      prev.gainNode.gain.cancelScheduledValues(now);
+      prev.gainNode.gain.setTargetAtTime(0.0001, now, 0.06);
+      prev.source.stop(now + 0.22);
+    } catch {
+      try { prev.source.disconnect(); prev.gainNode.disconnect(); } catch { /* ignore */ }
+    }
+  }
+
+  function syncCrowdAudio() {
+    const targetGain = crowdPercentToGain(state.crowdPercent);
+    if (!audioCtx || !stemNodes || !state.playing || targetGain <= 0.0001) {
+      stopCrowdAudio();
+      return;
+    }
+    if (liveCrowd) {
+      liveCrowd.gainNode.gain.setTargetAtTime(targetGain, audioCtx.currentTime, 0.08);
+      return;
+    }
+    try {
+      const buf = createCrowdAmbienceBuffer(audioCtx);
+      const src = audioCtx.createBufferSource();
+      const gainNode = audioCtx.createGain();
+      const now = audioCtx.currentTime;
+      gainNode.gain.setValueAtTime(0.0001, now);
+      gainNode.gain.linearRampToValueAtTime(targetGain, now + 0.24);
+      src.buffer = buf;
+      src.loop = true;
+      src.connect(gainNode);
+      gainNode.connect(stemNodes.sourceEntry);
+      src.onended = () => {
+        try { src.disconnect(); gainNode.disconnect(); } catch { /* ignore */ }
+      };
+      src.start(now);
+      liveCrowd = { source: src, gainNode };
+    } catch {
+      liveCrowd = null;
+    }
   }
 
   function stopTinnitusAudio() {
@@ -776,6 +829,12 @@ export function connectConcertStage({
     const token = ++loadToken;
     state.loading = true;
     syncUi();
+    onStateChange({
+      type: 'select',
+      effectKey: state.condition,
+      tinnitus: state.tinnitus,
+      playing: true,
+    });
 
     try {
       const songMeta = currentSongMeta();
@@ -801,6 +860,12 @@ export function connectConcertStage({
       state.playing = false;
       if (statusEl) statusEl.textContent = 'Could not decode song audio in this browser.';
       syncUi();
+      onStateChange({
+        type: 'select',
+        effectKey: state.condition,
+        tinnitus: state.tinnitus,
+        playing: false,
+      });
     }
   }
 
@@ -813,11 +878,18 @@ export function connectConcertStage({
       crossfadeOutRun(outgoing, immediate ? 0 : 0.2);
     }
     stopTinnitusAudio();
+    stopCrowdAudio();
     const wasPlaying = state.playing || state.loading;
     state.playing = false;
     state.loading = false;
     syncUi();
     if (notify && wasPlaying) {
+      onStateChange({
+        type: 'select',
+        effectKey: state.condition,
+        tinnitus: state.tinnitus,
+        playing: false,
+      });
       onStateChange({ type: 'energy', playing: false, bassEnergy: 0.24, trebleEnergy: 0.26 });
     }
   }
@@ -1347,6 +1419,8 @@ export function connectConcertStage({
             liveConsonantRms *= 0.88;
           }
 
+          if (!inViewport) return;
+
           currentTarget.lerp(desiredTarget, 0.075);
           currentRadius += (desiredRadius - currentRadius) * 0.075;
           const idleSway = activePointers.size === 0 && !state.soloInstrument ? Math.sin(t * 0.32) * 0.045 : 0;
@@ -1466,10 +1540,41 @@ export function connectConcertStage({
       state.tinnitus = patch.tinnitus;
       changed = true;
     }
+    if (patch.crowdPercent !== undefined) {
+      const nextCrowd = Math.max(0, Math.min(100, Number(patch.crowdPercent) || 0));
+      if (nextCrowd !== state.crowdPercent) {
+        state.crowdPercent = nextCrowd;
+        changed = true;
+      }
+    }
     if (changed) {
       applyStemGains(false);
       syncUi();
     }
   };
+  stopFn.play = (patch = {}) => {
+    stopFn.setState(patch);
+    if (!state.playing && !state.loading) {
+      void startConcert();
+    } else {
+      onStateChange({
+        type: 'select',
+        effectKey: state.condition,
+        tinnitus: state.tinnitus,
+        playing: true,
+      });
+    }
+  };
+  stopFn.toggle = (patch = {}) => {
+    if (state.playing || state.loading) {
+      stopConcert({ notify: true });
+    } else {
+      stopFn.play(patch);
+    }
+  };
+  stopFn.setCrowdPercent = (pct) => {
+    stopFn.setState({ crowdPercent: pct });
+  };
+  stopFn.isPlaying = () => Boolean(state.playing || state.loading);
   return stopFn;
 }
