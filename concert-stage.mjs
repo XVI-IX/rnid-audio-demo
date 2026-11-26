@@ -3,23 +3,36 @@
 // + 6 telescoping linear-phase FIR convolution kernels (exact bit-accurate sum at 0 dB!),
 // isolating true 340 Hz–7.5 kHz center vocals (body vs sibilant consonants) with smooth musical crossfades.
 
-import { buildConcert3DScene } from './concert-3d-scene.mjs?v=7ab8954de0';
+import { buildConcert3DScene } from './concert-3d-scene.mjs?v=6c8561a22e';
 import {
   createCrowdAmbienceBuffer,
   createCrowdCheeringBuffer,
   crowdPercentToGain,
-} from './crowd-ambience.mjs?v=7ab8954de0';
-import { createBandKernels } from './freq-band-audio.mjs?v=7ab8954de0';
+} from './crowd-ambience.mjs?v=6c8561a22e';
+import { createBandKernels } from './freq-band-audio.mjs?v=6c8561a22e';
 import {
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=7ab8954de0';
-import { getTheme, onThemeChange } from './theme.mjs?v=7ab8954de0';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=7ab8954de0';
-import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=7ab8954de0';
+} from './output-calibration.mjs?v=6c8561a22e';
+import { getTheme, onThemeChange } from './theme.mjs?v=6c8561a22e';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=6c8561a22e';
+import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=6c8561a22e';
 
 export const CONCERT_SONGS = Object.freeze([
+  {
+    id: 'dont-lose-the-music',
+    title: 'Don’t Lose the Music',
+    artist: 'RNID Campaign Mix',
+    genre: 'Funk-Pop Brass, Bass & Vocal Hooks',
+    license: 'Campaign Track',
+    creditUrl: 'https://rnid.org.uk/information-and-support/ear-health/protect-your-hearing/',
+    path: './demo/music/dont-lose-the-music/reference.m4a',
+    startOffset: 0,
+    isInstrumental: false,
+    vocalCheckKicker: 'Don’t Lose the Music · Vocal Hook & Brass Lead',
+    vocalFocusNote: 'Compare warm horn & vocal body against crisp claps, brass bite, and word edges.',
+  },
   {
     id: 'let-it-in',
     title: 'Let It In',
@@ -31,7 +44,7 @@ export const CONCERT_SONGS = Object.freeze([
     startOffset: 72.0,
     isInstrumental: false,
     vocalCheckKicker: 'Josh Woodward · Chorus Lead Vocal Check',
-    vocalFocusNote: 'Full folk-rock vocal chorus at 1:12 — compare warm chest vowels against crisp s, t, and k word edges.',
+    vocalFocusNote: 'Chorus at 1:12 — compare warm vowels against crisp s, t, and k word edges.',
   },
   {
     id: 'i-just-wanna',
@@ -44,7 +57,7 @@ export const CONCERT_SONGS = Object.freeze([
     startOffset: 12.6,
     isInstrumental: false,
     vocalCheckKicker: 'mykleanthony · Soul-Pop Lead Vocal Check',
-    vocalFocusNote: 'Rhythmic soul-pop vocal hook from 0:13 — hear how smooth vowel tone stays loud while crisp sibilants (s, ch, t) soften under hearing loss.',
+    vocalFocusNote: 'Vocal hook at 0:13 — vowel warmth stays loud while s, ch, and t soften.',
   },
   {
     id: 'gravity',
@@ -57,7 +70,7 @@ export const CONCERT_SONGS = Object.freeze([
     startOffset: 86.0,
     isInstrumental: false,
     vocalCheckKicker: 'Josh Woodward · Indie-Rock Vocal Check',
-    vocalFocusNote: 'Full band & lead voice at 1:26 — notice how guitar pick snap and word endings recede into the bass & drum kit when treble drops.',
+    vocalFocusNote: 'Full band at 1:26 — guitar pick snap and word endings recede into the bass.',
   },
   {
     id: 'in-peace',
@@ -70,7 +83,7 @@ export const CONCERT_SONGS = Object.freeze([
     startOffset: 20.2,
     isInstrumental: false,
     vocalCheckKicker: 'Madam Snowflake · Female Lead Vocal Check',
-    vocalFocusNote: 'Airy female lead vocal from 0:20 — delicate breath, f, and s consonants vanish first when inner-ear hair cells tire.',
+    vocalFocusNote: 'Female vocal at 0:20 — airy breath and f / s consonants fade first.',
   },
   {
     id: 'its-your-birthday',
@@ -83,7 +96,7 @@ export const CONCERT_SONGS = Object.freeze([
     startOffset: 0.5,
     isInstrumental: false,
     vocalCheckKicker: 'Kyla · Pop Lead Vocal Check',
-    vocalFocusNote: 'Upbeat female vocal from 0:01 — listen for the sharp “t’s” and “th” consonants in the chorus dulling while the party beat stays full.',
+    vocalFocusNote: 'Chorus at 0:01 — sharp t and th consonants dull while the beat stays full.',
   },
   {
     id: 'boogie-party',
@@ -96,11 +109,11 @@ export const CONCERT_SONGS = Object.freeze([
     startOffset: 53.5,
     isInstrumental: true,
     vocalCheckKicker: 'Instrumental Track · Center Piano & Snare Lead',
-    vocalFocusNote: 'No vocals on this instrumental blues-rock recording — the center stem carries the rollicking piano body vs sharp snare & horn/guitar attack.',
+    vocalFocusNote: 'Instrumental blues-rock — center stem compares piano body against sharp snare attack.',
   },
 ]);
 
-export function getSongVocalCheckSpec(songId = 'let-it-in') {
+export function getSongVocalCheckSpec(songId = 'dont-lose-the-music') {
   return CONCERT_SONGS.find((s) => s.id === songId) ?? CONCERT_SONGS[0];
 }
 
@@ -171,7 +184,7 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'original',
     label: 'Healthy ears',
     lostHeadline: 'All 5 song stems clear & balanced',
-    summary: 'Every 3D spotlight shines — kick & bass, wide rhythm chords, crisp center lead, biting guitar transients, and hi-hat shimmer blend smoothly.',
+    summary: 'All 5 stage spotlights shine — bass, chords, vocals, guitar bite, and cymbals sit in clear balance.',
     vowelRetention: 100,
     consonantRetention: 100,
     lyricClarity: 100,
@@ -187,7 +200,7 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'post_gig',
     label: 'Post-gig muffled',
     lostHeadline: '2 stems fading · High consonants softened',
-    summary: 'Temporary “hearing hangover”: kick & bass still pound at 98%, while hi-hat shimmer and sharp s, t, and k consonants dim behind stage haze.',
+    summary: 'Temporary hangover: bass still pounds while cymbals and crisp s, t, and k word edges soften.',
     vowelRetention: 90,
     consonantRetention: 22,
     lyricClarity: 56,
@@ -203,7 +216,7 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'permanent_notch',
     label: '4 kHz noise notch',
     lostHeadline: 'Guitar bite, snare & consonants lost in mix',
-    summary: 'Ear-canal resonance concentrates concert wear near 4 kHz — guitar pick attack, snare crack, and crisp word edges drop out while bass booms untouched.',
+    summary: 'Guitar pick attack, snare crack, and crisp word edges drop out while bass booms untouched.',
     vowelRetention: 86,
     consonantRetention: 8,
     lyricClarity: 44,
@@ -211,7 +224,7 @@ export const CONCERT_CONDITIONS = Object.freeze({
       bass: { audibility: 98, gain: 0.98, status: 'Untouched bass', lost: false },
       keys: { audibility: 84, gain: 0.84, status: 'Low chords intact', lost: false },
       vocals: { audibility: 44, vowelGain: 0.86, consonantGain: 0.08, status: 'Edges blurred', lost: true },
-      guitar: { audibility: 12, gain: 0.06, status: 'Lost in 4 kHz notch', lost: true },
+      guitar: { audibility: 12, gain: 0.06, status: 'Lost in notch', lost: true },
       cymbals: { audibility: 28, gain: 0.24, status: 'Thin distant tick', lost: true },
     },
   },
@@ -219,7 +232,7 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'severe_hf',
     label: 'Strong treble loss',
     lostHeadline: 'Right half of the 3D stage vanishes',
-    summary: 'Cymbals (2%) and guitar bite (5%) go dark in 3D space, and center vocals lose 98% of consonant crispness while heavy bass dominates the room.',
+    summary: 'Cymbals and guitar bite go dark, and vocals lose crispness while heavy bass dominates.',
     vowelRetention: 56,
     consonantRetention: 2,
     lyricClarity: 24,
@@ -235,7 +248,7 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'musician_plugs',
     label: 'Earplugs',
     lostHeadline: 'Safe −15 dB · All 5 stems stay clear',
-    summary: 'Earplugs lower all 5 stems evenly to a comfortable level — keeping 100% of vocal diction, guitar solo, and cymbal sparkle with zero hangover.',
+    summary: 'Earplugs lower volume evenly — keeping full vocal diction, guitar bite, and cymbal sparkle.',
     vowelRetention: 100,
     consonantRetention: 100,
     lyricClarity: 100,

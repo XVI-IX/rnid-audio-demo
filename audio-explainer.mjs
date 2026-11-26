@@ -1401,13 +1401,13 @@ export function connectAudioExplainer({
     if (jumpBrightestBtn) {
       jumpBrightestBtn.hidden = false;
       jumpBrightestBtn.disabled = false;
-      jumpBrightestBtn.textContent = `Jump to clearest difference (${formatTime(report.brightestMomentSeconds)})`;
+      jumpBrightestBtn.textContent = `Clearest (${formatTime(report.brightestMomentSeconds)})`;
     }
     if (jumpQuietestBtn) {
       const showQuietest = report.tinnitus !== 'off';
       jumpQuietestBtn.hidden = !showQuietest;
       jumpQuietestBtn.disabled = !showQuietest;
-      jumpQuietestBtn.textContent = `Jump to quietest moment (${formatTime(report.quietestMomentSeconds)})`;
+      jumpQuietestBtn.textContent = `Quietest (${formatTime(report.quietestMomentSeconds)})`;
     }
     if (instantSummaryEl) {
       instantSummaryEl.textContent = buildInstantSummary(report);
@@ -1422,6 +1422,8 @@ export function connectAudioExplainer({
 
   async function runAiExplanation(userQuestion = '', useModel = false) {
     if (!currentReport || activeGeneration) return;
+    const detailsEl = container.querySelector('.chatbot-details');
+    if (detailsEl) detailsEl.open = true;
     chat.begin(userQuestion || 'What changed in this clip?');
     if (userQuestion && chatHistoryEl && aiOutputEl) {
       const userBub = document.createElement('div');

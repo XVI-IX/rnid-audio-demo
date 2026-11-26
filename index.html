@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Listen to examples of hearing changes after loud music and tinnitus, explore a 3D inner ear, or compare your own clip in the RNID listening studio.">
   <title>RNID Audio Tool</title>
-  <link rel="stylesheet" href="./styles.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./home-video-effects.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./home-story.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./hearing-guide.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./nihl-examples.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./freq-band-sim.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./studio-filter-response.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./studio-layout.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./upload-layout.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./ear-levels.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./audio-explainer.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./live-mic.css?v=7ab8954de0">
-  <link rel="stylesheet" href="./experience-upgrade.css?v=7ab8954de0">
-  <script type="module" src="./app.mjs?v=7ab8954de0"></script>
+  <link rel="stylesheet" href="./styles.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./home-video-effects.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./home-story.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./hearing-guide.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./nihl-examples.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./freq-band-sim.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./studio-filter-response.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./studio-layout.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./upload-layout.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./ear-levels.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./audio-explainer.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./live-mic.css?v=6c8561a22e">
+  <link rel="stylesheet" href="./experience-upgrade.css?v=6c8561a22e">
+  <script type="module" src="./app.mjs?v=6c8561a22e"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -85,7 +85,7 @@
               <span class="ear-zoom-pill" id="ear-zoom-indicator" aria-live="polite">1.0× Overview</span>
             </div>
             <h1 id="listen-title" tabindex="-1">Inside the <em>human ear.</em></h1>
-            <p class="ear-hero-sub">Spin or pinch-zoom the sculpture, slide <strong>Explode</strong> to separate the tiny bones, or touch any structure so the AI Ear Guide explains how it reacts.</p>
+            <p class="ear-hero-sub">Spin, zoom, or tap any structure to see and hear how it reacts.</p>
           </header>
 
           <div class="ear-3d-top-tools" id="ear-3d-top-tools" role="group" aria-label="3D view tools">
@@ -198,13 +198,13 @@
               <span class="concert-lost-badge" id="concert-lost-badge" data-severity="healthy" aria-live="polite">All 5 song stems clear &amp; balanced</span>
             </div>
             <h2 id="concert-stage-title">What vanishes from a <em>live concert?</em></h2>
-            <p class="concert-sub">Pick a cleared royalty-free band recording, orbit the 3D stage, and switch hearing states — hear and watch cymbals, guitar solos, and vocal consonants melt away while real bass keeps pounding.</p>
+            <p class="concert-sub">Switch hearing states or solo any 3D musician to hear what fades first.</p>
           </div>
           <div class="concert-song-and-transport">
             <div class="concert-song-picker">
-              <label class="concert-song-label" for="concert-song-select">Royalty-free live band track</label>
+              <label class="concert-song-label" for="concert-song-select">Live band track</label>
               <select id="concert-song-select"></select>
-              <a class="concert-song-credit" id="concert-song-credit" href="https://freemusicarchive.org/music/Josh_Woodward/Ashes/JoshWoodward-Ashes-01-LetItIn/" target="_blank" rel="noopener noreferrer">Upbeat Indie Folk-Rock (Vocals &amp; Full Band) · CC BY 4.0</a>
+              <a class="concert-song-credit" id="concert-song-credit" href="https://rnid.org.uk/information-and-support/ear-health/protect-your-hearing/" target="_blank" rel="noopener noreferrer">Funk-Pop Brass, Bass &amp; Vocal Hooks · Campaign Track</a>
             </div>
             <div class="concert-transport-actions">
               <button class="button primary concert-play-btn" id="concert-play-btn" type="button" aria-pressed="false">Play real song in 3D</button>
@@ -215,8 +215,8 @@
 
         <div class="concert-seek-row" role="group" aria-label="Concert song timeline">
           <label class="visually-hidden" for="concert-seek">Song playback position</label>
-          <input id="concert-seek" type="range" min="0" max="241.6" step="0.1" value="72" disabled>
-          <span class="concert-time" id="concert-time">1:12 / –:––</span>
+          <input id="concert-seek" type="range" min="0" max="59.0" step="0.1" value="0" disabled>
+          <span class="concert-time" id="concert-time">0:00 / –:––</span>
           <span class="concert-status" id="concert-status" role="status"></span>
         </div>
 
@@ -376,16 +376,16 @@
     <section class="view workspace explore-view" id="explore" data-view="explore" aria-labelledby="explore-title" hidden>
       <header class="view-heading explore-heading">
         <div>
-          <span class="section-eyebrow">Interactive Sound Labs &amp; Audiograms</span>
+          <span class="section-eyebrow">Interactive Sound Labs</span>
           <h1 id="explore-title" tabindex="-1">Explore <em>further.</em></h1>
         </div>
-        <p>Follow a night out from gig to busy bar, inspect clinical audiogram curves, test the 6-band frequency explorer, or try live microphone earplug filters.</p>
+        <p>Audiograms, frequency sliders, pub chatter, and live mic filters.</p>
       </header>
 
       <nav class="story-journey" id="story-journey-bar" data-flow-section aria-label="Follow one night out">
         <div class="story-journey-top">
-          <span class="story-kicker">Follow one night out</span>
-          <span class="story-active-caption" id="story-active-caption">01 · 10:30 pm — Compare bare ears and earplugs inside the 3D ear.</span>
+          <span class="story-kicker">Night-out chapters</span>
+          <span class="story-active-caption" id="story-active-caption">01 · 10:30 pm — Compare bare ears vs earplugs.</span>
           <button class="button secondary story-next-btn" id="story-next-btn" type="button">Next: Busy bar chatter →</button>
         </div>
         <div class="story-steps" role="group" aria-label="Story chapters">
@@ -542,15 +542,15 @@
 
       <section class="nihl-examples" id="nihl-examples" data-flow-section aria-labelledby="nihl-heading">
         <header class="nihl-examples-header">
-          <h2 id="nihl-heading">Hearing loss examples</h2>
-          <p>See what changes on a hearing chart, then compare the same vocal clip.</p>
+          <h2 id="nihl-heading">Audiogram examples</h2>
+          <p>Pick a chart to hear how the vocal clip changes.</p>
         </header>
         <div class="nihl-actions" role="group" aria-label="Choose a hearing example">
-          <button class="button" type="button" data-nihl-case="normal" aria-pressed="true" disabled>Normal hearing</button>
-          <button class="button" type="button" data-nihl-case="nihl_typical" aria-pressed="false" disabled>Typical 4 kHz notch</button>
-          <button class="button" type="button" data-nihl-case="nihl_mild_to_severe" aria-pressed="false" disabled>Mild to severe NIHL</button>
-          <button class="button" type="button" data-nihl-case="nihl_moderate_to_severe" aria-pressed="false" disabled>Moderate to severe NIHL</button>
-          <button class="button" type="button" data-nihl-case="age_related" aria-pressed="false" disabled>Age-related comparison</button>
+          <button class="button" type="button" data-nihl-case="normal" aria-pressed="true" disabled>Normal</button>
+          <button class="button" type="button" data-nihl-case="nihl_typical" aria-pressed="false" disabled>4 kHz notch</button>
+          <button class="button" type="button" data-nihl-case="nihl_mild_to_severe" aria-pressed="false" disabled>Mild–severe</button>
+          <button class="button" type="button" data-nihl-case="nihl_moderate_to_severe" aria-pressed="false" disabled>Moderate–severe</button>
+          <button class="button" type="button" data-nihl-case="age_related" aria-pressed="false" disabled>Age-related</button>
         </div>
         <div class="nihl-chart-stage">
           <div class="nihl-chart-controls">
@@ -558,42 +558,42 @@
               <li><span aria-hidden="true">×</span> Left ear</li>
               <li><span aria-hidden="true">○</span> Right ear</li>
             </ul>
-            <label><input type="checkbox" data-nihl-overlay disabled> Speech and everyday sounds</label>
+            <label><input type="checkbox" data-nihl-overlay disabled> Speech &amp; everyday sounds</label>
           </div>
           <canvas data-nihl-chart width="900" height="450" role="img" aria-label="Audiogram of the selected hearing example"></canvas>
           <p id="nihl-chart-summary" class="help" aria-live="polite"></p>
           <details class="nihl-thresholds">
-            <summary>Read thresholds in dB HL</summary>
+            <summary>Thresholds &amp; chart notes</summary>
             <table aria-label="Thresholds by frequency for the selected audiogram">
               <thead><tr><th scope="col">Frequency (Hz)</th><th scope="col">Left ear (dB HL)</th><th scope="col">Right ear (dB HL)</th></tr></thead>
               <tbody data-nihl-thresholds></tbody>
             </table>
+            <p id="nihl-source" class="help"></p>
+            <p class="help nihl-example-note">Approximate example charts — cannot predict individual hearing change.</p>
           </details>
         </div>
         <div class="nihl-audition">
           <div class="nihl-audition-options" role="group" aria-label="Compare the original and the selected hearing example">
             <button class="button" type="button" data-nihl-version="original" aria-pressed="true" aria-controls="nihl-audio" disabled>Original</button>
-            <button class="button" type="button" data-nihl-version="simulated" aria-pressed="false" aria-controls="nihl-audio" disabled>With this example</button>
+            <button class="button" type="button" data-nihl-version="simulated" aria-pressed="false" aria-controls="nihl-audio" disabled>With this curve</button>
           </div>
           <audio controls preload="none" id="nihl-audio" aria-label="Hearing example audition"></audio>
-          <button class="button secondary nihl-export" id="nihl-download" type="button" disabled>Download comparison ZIP</button>
+          <button class="button secondary nihl-export" id="nihl-download" type="button" disabled>Download ZIP</button>
           <p id="nihl-listening-limit" class="help nihl-listening-limit" aria-live="polite" hidden></p>
-          <p id="nihl-source" class="help"></p>
           <p id="nihl-status" class="feedback" role="status">Loading examples…</p>
         </div>
-        <p class="help nihl-example-note">Chart values are approximate readings from the example audiograms. These examples cannot predict when or how much an individual's hearing may change.</p>
       </section>
 
       <div class="compact-insights-row" aria-label="Quick hearing science and protection drawers">
         <details class="compact-learn-drawer">
           <summary>
-            <span>🔬 Why hearing loss isn’t “just turning the volume down”</span>
-            <span class="drawer-pills">🥁 Bass stays loud · 💬 Words blur</span>
+            <span>🔬 Why it isn’t “just quieter”</span>
+            <span class="drawer-pills">Bass stays loud · Words blur</span>
           </summary>
           <ul class="mechanism-list">
-            <li><strong>1. Threshold loss:</strong> Quiet cymbal shimmer and soft consonants vanish completely.</li>
-            <li><strong>2. Loudness recruitment:</strong> Bass and drums still hit at full strength, so cranking volume booms.</li>
-            <li><strong>3. Frequency smearing:</strong> Widened cochlear filters blur <em>s, f, th, k</em> together in noisy pubs.</li>
+            <li><strong>Threshold loss:</strong> Soft cymbals and consonants vanish.</li>
+            <li><strong>Recruitment:</strong> Bass still hits at full strength.</li>
+            <li><strong>Smearing:</strong> Widened filters blur <em>s, f, th, k</em> in noise.</li>
           </ul>
         </details>
         <details class="compact-learn-drawer">
@@ -602,19 +602,19 @@
             <span class="drawer-pills">Earplugs · Quiet breaks</span>
           </summary>
           <ul class="protect-list">
-            <li><strong>Earplugs:</strong> Lower sound by 15–20 dB evenly without muffling vocals.</li>
-            <li><strong>Short chill-out breaks:</strong> 5–10 minutes away from main speakers lets hair cells recover.</li>
-            <li><strong>Step back from PA stacks:</strong> Even 2 metres back cuts peak sound pressure sharply.</li>
+            <li><strong>Earplugs:</strong> Lower volume evenly without muffling vocals.</li>
+            <li><strong>Quiet breaks:</strong> 5–10 min away from speakers lets ears rest.</li>
+            <li><strong>Step back:</strong> 2 metres from PA stacks cuts peak pressure.</li>
           </ul>
-          <p class="protect-card-footer"><a href="https://rnid.org.uk/information-and-support/ear-health/protect-your-hearing/">RNID’s gig protection guide →</a></p>
+          <p class="protect-card-footer"><a href="https://rnid.org.uk/information-and-support/ear-health/protect-your-hearing/">RNID gig protection guide →</a></p>
         </details>
       </div>
 
       <section class="freq-band-sim" id="freq-band-sim" data-flow-section aria-labelledby="freq-band-title">
         <header class="freq-band-header">
           <div>
-            <h2 id="freq-band-title">🎚️ Earplugs, Pub Chatter &amp; Frequency Explorer</h2>
-            <p>Pick a vocal song, slide in pub chatter, or hear how earplugs keep live vocals and instruments clear.</p>
+            <h2 id="freq-band-title">🎚️ Frequency &amp; Pub Chatter Explorer</h2>
+            <p>Add pub chatter or solo frequency bands.</p>
           </div>
           <button class="button secondary" id="freq-band-reset" type="button">↺ Reset</button>
         </header>
@@ -622,25 +622,25 @@
           <div class="freq-band-context-field">
             <label for="freq-band-source">🎵 Song</label>
             <select id="freq-band-source">
-              <option value="instrumental">Bells, synth &amp; percussion (demo)</option>
-              <option value="happy-birthday">Happy Birthday to You (Traditional — Public Domain)</option>
-              <option value="its-your-birthday">It’s Your Birthday — Kyla (Female vocals, CC BY 3.0)</option>
-              <option value="in-peace">In Peace — Madam Snowflake (Female vocals, CC BY 3.0)</option>
-              <option value="gravity">Gravity — Josh Woodward (Vocals &amp; guitar, CC BY 4.0)</option>
-              <option value="i-just-wanna">I Just Wanna — mykleanthony (Soul-pop vocals, CC BY 3.0)</option>
-              <option value="let-it-in">Let It In — Josh Woodward (Upbeat folk-rock vocals, CC BY 4.0)</option>
-              <option value="she-dreams-in-blue">She Dreams In Blue — Josh Woodward (Acoustic pop vocals, CC BY 4.0)</option>
-              <option value="boogie-party">Boogie Party — Kevin MacLeod (Blues rock, CC BY 4.0)</option>
-              <option value="big-mojo">Big Mojo — Kevin MacLeod (Cinematic percussion, CC BY 4.0)</option>
-              <option value="evening">Evening — Kevin MacLeod (Acoustic chamber, CC BY 4.0)</option>
-              <option value="inspired">Inspired — Kevin MacLeod (Electronica, CC BY 4.0)</option>
+              <option value="instrumental">Bells &amp; synth demo</option>
+              <option value="happy-birthday">Happy Birthday (Traditional)</option>
+              <option value="its-your-birthday">It’s Your Birthday — Kyla</option>
+              <option value="in-peace">In Peace — Madam Snowflake</option>
+              <option value="gravity">Gravity — Josh Woodward</option>
+              <option value="i-just-wanna">I Just Wanna — mykleanthony</option>
+              <option value="let-it-in">Let It In — Josh Woodward</option>
+              <option value="she-dreams-in-blue">She Dreams In Blue — Josh Woodward</option>
+              <option value="boogie-party">Boogie Party — Kevin MacLeod</option>
+              <option value="big-mojo">Big Mojo — Kevin MacLeod</option>
+              <option value="evening">Evening — Kevin MacLeod</option>
+              <option value="inspired">Inspired — Kevin MacLeod</option>
             </select>
           </div>
           <div class="freq-band-context-field">
-            <label for="freq-band-crowd"><span>🍻 Busy pub chatter</span> <output id="freq-band-crowd-value" for="freq-band-crowd">Off</output></label>
+            <label for="freq-band-crowd"><span>🍻 Pub chatter</span> <output id="freq-band-crowd-value" for="freq-band-crowd">Off</output></label>
             <input id="freq-band-crowd" type="range" min="0" max="100" step="5" value="0">
           </div>
-          <button class="button secondary freq-band-pub-btn" id="freq-band-pub-demo" type="button">🍻 Try vocals in a busy pub</button>
+          <button class="button secondary freq-band-pub-btn" id="freq-band-pub-demo" type="button">🍻 Busy pub demo</button>
         </div>
         <div class="freq-band-transport" role="group" aria-label="Loop playback">
           <button class="button primary" id="freq-band-play" type="button" aria-pressed="false">Play loop</button>
@@ -680,16 +680,16 @@
 
       <section class="live-mic-panel" id="live-mic-panel" aria-labelledby="live-mic-title">
         <div class="live-mic-header">
-          <h2 id="live-mic-title">🎙️ Live Voice &amp; Earplug Workshop</h2>
-          <span class="live-mic-badge">🔒 Zero recording · On-device</span>
+          <h2 id="live-mic-title">🎙️ Live Voice Workshop</h2>
+          <span class="live-mic-badge">🔒 On-device only</span>
         </div>
-        <p class="live-mic-intro">Put on headphones and speak into your mic to hear a friend’s live voice through hearing loss or earplugs.</p>
+        <p class="live-mic-intro">Wear headphones to test a live voice through hearing loss or earplugs.</p>
         <div class="live-mic-gate">
           <label class="live-mic-check" for="live-mic-headphones">
             <input id="live-mic-headphones" type="checkbox">
-            <span>🎧 I am wearing headphones (prevents speaker feedback)</span>
+            <span>🎧 Wearing headphones (prevents feedback)</span>
           </label>
-          <button class="button primary" id="live-mic-toggle" type="button" aria-pressed="false" disabled>Start live microphone</button>
+          <button class="button primary" id="live-mic-toggle" type="button" aria-pressed="false" disabled>Start mic</button>
         </div>
         <div class="live-mic-presets" role="group" aria-label="Live microphone presets">
           <button class="button" type="button" data-live-mic-preset="original" data-effect-color="emerald" aria-pressed="false">✦ Normal</button>
@@ -700,11 +700,11 @@
         </div>
         <div class="live-mic-controls-row">
           <div class="freq-band-context-field">
-            <label for="live-mic-crowd"><span>🍻 Add busy pub chatter</span> <output id="live-mic-crowd-value" for="live-mic-crowd">Off</output></label>
+            <label for="live-mic-crowd"><span>🍻 Pub chatter</span> <output id="live-mic-crowd-value" for="live-mic-crowd">Off</output></label>
             <input id="live-mic-crowd" type="range" min="0" max="100" step="5" value="0">
           </div>
           <div class="live-mic-meter-wrap" aria-hidden="true">
-            <span class="live-mic-meter-label">Live voice level (safety limiter active)</span>
+            <span class="live-mic-meter-label">Voice level</span>
             <div class="live-mic-meter-track"><div class="live-mic-meter-fill" id="live-mic-meter-fill"></div></div>
           </div>
         </div>
@@ -714,11 +714,11 @@
 
       <section class="rnid-support-card" id="rnid-support-card" aria-labelledby="rnid-support-title">
         <div class="rnid-support-copy">
-          <h2 id="rnid-support-title">💚 Noticed muffled speech or ringing after a gig?</h2>
-          <p>Educational demo only — not a medical test. Check your hearing free in 3 minutes with RNID.</p>
+          <h2 id="rnid-support-title">💚 Ringing or muffled speech after a gig?</h2>
+          <p>Free 3-minute RNID hearing check · Non-clinical demo.</p>
         </div>
         <div class="rnid-support-actions">
-          <a class="button primary" href="https://rnid.org.uk/information-and-support/take-online-hearing-check/" target="_blank" rel="noopener noreferrer">🩺 Free 3-minute hearing check</a>
+          <a class="button primary" href="https://rnid.org.uk/information-and-support/take-online-hearing-check/" target="_blank" rel="noopener noreferrer">🩺 3-min hearing check</a>
           <a class="button secondary" href="https://rnid.org.uk/information-and-support/tinnitus/" target="_blank" rel="noopener noreferrer">💬 Tinnitus support</a>
         </div>
       </section>
@@ -796,10 +796,10 @@
     <section class="view workspace studio-view" id="demo" data-view="studio" aria-labelledby="demo-title" hidden>
       <header class="view-heading studio-heading">
         <div>
-          <span class="section-eyebrow">Acoustic Mastering Console · 12 Cleared Songs</span>
+          <span class="section-eyebrow">12 Cleared Tracks · Cambridge MSBG</span>
           <h1 id="demo-title" tabindex="-1">The Listening <em>Studio.</em></h1>
         </div>
-        <p>Audition real Cambridge MSBG cochlear renders in real time — watch the console, spectrum, and track notes shift with every profile.</p>
+        <p>Compare songs across real hearing-loss profiles.</p>
       </header>
       <div class="listen-deck" id="player" data-active-track="reference" data-active-profile="original" hidden>
         <div class="studio-console-top">
@@ -896,37 +896,42 @@
                   </div>
                 </div>
                 <div class="explainer-jumps" role="group" aria-label="Jump to key moments in this song">
-                  <button class="button secondary" id="studio-explainer-jump-bright" type="button">Clearest contrast (0:04.0)</button>
-                  <button class="button secondary" id="studio-explainer-jump-quiet" type="button" hidden>Quietest moment (0:10.8)</button>
+                  <button class="button secondary" id="studio-explainer-jump-bright" type="button">Clearest (0:04.0)</button>
+                  <button class="button secondary" id="studio-explainer-jump-quiet" type="button" hidden>Quietest (0:10.8)</button>
                 </div>
               </div>
               <div class="explainer-band-pills" id="studio-explainer-pills" role="list" aria-label="How each part of the song sounds"></div>
-              <p class="explainer-chat-context help" data-chat-context></p>
-              <div class="chatbot-thread" id="studio-chat-history" role="log" aria-live="polite">
-                <p class="chat-bubble bot studio-explainer-text" id="studio-explainer-text"></p>
-              </div>
-              <div class="explainer-starters" role="group" aria-label="Instant questions about this song">
-                <button class="explainer-starter-chip" type="button" data-studio-topic="overview" aria-pressed="true">Song overview</button>
-                <button class="explainer-starter-chip" type="button" data-studio-topic="bass" aria-pressed="false">Why is bass still loud?</button>
-                <button class="explainer-starter-chip" type="button" data-studio-topic="pub" aria-pressed="false">Sound in a noisy pub?</button>
-                <button class="explainer-starter-chip" type="button" data-studio-topic="tinnitus" aria-pressed="false">Ringing in quiet parts?</button>
-                <button class="explainer-starter-chip" type="button" data-studio-topic="ears" aria-pressed="false">Left vs right ears</button>
-              </div>
-              <div class="chatbot-composer">
-                <label class="visually-hidden" for="studio-explainer-question">Ask about this Studio song</label>
-                <input id="studio-explainer-question" type="text" maxlength="200" placeholder="Ask how this recording changes…">
-                <button class="button chatbot-send-btn" id="studio-explainer-ask" type="button">Ask</button>
-              </div>
+              <details class="chatbot-details">
+                <summary>Read track notes &amp; ask AI</summary>
+                <div class="chatbot-details-body">
+                  <p class="explainer-chat-context help" data-chat-context></p>
+                  <div class="chatbot-thread" id="studio-chat-history" role="log" aria-live="polite">
+                    <p class="chat-bubble bot studio-explainer-text" id="studio-explainer-text"></p>
+                  </div>
+                  <div class="explainer-starters" role="group" aria-label="Instant questions about this song">
+                    <button class="explainer-starter-chip" type="button" data-studio-topic="overview" aria-pressed="true">Overview</button>
+                    <button class="explainer-starter-chip" type="button" data-studio-topic="bass" aria-pressed="false">Why is bass loud?</button>
+                    <button class="explainer-starter-chip" type="button" data-studio-topic="pub" aria-pressed="false">In a noisy pub?</button>
+                    <button class="explainer-starter-chip" type="button" data-studio-topic="tinnitus" aria-pressed="false">Ringing in quiet?</button>
+                    <button class="explainer-starter-chip" type="button" data-studio-topic="ears" aria-pressed="false">Left vs right</button>
+                  </div>
+                  <div class="chatbot-composer">
+                    <label class="visually-hidden" for="studio-explainer-question">Ask about this Studio song</label>
+                    <input id="studio-explainer-question" type="text" maxlength="200" placeholder="Ask about this track…">
+                    <button class="button chatbot-send-btn" id="studio-explainer-ask" type="button">Ask</button>
+                  </div>
+                </div>
+              </details>
             </section>
           </section>
 
           <section class="studio-effects" id="studio-mix" aria-labelledby="studio-effects-title">
-            <h2 id="studio-effects-title">Cochlear Matrix</h2>
+            <h2 id="studio-effects-title">Hearing Profiles</h2>
             <div class="studio-effects-controls">
               <div class="studio-hearing">
                 <div class="studio-hearing-heading">
-                  <h3 id="studio-hearing-title">Select audition pad</h3>
-                  <span><a href="#studio-filter-response">Filter chart</a> · <a href="#freq-band-sim">Band explorer</a></span>
+                  <h3 id="studio-hearing-title">Audition pad</h3>
+                  <span><a href="#studio-filter-response">Filter chart</a> · <a href="#freq-band-sim">Bands</a></span>
                 </div>
                 <div class="version-control" role="group" aria-labelledby="studio-hearing-title" aria-describedby="listening-note">
                   <button class="button" type="button" data-track="reference" data-effect-color="emerald" aria-pressed="true">Original</button>
@@ -936,7 +941,7 @@
                   <button class="button" type="button" data-listening-profile="broadband_demo_v1" data-effect-color="blue" aria-pressed="false">Quieter</button>
                   <button class="button" type="button" data-listening-profile="asymmetric_demo_v1" data-effect-color="cyan" aria-pressed="false">Right ear quieter</button>
                 </div>
-                <p class="help listening-note" id="listening-note">Listen for the bright bells in the opening and the hi-hats after 0:04.</p>
+                <p class="help listening-note" id="listening-note">Listen for bells and hi-hats after 0:04.</p>
               </div>
               <div class="studio-tinnitus" id="tinnitus-mix" hidden>
                 <div class="field">
@@ -946,22 +951,21 @@
                     <option value="ringing">Ringing (3.4 kHz)</option>
                     <option value="hiss">High-band hiss</option>
                   </select>
-                  <p class="help" id="tinnitus-help">Layers clearly audible ringing or hiss alongside the selected song.</p>
+                  <p class="visually-hidden" id="tinnitus-help">Layers ringing or hiss alongside the selected song.</p>
                   <div class="tinnitus-warning-banner" id="studio-tinnitus-warning" role="status" hidden>
-                    <span><strong>Sound warning:</strong> Plays a clear 3.4 kHz ringing tone over the song. Keep volume comfortable or turn off anytime.</span>
+                    <span><strong>Sound warning:</strong> 3.4 kHz ringing active. Keep volume comfortable.</span>
                     <button class="button secondary tinnitus-stop-btn" id="studio-tinnitus-stop" type="button">Turn off</button>
                   </div>
                 </div>
                 <div class="studio-tinnitus-actions">
-                  <button class="button secondary marker" id="quiet-jump" type="button" hidden>Jump to quiet ending</button>
+                  <button class="button secondary marker" id="quiet-jump" type="button" hidden>Quiet ending</button>
                   <a id="tinnitus-download" download hidden>Tinnitus WAV</a>
                 </div>
                 <p class="feedback" id="tinnitus-status" role="status"></p>
               </div>
               <details class="ear-settings" id="studio-ear-levels">
-                <summary>Left / right stereo attenuation</summary>
+                <summary>Ear balance (L / R)</summary>
                 <div class="ear-levels">
-                  <p class="help">Adjust listening volume per ear.</p>
                   <div class="ear-level">
                     <label for="studio-left-ear">Left ear</label>
                     <output for="studio-left-ear" data-ear-value="left">0 dB</output>
@@ -972,12 +976,12 @@
                     <output for="studio-right-ear" data-ear-value="right">0 dB</output>
                     <input id="studio-right-ear" data-ear-level="right" type="range" min="-30" max="0" step="1" value="0">
                   </div>
-                  <button class="button secondary" type="button" data-ear-reset>Reset ear levels</button>
+                  <button class="button secondary" type="button" data-ear-reset>Reset levels</button>
                 </div>
               </details>
             </div>
             <details class="tool-panel">
-              <summary>🔬 Ear mechanism notes for this preset</summary>
+              <summary>🔬 Ear notes for this preset</summary>
               <aside class="studio-hearing-guide" id="studio-hearing-guide" aria-label="What you are hearing" aria-live="polite">
                 <div class="studio-guide-top">
                   <h3 data-studio-guide-heading>Original (unfiltered reference)</h3>
@@ -1177,9 +1181,9 @@
 
     <section class="view workspace" id="render" data-view="your-audio" aria-labelledby="render-title" hidden>
       <header class="view-heading upload-page-heading">
-        <span class="section-eyebrow">Private On-Device Sound &amp; Cinema Lab</span>
+        <span class="section-eyebrow">100% On-Device Audio &amp; Video</span>
         <h1 id="render-title" tabindex="-1">Your <em>sound &amp; film.</em></h1>
-        <p>Drop a song or video onto the platter — sculpt multi-chapter hearing effects across the timeline and bounce WAV or social video right in your browser.</p>
+        <p>Preview hearing loss or earplugs on your own track or video — everything stays in your browser.</p>
       </header>
       <form id="render-form">
         <div class="upload-workspace">
@@ -1187,13 +1191,13 @@
             <section class="upload-source" aria-labelledby="upload-source-title">
               <div class="upload-platter-art" aria-hidden="true"><span></span><span></span><span></span></div>
               <div class="upload-source-heading">
-                <span class="upload-privacy-pill" id="upload-preview-privacy">100% local in browser · Zero server uploads</span>
-                <h2 id="upload-source-title">Drop a track or video onto the platter</h2>
+                <span class="upload-privacy-pill" id="upload-preview-privacy">100% local · Zero uploads</span>
+                <h2 id="upload-source-title">Drop an audio or video file</h2>
               </div>
               <div class="field audio-field">
                 <label class="visually-hidden" for="audio">Audio or video file</label>
                 <input id="audio" name="audio" type="file" accept=".wav,.flac,.mp3,.m4a,.mp4,.webm,audio/wav,audio/flac,audio/mpeg,audio/mp4,video/mp4,video/webm" aria-describedby="audio-help upload-preview-privacy" required>
-                <p class="help" id="audio-help">WAV · FLAC · MP3 · M4A · MP4 · WebM — up to 15 minutes / 400 MiB.</p>
+                <p class="help" id="audio-help">WAV · FLAC · MP3 · M4A · MP4 · WebM (up to 15 min)</p>
               </div>
             </section>
 
@@ -1260,7 +1264,7 @@
                   <button class="button utility" id="upload-safe-volume-dismiss" type="button">Dismiss</button>
                 </div>
               </div>
-              <p class="help" id="upload-listen-note">Keep your volume fixed after checking Original to compare fairly.</p>
+              <p class="visually-hidden" id="upload-listen-note">Keep your volume fixed after checking Original to compare fairly.</p>
               <p class="feedback" id="upload-preview-status" role="status"></p>
 
               <!-- Messenger-Style Sound Guide Chatbot -->
@@ -1274,50 +1278,55 @@
                     </div>
                   </div>
                   <div class="explainer-jumps" role="group" aria-label="Jump to key moments in your clip">
-                    <button class="button secondary" id="explainer-jump-brightest" type="button">Clearest contrast (0:00.0)</button>
-                    <button class="button secondary" id="explainer-jump-quietest" type="button" hidden>Quietest moment (0:00.0)</button>
+                    <button class="button secondary" id="explainer-jump-brightest" type="button">Clearest (0:00.0)</button>
+                    <button class="button secondary" id="explainer-jump-quietest" type="button" hidden>Quietest (0:00.0)</button>
                   </div>
                 </div>
                 <div class="explainer-band-pills" id="explainer-band-pills" role="list" aria-label="Measured frequency band changes"></div>
-                <p class="explainer-chat-context help" data-chat-context></p>
-                <div class="chatbot-thread" id="upload-chat-history" role="log" aria-live="polite">
-                  <p class="chat-bubble bot explainer-instant-summary" id="explainer-instant-summary"></p>
-                  <div class="chat-bubble bot explainer-ai-output" id="explainer-ai-output" hidden></div>
-                </div>
-                <div class="explainer-ai-section" aria-label="Local AI deep dive (WebLLM)">
-                  <div class="explainer-ai-controls">
-                    <button class="button secondary" id="explainer-generate" type="button">Deep-dive with local AI</button>
-                    <button class="button secondary" id="explainer-stop" type="button" hidden>Stop</button>
-                    <details class="explainer-advanced">
-                      <summary>Model options</summary>
-                      <div class="explainer-model-field">
-                        <label for="explainer-model">On-device model (cached in browser)</label>
-                        <select id="explainer-model">
-                          <option value="Qwen2.5-1.5B-Instruct-q4f16_1-MLC">Qwen 2.5 1.5B — Grounded &amp; fast (~900 MB, default)</option>
-                          <option value="Llama-3.2-3B-Instruct-q4f16_1-MLC">Llama 3.2 3B — Highest accuracy (~1.7 GB)</option>
-                          <option value="Llama-3.2-1B-Instruct-q4f16_1-MLC">Llama 3.2 1B — Lightweight (~650 MB)</option>
-                        </select>
+                <details class="chatbot-details">
+                  <summary>Read full breakdown &amp; ask AI</summary>
+                  <div class="chatbot-details-body">
+                    <p class="explainer-chat-context help" data-chat-context></p>
+                    <div class="chatbot-thread" id="upload-chat-history" role="log" aria-live="polite">
+                      <p class="chat-bubble bot explainer-instant-summary" id="explainer-instant-summary"></p>
+                      <div class="chat-bubble bot explainer-ai-output" id="explainer-ai-output" hidden></div>
+                    </div>
+                    <div class="explainer-ai-section" aria-label="Local AI deep dive (WebLLM)">
+                      <div class="explainer-ai-controls">
+                        <button class="button secondary" id="explainer-generate" type="button">Deep-dive with local AI</button>
+                        <button class="button secondary" id="explainer-stop" type="button" hidden>Stop</button>
+                        <details class="explainer-advanced">
+                          <summary>Model options</summary>
+                          <div class="explainer-model-field">
+                            <label for="explainer-model">On-device model (cached in browser)</label>
+                            <select id="explainer-model">
+                              <option value="Qwen2.5-1.5B-Instruct-q4f16_1-MLC">Qwen 2.5 1.5B (~900 MB, default)</option>
+                              <option value="Llama-3.2-3B-Instruct-q4f16_1-MLC">Llama 3.2 3B (~1.7 GB)</option>
+                              <option value="Llama-3.2-1B-Instruct-q4f16_1-MLC">Llama 3.2 1B (~650 MB)</option>
+                            </select>
+                          </div>
+                        </details>
                       </div>
-                    </details>
-                  </div>
-                  <p class="explainer-webgpu-note" id="explainer-webgpu-note" hidden>Local AI chat requires WebGPU (Chrome/Edge 113+ or Safari 18+). Instant breakdown above stays active.</p>
-                  <div class="explainer-progress-wrap" id="explainer-progress-wrap" hidden>
-                    <progress id="explainer-progress" max="1" value="0" aria-label="Local AI model download progress"></progress>
-                    <p class="help" id="explainer-progress-text"></p>
-                  </div>
-                  <div class="explainer-followup" id="explainer-followup">
-                    <div class="explainer-starters" role="group" aria-label="Suggested follow-up questions">
-                      <button class="explainer-starter-chip" type="button" data-explainer-question="Why does the bass still sound loud?">Why does the bass still sound loud?</button>
-                      <button class="explainer-starter-chip" type="button" data-explainer-question="How would vocals sound in a noisy pub?">How would vocals sound in a noisy pub?</button>
-                      <button class="explainer-starter-chip" type="button" data-explainer-question="Why is tinnitus louder in quiet parts?">Why is tinnitus louder in quiet parts?</button>
+                      <p class="explainer-webgpu-note" id="explainer-webgpu-note" hidden>Local AI chat requires WebGPU. Instant breakdown above stays active.</p>
+                      <div class="explainer-progress-wrap" id="explainer-progress-wrap" hidden>
+                        <progress id="explainer-progress" max="1" value="0" aria-label="Local AI model download progress"></progress>
+                        <p class="help" id="explainer-progress-text"></p>
+                      </div>
+                      <div class="explainer-followup" id="explainer-followup">
+                        <div class="explainer-starters" role="group" aria-label="Suggested follow-up questions">
+                          <button class="explainer-starter-chip" type="button" data-explainer-question="Why does the bass still sound loud?">Why is bass loud?</button>
+                          <button class="explainer-starter-chip" type="button" data-explainer-question="How would vocals sound in a noisy pub?">In a noisy pub?</button>
+                          <button class="explainer-starter-chip" type="button" data-explainer-question="Why is tinnitus louder in quiet parts?">Ringing in quiet?</button>
+                        </div>
+                        <div class="chatbot-composer">
+                          <label class="visually-hidden" for="explainer-question">Ask a follow-up question about your clip</label>
+                          <input id="explainer-question" type="text" maxlength="200" placeholder="Ask about your clip…">
+                          <button class="button chatbot-send-btn" id="explainer-ask" type="button">Ask</button>
+                        </div>
+                      </div>
                     </div>
-                    <div class="chatbot-composer">
-                      <label class="visually-hidden" for="explainer-question">Ask a follow-up question about your clip</label>
-                      <input id="explainer-question" type="text" maxlength="200" placeholder="Ask about your clip…">
-                      <button class="button chatbot-send-btn" id="explainer-ask" type="button">Ask</button>
-                    </div>
                   </div>
-                </div>
+                </details>
               </section>
             </section>
           </div>

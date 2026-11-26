@@ -9,7 +9,7 @@ import {
   connectExplainerChat,
   formatExplainerTime,
   isMedicalAdviceQuery,
-} from './audio-explainer.mjs?v=7ab8954de0';
+} from './audio-explainer.mjs?v=6c8561a22e';
 
 const SAVED_JSON_URL = new URL('./demo/studio-explanations.json', import.meta.url);
 
@@ -190,13 +190,13 @@ export function connectStudioExplainer({
     }
 
     if (jumpBrightBtn) {
-      jumpBrightBtn.textContent = `Jump to clearest difference (${formatTime(resolved.brightestSeconds)})`;
+      jumpBrightBtn.textContent = `Clearest (${formatTime(resolved.brightestSeconds)})`;
       jumpBrightBtn.onclick = () => onSeek(resolved.brightestSeconds);
     }
     if (jumpQuietBtn) {
       const showQuiet = resolved.tinnitus !== 'off' || activeTopic === 'tinnitus';
       jumpQuietBtn.hidden = !showQuiet;
-      jumpQuietBtn.textContent = `Jump to quietest moment (${formatTime(resolved.quietestSeconds)})`;
+      jumpQuietBtn.textContent = `Quietest (${formatTime(resolved.quietestSeconds)})`;
       jumpQuietBtn.onclick = () => onSeek(resolved.quietestSeconds);
     }
 
@@ -213,6 +213,8 @@ export function connectStudioExplainer({
   for (const btn of topicBtns) {
     btn.addEventListener('click', () => {
       if (!savedData) return;
+      const detailsEl = container.querySelector('.chatbot-details');
+      if (detailsEl) detailsEl.open = true;
       customGeneration?.abort();
       customGeneration = null;
       chat.begin(btn.textContent.trim());
@@ -228,6 +230,8 @@ export function connectStudioExplainer({
   async function askCustomQuestion() {
     const rawQ = questionInput?.value?.trim() || '';
     if (!rawQ || !savedData) return;
+    const detailsEl = container.querySelector('.chatbot-details');
+    if (detailsEl) detailsEl.open = true;
     if (questionInput) questionInput.value = '';
     customGeneration?.abort();
     customGeneration = null;

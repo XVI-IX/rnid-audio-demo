@@ -3448,6 +3448,54 @@ body {
   }
 }
 
+/* Compact Progressive Disclosure for Studio & Your Audio AI Prose */
+.chatbot-details {
+  margin-top: 0.45rem;
+  border-top: 1px solid rgba(130, 138, 185, 0.22);
+  padding-top: 0.45rem;
+}
+
+.chatbot-details > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  font-size: 0.8rem;
+  font-weight: 690;
+  color: var(--action, #4f4cad);
+  padding: 0.2rem 0;
+  user-select: none;
+}
+
+.chatbot-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.chatbot-details > summary::after {
+  content: "▾";
+  font-size: 0.78rem;
+  transition: transform 0.16s ease;
+}
+
+.chatbot-details[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+#demo .chatbot-details > summary {
+  color: #cbc4ff;
+}
+
+.chatbot-details-body {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.45rem;
+}
+
+:root[data-theme="dark"] .chatbot-details > summary {
+  color: #a5b4fc;
+}
+
 .explore-heading h1 em {
   color: var(--action, #4f4cad);
 }

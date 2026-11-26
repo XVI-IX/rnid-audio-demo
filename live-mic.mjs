@@ -3,7 +3,7 @@
 // approximations + optional virtual pub chatter + a brickwall feedback safety limiter.
 // Audio is NEVER recorded, buffered to disk, or transmitted over the network.
 
-import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=7ab8954de0';
+import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=6c8561a22e';
 
 export const LIVE_MIC_PRESETS = Object.freeze([
   {
