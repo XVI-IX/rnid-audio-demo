@@ -2356,6 +2356,75 @@ body {
   flex-wrap: wrap;
 }
 
+.concert-song-and-transport {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.55rem;
+  min-width: min(100%, 22rem);
+}
+
+.concert-song-picker {
+  display: grid;
+  gap: 0.22rem;
+  width: 100%;
+}
+
+.concert-song-label {
+  font-size: 0.71rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+#concert-song-select {
+  width: 100%;
+  min-height: 2.35rem;
+  padding: 0.32rem 0.65rem;
+  border-radius: 0.58rem;
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  background: #0d1124;
+  color: #f8fafc;
+  color-scheme: dark;
+  font-size: 0.82rem;
+  font-weight: 640;
+}
+
+.concert-song-credit {
+  font-size: 0.69rem;
+  color: #a5b4fc;
+  justify-self: end;
+}
+
+.concert-seek-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.72rem;
+  padding: 0.42rem 0.68rem;
+  border-radius: 0.68rem;
+  background: rgba(15, 20, 38, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+#concert-seek {
+  flex: 1 1 12rem;
+  min-width: 0;
+  accent-color: #818cf8;
+}
+
+.concert-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.concert-status {
+  font-size: 0.73rem;
+  color: #a5b4fc;
+}
+
 .concert-play-btn.button {
   min-height: 2.65rem;
   padding: 0.42rem 1.15rem;
@@ -2420,214 +2489,133 @@ body {
   color: #fef3c7 !important;
 }
 
-/* Theatrical Concert Proscenium & Volumetric Spotlights */
-.concert-proscenium {
+/* Interactive Three.js 3D Concert Arena Viewport */
+.concert-3d-canvas-wrap {
   position: relative;
   overflow: hidden;
-  height: clamp(12.6rem, 25vw, 15.8rem);
-  border-radius: 0.95rem;
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  background:
-    radial-gradient(ellipse 90% 35% at 50% 100%, rgba(30, 41, 75, 0.85) 0%, transparent 70%),
-    linear-gradient(180deg, #070913 0%, #0d1224 72%, #171d36 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1.5rem 0.65rem 0.95rem;
+  width: 100%;
+  height: clamp(17.5rem, 36vw, 24.5rem);
+  border-radius: 0.98rem;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: #090c1a;
+  cursor: grab;
+  user-select: none;
 }
 
-.concert-truss {
+.concert-3d-canvas-wrap:active {
+  cursor: grabbing;
+}
+
+.concert-3d-canvas {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 0.58rem;
-  background:
-    repeating-linear-gradient(90deg, rgba(148, 163, 184, 0.35) 0 2px, transparent 2px 18px),
-    linear-gradient(180deg, #1e243d 0%, #0f1324 100%);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.concert-3d-pins {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   z-index: 3;
 }
 
-.concert-ringing-laser {
+.concert-3d-pin {
+  --pin-color: #60a5fa;
   position: absolute;
-  top: 24%;
   left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 2%, #fbbf24 25%, #fef08a 50%, #fbbf24 75%, transparent 98%);
-  box-shadow: 0 0 12px #f59e0b;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 4;
-  transition: opacity 0.25s ease;
-}
-
-.concert-ringing-laser span {
-  position: absolute;
-  right: 0.75rem;
-  top: -1.15rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.64rem;
-  font-weight: 740;
-  color: #fde68a;
-  background: rgba(120, 53, 15, 0.78);
-  padding: 0.08rem 0.42rem;
-  border-radius: 999px;
-}
-
-.concert-stage-section[data-concert-ringing="true"] .concert-ringing-laser {
-  opacity: 0.92;
-}
-
-.concert-spotlights {
-  position: absolute;
-  inset: 0.5rem 0.65rem 0;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(0.2rem, 1.2vw, 0.85rem);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.concert-spot {
-  --spot-color: #60a5fa;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--spot-color) 52%, rgba(255, 255, 255, 0.22)) 0%,
-    color-mix(in srgb, var(--spot-color) 20%, transparent) 62%,
-    transparent 100%
-  );
-  clip-path: polygon(37% 0%, 63% 0%, 100% 100%, 0% 100%);
-  transition: opacity 0.22s ease, filter 0.22s ease;
-}
-
-.concert-spot[data-ghosted="true"] {
-  filter: grayscale(0.75);
-}
-
-.concert-performers-row {
-  position: relative;
-  z-index: 5;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(0.22rem, 1.2vw, 0.85rem);
-  align-items: end;
-}
-
-.concert-performer {
-  --inst-accent: #60a5fa;
-  --beat-pulse: 0;
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  top: 0;
+  display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 0.16rem;
-  padding: 0.35rem 0.2rem 0.32rem;
-  border-radius: 0.72rem;
-  border: 1px solid transparent;
-  background: transparent;
+  gap: 0.26rem;
+  padding: 0.16rem 0.48rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--pin-color) 52%, rgba(148, 163, 184, 0.3));
+  background: rgba(11, 15, 30, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #f8fafc;
-  min-width: 0;
-  transition: opacity 0.22s ease, border-color 0.18s ease, background 0.18s ease, filter 0.22s ease;
-}
-
-.concert-performer:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: color-mix(in srgb, var(--inst-accent) 55%, transparent);
-}
-
-.concert-performer[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--inst-accent) 18%, rgba(15, 23, 42, 0.85));
-  border-color: var(--inst-accent);
-  box-shadow: 0 0 20px color-mix(in srgb, var(--inst-accent) 32%, transparent);
-}
-
-.concert-performer-svg {
-  width: clamp(2.15rem, 4.6vw, 3.35rem);
-  height: auto;
-  fill: currentColor;
-  color: color-mix(in srgb, var(--inst-accent) 38%, #f8fafc);
-  filter: drop-shadow(0 0 calc(6px + var(--beat-pulse, 0) * 12px) color-mix(in srgb, var(--inst-accent) 68%, transparent));
-  transform: translateY(calc(var(--beat-pulse, 0) * -5px)) scale(calc(1 + var(--beat-pulse, 0) * 0.055));
-  transform-origin: bottom center;
-  transition: transform 0.07s ease-out, opacity 0.22s ease;
-}
-
-.concert-kick-head {
-  transform-origin: 56px 62px;
-  transform: scale(calc(1 + var(--beat-pulse, 0) * 0.14));
-}
-
-.concert-performer[data-ghosted="true"] .concert-performer-svg {
-  opacity: 0.22;
-  filter: none;
-}
-
-.concert-performer[data-active-mix="false"] {
-  opacity: 0.34;
-}
-
-.concert-lost-tag {
-  position: absolute;
-  top: 0.12rem;
-  padding: 0.06rem 0.36rem;
-  border-radius: 999px;
-  background: rgba(220, 38, 38, 0.88);
-  color: #fff;
-  font-size: 0.58rem;
-  font-weight: 760;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-
-.concert-performer[data-ghosted="true"] .concert-lost-tag {
-  opacity: 1;
-}
-
-.concert-performer-name {
-  font-size: clamp(0.65rem, 1.05vw, 0.78rem);
-  font-weight: 720;
-  line-height: 1.15;
+  font-size: 0.69rem;
+  font-weight: 700;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+  pointer-events: auto;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.38);
+  transition: border-color 0.16s ease, background 0.16s ease, opacity 0.16s ease;
 }
 
-.concert-performer-pct {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: clamp(0.6rem, 0.95vw, 0.7rem);
-  font-weight: 740;
-  padding: 0.06rem 0.34rem;
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.82);
-  border: 1px solid color-mix(in srgb, var(--inst-accent) 48%, rgba(148, 163, 184, 0.25));
-  color: color-mix(in srgb, var(--inst-accent) 65%, #ffffff);
-  white-space: nowrap;
+.concert-3d-pin:hover,
+.concert-3d-pin[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--pin-color) 24%, #0f172a);
+  border-color: var(--pin-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--pin-color) 35%, transparent);
 }
 
-.concert-performer[data-ghosted="true"] .concert-performer-pct {
+.concert-3d-pin[data-ghosted="true"] {
   border-color: rgba(248, 113, 113, 0.55);
   color: #fca5a5;
 }
 
-.concert-crowd-silhouette {
+.concert-pin-pct {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.63rem;
+  color: color-mix(in srgb, var(--pin-color) 72%, #ffffff);
+}
+
+.concert-3d-pin[data-ghosted="true"] .concert-pin-pct {
+  color: #fca5a5;
+}
+
+.concert-3d-tooltip {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 0.65rem;
-  background: radial-gradient(circle at 12px 10px, #05070f 8px, transparent 9px) repeat-x;
-  background-size: 24px 12px;
-  opacity: 0.72;
-  pointer-events: none;
   z-index: 6;
+  padding: 0.26rem 0.58rem;
+  border-radius: 0.42rem;
+  background: rgba(15, 23, 42, 0.94);
+  border: 1px solid rgba(165, 180, 252, 0.32);
+  color: #f8fafc;
+  font-size: 0.72rem;
+  font-weight: 650;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.concert-3d-cam-bar {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 4;
+  display: inline-flex;
+  gap: 0.24rem;
+}
+
+.concert-3d-cam-bar .ear-tool-pill {
+  background: rgba(15, 20, 38, 0.85);
+  border-color: rgba(148, 163, 184, 0.34);
+  color: #f1f5f9;
+}
+
+.concert-3d-hint {
+  position: absolute;
+  bottom: 0.52rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  margin: 0;
+  padding: 0.2rem 0.68rem;
+  border-radius: 999px;
+  background: rgba(11, 15, 30, 0.78);
+  color: #cbd5e1;
+  font-size: 0.68rem;
+  font-weight: 640;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.concert-3d-hint[data-dismissed="true"] {
+  opacity: 0;
 }
 
 /* Lyric Consonant Clarity & Stage Summary Bar */
@@ -2863,6 +2851,15 @@ body {
     border-radius: 1rem;
   }
 
+  .concert-song-and-transport {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .concert-song-credit {
+    justify-self: start;
+  }
+
   .concert-transport-actions {
     width: 100%;
   }
@@ -2873,22 +2870,20 @@ body {
     justify-content: center;
   }
 
-  .concert-proscenium {
-    height: 11.8rem;
-    padding: 1.25rem 0.32rem 0.78rem;
+  .concert-3d-canvas-wrap {
+    height: clamp(15rem, 42svh, 19.5rem);
   }
 
-  .concert-spotlights {
-    inset: 0.5rem 0.32rem 0;
-    gap: 0.14rem;
+  .concert-3d-pin {
+    font-size: 0.62rem;
+    padding: 0.12rem 0.36rem;
   }
 
-  .concert-performers-row {
-    gap: 0.14rem;
-  }
-
-  .concert-performer {
-    padding: 0.25rem 0.1rem 0.25rem;
+  .concert-3d-hint {
+    font-size: 0.63rem;
+    max-width: calc(100% - 1rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .concert-instruments-grid {
