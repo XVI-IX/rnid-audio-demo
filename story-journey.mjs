@@ -6,7 +6,7 @@ export const STORY_CHAPTERS = Object.freeze([
     id: 'gig',
     step: '01 · 10:30 pm',
     title: 'At the gig',
-    blurb: 'Compare bare ears, foam plugs, and −15 dB musicians’ filters inside the 3D ear.',
+    blurb: 'Compare bare ears and earplugs inside the 3D ear.',
     targetView: 'listen',
     scrollSelector: '#ear-3d-stage',
     earEffect: 'musician_plugs',

@@ -1,6 +1,6 @@
-import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=1e03b2b326';
-import { createBandPlayback } from './freq-band-audio.mjs?v=1e03b2b326';
-import { createCalibrationStage } from './output-calibration.mjs?v=1e03b2b326';
+import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=d3071d3d38';
+import { createBandPlayback } from './freq-band-audio.mjs?v=d3071d3d38';
+import { createCalibrationStage } from './output-calibration.mjs?v=d3071d3d38';
 
 export const BAND_LOOP_SOURCES = Object.freeze([
   {
@@ -173,19 +173,12 @@ export const BAND_PRESETS = Object.freeze({
     modes: ['active', 'active', 'active', 'solo', 'solo', 'active'],
     caption: 'The 2–6 kHz region is isolated. Listen for the crisp consonants (s, f, th, t, k) and percussion snap that carry clarity.',
   },
-  foam_plugs: {
-    id: 'foam_plugs',
-    label: 'Cheap foam earplugs (muffled)',
-    gainsDb: [-8, -12, -18, -26, -32, -36],
-    modes: ['active', 'active', 'active', 'active', 'active', 'active'],
-    caption: 'Cheap foam earplugs dump high frequencies (−36 dB) far more than bass (−8 dB), making live music and vocals sound dull and boomy.',
-  },
   musician_plugs: {
     id: 'musician_plugs',
-    label: 'Musicians’ earplugs (−15 dB flat)',
+    label: 'Earplugs',
     gainsDb: [-15, -15, -15, -15, -15, -16],
     modes: ['active', 'active', 'active', 'active', 'active', 'active'],
-    caption: 'Musicians’ filtered earplugs lower sound evenly (~−15 dB across all bands) — keeping vocals and cymbals crisp while preventing a hearing hangover.',
+    caption: 'Earplugs lower sound evenly (~−15 dB across all bands) — keeping vocals and cymbals crisp while preventing a hearing hangover.',
   },
 });
 

@@ -162,16 +162,6 @@ export const EFFECT_PALETTE = Object.freeze({
     shortTag: 'Right Quieter',
     label: 'Right ear quieter',
   },
-  foam_plugs: {
-    id: 'foam_plugs',
-    color: '#d97706',
-    softBg: '#fffbeb',
-    border: '#f59e0b',
-    darkBg: '#78350f',
-    icon: '🧱',
-    shortTag: 'Foam Plug',
-    label: 'Cheap foam earplugs',
-  },
   musician_plugs: {
     id: 'musician_plugs',
     color: '#14b8a6',
@@ -179,8 +169,8 @@ export const EFFECT_PALETTE = Object.freeze({
     border: '#2dd4bf',
     darkBg: '#115e59',
     icon: '🛡',
-    shortTag: '−15 dB Clear Plug',
-    label: 'Musicians’ earplugs (−15 dB)',
+    shortTag: 'Earplugs',
+    label: 'Earplugs',
   },
   isolate_speech: {
     id: 'isolate_speech',

@@ -46,7 +46,7 @@ export const ANATOMY_PARTS = Object.freeze([
     region: 'Protection site',
     shortLabel: 'Earplug seal',
     title: 'Canal Protection Zone',
-    latin: 'Outer cartilaginous seal · Foam vs −15 dB filter',
+    latin: 'Outer cartilaginous seal · Acoustic filter',
     icon: '03',
     accent: '#0d9488',
     explodeOffset: [-0.65, -0.18, 0.22],

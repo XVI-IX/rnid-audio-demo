@@ -1,5 +1,5 @@
-import { assembleComparisonZip } from './bundle.mjs?v=1e03b2b326';
-import { connectNIHLAudiogram } from './nihl-audiogram.mjs?v=1e03b2b326';
+import { assembleComparisonZip } from './bundle.mjs?v=d3071d3d38';
+import { connectNIHLAudiogram } from './nihl-audiogram.mjs?v=d3071d3d38';
 
 const media = new URL('./demo/nihl/', import.meta.url);
 const frequencies = new Intl.NumberFormat('en-GB');

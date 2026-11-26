@@ -6,7 +6,7 @@ import {
   generateEarPartAiResponse,
   getInstantEarPartExplanation,
   getPartStarterQuestions,
-} from './ear-anatomy-ai.mjs?v=1e03b2b326';
+} from './ear-anatomy-ai.mjs?v=d3071d3d38';
 import {
   ANATOMY_PARTS,
   ANATOMY_PART_BY_ID,
@@ -15,10 +15,10 @@ import {
   buildSpatialLabFloor,
   createStudioEnvironmentTexture,
   normalisePartId,
-} from './ear-anatomy-geometry.mjs?v=1e03b2b326';
-import { getEffectTheme } from './output-calibration.mjs?v=1e03b2b326';
-import { getTheme, onThemeChange } from './theme.mjs?v=1e03b2b326';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=1e03b2b326';
+} from './ear-anatomy-geometry.mjs?v=d3071d3d38';
+import { getEffectTheme } from './output-calibration.mjs?v=d3071d3d38';
+import { getTheme, onThemeChange } from './theme.mjs?v=d3071d3d38';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=d3071d3d38';
 
 export const ANATOMY_IMPACT_GUIDES = Object.freeze({
   original: {
@@ -85,26 +85,10 @@ export const ANATOMY_IMPACT_GUIDES = Object.freeze({
     plugMode: 'none',
     asymmetry: null,
   },
-  foam_plugs: {
-    badge: 'Foam earplug · Blocks treble, leaks bass',
-    pinna: 'Outer ear catches the live band right up to the foam-sealed canal entrance.',
-    canal: 'Expanding foam seals the canal unevenly — absorbing treble while heavy bass vibrates through.',
-    earplug: 'Dense foam dumps high frequencies >24 dB more than bass, making live bands sound underwater — so people pull them out.',
-    eardrum: 'Eardrum receives mostly muffled low-end thump.',
-    middle: 'Eardrum and ossicles rock mainly on slow, muffled bass waves.',
-    ossicles: 'Stirrup bone moves gently on bass-heavy vibrations with crisp highs stripped away.',
-    vestibular: 'Inner-ear labyrinth stays shielded from peak concert blasts.',
-    cochlea: 'Hair cells are shielded, but treble stereocilia bundles barely receive any music sparkle.',
-    nerve: 'Brain hears a dull, boomy mix with muffled vocals.',
-    damageRatio: 0,
-    droopRatio: 0.15,
-    plugMode: 'foam',
-    asymmetry: null,
-  },
   musician_plugs: {
-    badge: 'Musicians’ −15 dB filter · Safe & clear',
-    pinna: 'Outer ear funnels natural live tone straight into the precision acoustic filter.',
-    canal: 'Precision acoustic filter lowers all wave heights evenly by 15 dB before they hit the eardrum.',
+    badge: 'Earplugs · Safe & clear',
+    pinna: 'Outer ear funnels natural live tone straight into the earplug filter.',
+    canal: 'Earplug acoustic filter lowers all wave heights evenly by 15 dB before they hit the eardrum.',
     earplug: 'Tuned acoustic duct attenuates bass, vocals, and cymbals equally — music sounds natural, just safer.',
     eardrum: 'Eardrum vibrates with full musical clarity at a gentle, safe excursion.',
     middle: 'Eardrum & ossicles vibrate gently without dangerous peak slams.',
@@ -121,7 +105,7 @@ export const ANATOMY_IMPACT_GUIDES = Object.freeze({
     badge: 'Uneven ears · One side quieter',
     pinna: 'Both outer ears funnel sound, yet one inner ear took heavier speaker blasts.',
     canal: 'Standing beside a PA speaker stack or stage monitor often stresses one ear far more than the other.',
-    earplug: 'Filtered earplugs protect both ears evenly regardless of where speakers sit.',
+    earplug: 'Earplugs protect both ears evenly regardless of where speakers sit.',
     eardrum: 'Both eardrums vibrate, while inner-ear hair-cell sensitivity differs between sides.',
     middle: 'Both ossicle chains work, but one inner ear responds more weakly.',
     ossicles: 'Middle-ear bones pivot cleanly on both sides.',
@@ -137,8 +121,7 @@ export const ANATOMY_IMPACT_GUIDES = Object.freeze({
 
 export function normaliseAnatomyEffectKey(rawKey = 'original') {
   const k = String(rawKey || 'original').toLowerCase();
-  if (k.includes('foam')) return 'foam_plugs';
-  if (k.includes('musician') || k === 'filtered') return 'musician_plugs';
+  if (k.includes('plug') || k.includes('musician') || k === 'filtered' || k.includes('foam')) return 'musician_plugs';
   if (k.includes('post_gig') || k === 'muffled') return 'post_gig';
   if (k.includes('nihl_moderate') || k.includes('nihl_mild') || k.includes('high_frequency') || k.includes('severe') || k === 'stronger' || k.includes('broadband') || k.includes('age_related')) {
     return 'severe_hf';

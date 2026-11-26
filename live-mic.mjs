@@ -3,7 +3,7 @@
 // approximations + optional virtual pub chatter + a brickwall feedback safety limiter.
 // Audio is NEVER recorded, buffered to disk, or transmitted over the network.
 
-import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=1e03b2b326';
+import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=d3071d3d38';
 
 export const LIVE_MIC_PRESETS = Object.freeze([
   {
@@ -44,18 +44,8 @@ export const LIVE_MIC_PRESETS = Object.freeze([
     trimDb: 0,
   },
   {
-    id: 'foam_plugs',
-    label: 'Cheap foam earplugs',
-    note: 'Uneven treble dump: lowers high frequencies far more than bass, making voices and bands sound muddy.',
-    stages: [
-      { type: 'lowshelf', frequency: 350, Q: 0.7, gain: -8 },
-      { type: 'highshelf', frequency: 1800, Q: 0.7, gain: -24 },
-    ],
-    trimDb: 0,
-  },
-  {
     id: 'musician_plugs',
-    label: 'Musicians’ earplugs (−15 dB flat)',
+    label: 'Earplugs',
     note: 'Even −15 dB attenuation across bass, mids, and treble: safer volume while keeping natural speech & music clarity.',
     stages: [
       { type: 'highshelf', frequency: 6500, Q: 0.7, gain: -1 },

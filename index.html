@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Listen to examples of hearing changes after loud music and tinnitus, explore a 3D inner ear, or compare your own clip in the RNID listening studio.">
   <title>RNID Audio Tool</title>
-  <link rel="stylesheet" href="./styles.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./home-video-effects.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./home-story.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./hearing-guide.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./nihl-examples.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./freq-band-sim.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./studio-filter-response.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./studio-layout.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./upload-layout.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./ear-levels.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./audio-explainer.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./live-mic.css?v=1e03b2b326">
-  <link rel="stylesheet" href="./experience-upgrade.css?v=1e03b2b326">
-  <script type="module" src="./app.mjs?v=1e03b2b326"></script>
+  <link rel="stylesheet" href="./styles.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./home-video-effects.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./home-story.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./hearing-guide.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./nihl-examples.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./freq-band-sim.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./studio-filter-response.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./studio-layout.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./upload-layout.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./ear-levels.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./audio-explainer.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./live-mic.css?v=d3071d3d38">
+  <link rel="stylesheet" href="./experience-upgrade.css?v=d3071d3d38">
+  <script type="module" src="./app.mjs?v=d3071d3d38"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -108,8 +108,7 @@
                 <button class="ear-condition-btn" type="button" data-ear-quick-effect="post_gig" data-effect-color="amber" aria-pressed="false">Post-gig muffled</button>
                 <button class="ear-condition-btn" type="button" data-ear-quick-effect="permanent_notch" data-effect-color="coral" aria-pressed="false">4 kHz notch</button>
                 <button class="ear-condition-btn" type="button" data-ear-quick-effect="severe_hf" data-effect-color="violet" aria-pressed="false">Strong treble loss</button>
-                <button class="ear-condition-btn" type="button" data-ear-quick-effect="foam_plugs" data-effect-color="ochre" aria-pressed="false">Foam plug</button>
-                <button class="ear-condition-btn" type="button" data-ear-quick-effect="musician_plugs" data-effect-color="mint" aria-pressed="false">Musicians’ −15 dB</button>
+                <button class="ear-condition-btn" type="button" data-ear-quick-effect="musician_plugs" data-effect-color="mint" aria-pressed="false">Earplugs</button>
                 <button class="ear-condition-btn" type="button" data-ear-quick-effect="ringing_demo" data-effect-color="gold" aria-pressed="false">+ Ringing</button>
               </div>
             </div>
@@ -225,8 +224,7 @@
           <button class="concert-cond-pill" type="button" data-concert-condition="post_gig" data-effect-color="amber" aria-pressed="false">Post-gig muffled</button>
           <button class="concert-cond-pill" type="button" data-concert-condition="permanent_notch" data-effect-color="coral" aria-pressed="false">4 kHz notch</button>
           <button class="concert-cond-pill" type="button" data-concert-condition="severe_hf" data-effect-color="violet" aria-pressed="false">Strong treble loss</button>
-          <button class="concert-cond-pill" type="button" data-concert-condition="foam_plugs" data-effect-color="ochre" aria-pressed="false">Foam plug</button>
-          <button class="concert-cond-pill" type="button" data-concert-condition="musician_plugs" data-effect-color="mint" aria-pressed="false">Musicians’ −15 dB</button>
+          <button class="concert-cond-pill" type="button" data-concert-condition="musician_plugs" data-effect-color="mint" aria-pressed="false">Earplugs</button>
           <button class="concert-cond-pill" id="concert-ringing-btn" type="button" data-effect-color="gold" aria-pressed="false">+ Ringing</button>
         </div>
 
@@ -370,7 +368,7 @@
       <nav class="story-journey" id="story-journey-bar" data-flow-section aria-label="Follow one night out">
         <div class="story-journey-top">
           <span class="story-kicker">Follow one night out</span>
-          <span class="story-active-caption" id="story-active-caption">01 · 10:30 pm — Compare bare ears, foam plugs, and −15 dB musicians’ filters inside the 3D ear.</span>
+          <span class="story-active-caption" id="story-active-caption">01 · 10:30 pm — Compare bare ears and earplugs inside the 3D ear.</span>
           <button class="button secondary story-next-btn" id="story-next-btn" type="button">Next: Busy bar chatter →</button>
         </div>
         <div class="story-steps" role="group" aria-label="Story chapters">
@@ -452,8 +450,7 @@
             <button class="home-story-choice" type="button" data-story-for="quiet" data-story-choice="ringing" data-effect-color="gold" aria-pressed="false" hidden><svg class="story-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15h14l-2-3V9a5 5 0 0 0-10 0v3zm5 3a2 2 0 0 0 4 0"/></svg>Ringing</button>
             <button class="home-story-choice" type="button" data-story-for="quiet" data-story-choice="hiss" data-effect-color="lavender" aria-pressed="false" hidden><svg class="story-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 3-2 3 2 3-2 3 2 3-2 3 2M3 15l3-2 3 2 3-2 3 2 3-2 3 2"/></svg>Hiss</button>
             <button class="home-story-choice" type="button" data-story-for="plugs" data-story-choice="open" data-effect-color="emerald" aria-pressed="false" hidden>No earplugs</button>
-            <button class="home-story-choice" type="button" data-story-for="plugs" data-story-choice="foam" data-effect-color="ochre" aria-pressed="false" hidden><svg class="story-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h9a5 5 0 0 1 0 10H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/></svg>Foam</button>
-            <button class="home-story-choice" type="button" data-story-for="plugs" data-story-choice="filtered" data-effect-color="mint" aria-pressed="false" hidden><svg class="story-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h9a5 5 0 0 1 0 10H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zM10 7v10m4-10v10"/></svg>Musicians’</button>
+            <button class="home-story-choice" type="button" data-story-for="plugs" data-story-choice="filtered" data-effect-color="mint" aria-pressed="false" hidden><svg class="story-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h9a5 5 0 0 1 0 10H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zM10 7v10m4-10v10"/></svg>Earplugs</button>
           </div>
           <label class="home-story-volume" for="home-story-volume">
             <svg class="story-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4zm12 0a5 5 0 0 1 0 6m2-9a9 9 0 0 1 0 12"/></svg>
@@ -585,10 +582,10 @@
         <details class="compact-learn-drawer">
           <summary>
             <span id="protect-music-title">🛡️ Keep the music, skip the hangover</span>
-            <span class="drawer-pills">−15 dB Clear Plugs · Quiet breaks</span>
+            <span class="drawer-pills">Earplugs · Quiet breaks</span>
           </summary>
           <ul class="protect-list">
-            <li><strong>Filtered musicians’ earplugs:</strong> Lower sound by 15–20 dB evenly without muffling vocals.</li>
+            <li><strong>Earplugs:</strong> Lower sound by 15–20 dB evenly without muffling vocals.</li>
             <li><strong>Short chill-out breaks:</strong> 5–10 minutes away from main speakers lets hair cells recover.</li>
             <li><strong>Step back from PA stacks:</strong> Even 2 metres back cuts peak sound pressure sharply.</li>
           </ul>
@@ -600,7 +597,7 @@
         <header class="freq-band-header">
           <div>
             <h2 id="freq-band-title">🎚️ Earplugs, Pub Chatter &amp; Frequency Explorer</h2>
-            <p>Pick a vocal song, slide in pub chatter, or compare muddy foam plugs against clear −15 dB musicians’ earplugs.</p>
+            <p>Pick a vocal song, slide in pub chatter, or hear how earplugs keep live vocals and instruments clear.</p>
           </div>
           <button class="button secondary" id="freq-band-reset" type="button">↺ Reset</button>
         </header>
@@ -640,8 +637,7 @@
           <button class="button" type="button" data-band-preset="permanent_notch" data-effect-color="coral" aria-pressed="false">⚡ 4 kHz noise notch</button>
           <button class="button" type="button" data-band-preset="severe_hf" data-effect-color="violet" aria-pressed="false">↘ Severe HF loss</button>
           <button class="button" type="button" data-band-preset="isolate_speech" data-effect-color="pink" aria-pressed="false">💬 Speech band (2–6 kHz)</button>
-          <button class="button" type="button" data-band-preset="foam_plugs" data-effect-color="ochre" aria-pressed="false">🧱 Foam earplugs (muffled)</button>
-          <button class="button" type="button" data-band-preset="musician_plugs" data-effect-color="mint" aria-pressed="false">🛡 Musicians’ plugs (−15 dB)</button>
+          <button class="button" type="button" data-band-preset="musician_plugs" data-effect-color="mint" aria-pressed="false">🛡 Earplugs</button>
         </div>
         <div class="freq-band-stage">
           <div class="freq-band-stage-head">
@@ -683,8 +679,7 @@
           <button class="button" type="button" data-live-mic-preset="post_gig" data-effect-color="amber" aria-pressed="true">☁ Post-gig</button>
           <button class="button" type="button" data-live-mic-preset="notch_4k" data-effect-color="coral" aria-pressed="false">⚡ 4 kHz notch</button>
           <button class="button" type="button" data-live-mic-preset="severe_hf" data-effect-color="violet" aria-pressed="false">↘ Strong HF</button>
-          <button class="button" type="button" data-live-mic-preset="foam_plugs" data-effect-color="ochre" aria-pressed="false">🧱 Foam plugs</button>
-          <button class="button" type="button" data-live-mic-preset="musician_plugs" data-effect-color="mint" aria-pressed="false">🛡 Musicians’ (−15 dB)</button>
+          <button class="button" type="button" data-live-mic-preset="musician_plugs" data-effect-color="mint" aria-pressed="false">🛡 Earplugs</button>
         </div>
         <div class="live-mic-controls-row">
           <div class="freq-band-context-field">

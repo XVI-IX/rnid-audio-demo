@@ -1,7 +1,7 @@
 // On-device Cambridge MSBG renderer coordinator for "Your audio".
 // Decodes audio at 44,100 Hz via OfflineAudioContext, runs msbg-worker.mjs, and packs a 24-bit ZIP.
 
-import { deinterleave, encodeWav, zipStore } from './bundle.mjs?v=1e03b2b326';
+import { deinterleave, encodeWav, zipStore } from './bundle.mjs?v=d3071d3d38';
 
 export const MSBG_SAMPLE_RATE = 44100;
 export const MSBG_MIN_SECONDS = 1;

@@ -10,8 +10,8 @@ import {
   buildSafeMedicalResponse,
   cleanExplanationText,
   isMedicalAdviceQuery,
-} from './audio-explainer.mjs?v=1e03b2b326';
-import { ANATOMY_PART_BY_ID, normalisePartId } from './ear-anatomy-geometry.mjs?v=1e03b2b326';
+} from './audio-explainer.mjs?v=d3071d3d38';
+import { ANATOMY_PART_BY_ID, normalisePartId } from './ear-anatomy-geometry.mjs?v=d3071d3d38';
 
 const TECHNICAL_JARGON_REGEX = /\b(?:\d+(?:\.\d+)?\s*(?:k?Hz|hertz|dB|decibels?)|kHz|decibels?|hertz|filterbank|dBFS)\b/i;
 
@@ -21,8 +21,7 @@ export const EFFECT_DISPLAY_LABELS = Object.freeze({
   permanent_notch: 'Noise-Induced Hearing Loss (Permanent Notch)',
   severe_hf: 'Strong High-Pitch Hearing Loss',
   asymmetric: 'Uneven Hearing (One Ear Quieter)',
-  foam_plugs: 'Standard Foam Earplugs',
-  musician_plugs: 'Filtered Musicians’ Earplugs',
+  musician_plugs: 'Earplugs',
 });
 
 // Rich, physiologically grounded plain-English reaction matrix: 8 parts × 7 states!
@@ -50,13 +49,9 @@ const PART_REACTIONS = Object.freeze({
         status: 'Both outer ears intact · Left/right balance uneven inside',
         reaction: 'Both outer ears gather sound from left and right, yet standing right beside a venue speaker stack has left one inner ear duller than the other — pulling music and pub conversation off-centre.',
       },
-      foam_plugs: {
-        status: 'Open · Canal entrance blocked just inside',
-        reaction: 'Your outer ear still catches the live band’s energy, right up until the expanding foam plug seals the canal entrance and swallows the bright vocal and cymbal detail.',
-      },
       musician_plugs: {
-        status: 'Open · Feeding balanced acoustic filter',
-        reaction: 'Your outer ear funnels the natural live sound straight into the musicians’ filter, preserving the band’s tone and spatial feel at a much safer level.',
+        status: 'Open · Feeding balanced earplug filter',
+        reaction: 'Your outer ear funnels the natural live sound straight into the earplug filter, preserving the band’s tone and spatial feel at a much safer level.',
       },
     },
   },
@@ -84,13 +79,9 @@ const PART_REACTIONS = Object.freeze({
         status: 'Open · Closer speaker side took heavier pressure',
         reaction: 'When one ear faces a loud stage monitor or club speaker stack, that side’s ear canal funnels far stronger sound waves inward than the sheltered ear on the other side of your head.',
       },
-      foam_plugs: {
-        status: 'Sealed with dense foam · Uneven muffling',
-        reaction: 'Expanding foam fills the outer half of the canal and drinks up bright treble waves while heavy bass thumps still vibrate right past it — making vocals sound muffled and underwater.',
-      },
       musician_plugs: {
         status: 'Protected · Gentle, even wave heights',
-        reaction: 'Inside the canal, the precision filter calms down booming bass and piercing highs equally before they travel further inward — keeping the ear canal’s natural vocal clarity intact.',
+        reaction: 'Inside the canal, the earplug filter calms down booming bass and piercing highs equally before they travel further inward — keeping the ear canal’s natural vocal clarity intact.',
       },
     },
   },
@@ -104,27 +95,23 @@ const PART_REACTIONS = Object.freeze({
       },
       post_gig: {
         status: 'Unprotected at the gig · Why the hangover happened',
-        reaction: 'Because this protection zone was empty during the gig, hours of intense sound waves slammed straight past here and fatigued your inner-ear hair cells. Giving your ears quiet rest lets temporary muffling settle, and wearing filtered plugs next time skips the hangover.',
+        reaction: 'Because this protection zone was empty during the gig, hours of intense sound waves slammed straight past here and fatigued your inner-ear hair cells. Giving your ears quiet rest lets temporary muffling settle, and wearing earplugs next time skips the hangover.',
       },
       permanent_notch: {
         status: 'Crucial for protecting your remaining clarity',
-        reaction: 'Once inner-ear hair cells are permanently lost, nothing can regrow them — which makes slipping filtered musicians’ earplugs into this spot at future concerts the best way to keep every bit of musical clarity you still have.',
+        reaction: 'Once inner-ear hair cells are permanently lost, nothing can regrow them — which makes slipping earplugs into this spot at future concerts the best way to keep every bit of musical clarity you still have.',
       },
       severe_hf: {
         status: 'Essential shield for remaining hair cells',
-        reaction: 'Placing a filtered earplug here in loud venues shields your remaining working inner-ear sensors from further wear without cutting you off from the beat and atmosphere.',
+        reaction: 'Placing an earplug here in loud venues shields your remaining working inner-ear sensors from further wear without cutting you off from the beat and atmosphere.',
       },
       asymmetric: {
         status: 'Protects both ears equally near PA stacks',
-        reaction: 'Wearing filtered earplugs in both canals acts like a safety cushion even when you end up standing right next to a loud bar speaker on one side.',
-      },
-      foam_plugs: {
-        status: 'Foam inserted · Protects ears, dulls the music',
-        reaction: 'Dense yellow foam swells against the canal wall. It shields your inner ear from harm, yet because porous foam blocks bright guitar and vocal sparkle far more than heavy bass, bands sound muddy — tempting gig-goers to pull them out!',
+        reaction: 'Wearing earplugs in both canals acts like a safety cushion even when you end up standing right next to a loud bar speaker on one side.',
       },
       musician_plugs: {
-        status: 'Musicians’ plug active · Safe AND crystal clear',
-        reaction: 'Three soft silicone flanges seal comfortably while the tiny silver acoustic duct in the middle lowers deep bass, warm vocals, and shimmering cymbals by the same gentle amount — like turning down a master studio fader!',
+        status: 'Earplug active · Safe AND crystal clear',
+        reaction: 'Soft silicone flanges seal comfortably while the tiny acoustic duct in the middle lowers deep bass, warm vocals, and shimmering cymbals by the same gentle amount — like turning down a master studio fader!',
       },
     },
   },
@@ -152,13 +139,9 @@ const PART_REACTIONS = Object.freeze({
         status: 'Both eardrums flexing · Inner-ear sensitivity differs',
         reaction: 'Both left and right eardrums vibrate cleanly with the music; the uneven balance comes from tired or damaged hair cells deeper inside one cochlea.',
       },
-      foam_plugs: {
-        status: 'Receiving mostly low-end thump',
-        reaction: 'Behind the foam plug, rapid high-pitched ripples barely reach the eardrum, so the membrane mostly rocks back and forth to muffled bass and low vocals.',
-      },
       musician_plugs: {
         status: 'Gentle, balanced excursion',
-        reaction: 'Behind the musicians’ filter, the eardrum vibrates with the exact same crisp musical shape as bare ears — just with smaller, safer swings that never overload the inner ear.',
+        reaction: 'Behind the earplug filter, the eardrum vibrates with the exact same crisp musical shape as bare ears — just with smaller, safer swings that never overload the inner ear.',
       },
     },
   },
@@ -185,10 +168,6 @@ const PART_REACTIONS = Object.freeze({
       asymmetric: {
         status: 'Bone levers intact · Asymmetric cochlear response',
         reaction: 'Both middle-ear bone chains pivot normally; the quieter side stems from sensory hair-cell wear beyond the stirrup’s oval window.',
-      },
-      foam_plugs: {
-        status: 'Rocking slowly on bass-heavy waves',
-        reaction: 'With bright overtones soaked up by the foam plug, the hammer, anvil, and stirrup mostly rock on slower, heavier bass rhythms.',
       },
       musician_plugs: {
         status: 'Protected · Smooth, gentle stirrup motion',
@@ -220,13 +199,9 @@ const PART_REACTIONS = Object.freeze({
         status: 'Balance steady · Spatial sound cues rely on both cochleas',
         reaction: 'While your balance canals keep you steady on your feet, uneven cochlear hearing between left and right can make spinning around to spot who called your name feel trickier.',
       },
-      foam_plugs: {
-        status: 'Calm inner-ear fluid pressure',
-        reaction: 'Cutting peak concert pressure in the ear canal keeps intense fluid shockwaves away from the entire inner-ear labyrinth.',
-      },
       musician_plugs: {
         status: 'Calm & comfortable all night',
-        reaction: 'Filtered plugs tame overwhelming sub-bass slams at festivals and clubs while letting you move, dance, and chat naturally.',
+        reaction: 'Earplugs tame overwhelming sub-bass slams at festivals and clubs while letting you move, dance, and chat naturally.',
       },
     },
   },
@@ -254,13 +229,9 @@ const PART_REACTIONS = Object.freeze({
         status: 'One cochlea worn down more than the other',
         reaction: 'Hair cells in the more exposed ear have lost sensitivity in the crisp vocal turns, making headphones sound lopsided and making noisy restaurants or pubs much more tiring.',
       },
-      foam_plugs: {
-        status: 'Hair cells safe · Starved of bright musical detail',
-        reaction: 'Every hair cell stays healthy and upright, yet because the foam plug stripped out the high notes back in the ear canal, the front sparkle hair cells barely receive anything to dance to.',
-      },
       musician_plugs: {
         status: 'Every hair cell healthy, upright & dancing evenly!',
-        reaction: 'Because the musicians’ filter tamed the loud gig evenly, both the front cymbal/vocal hair cells and the deep bass hair cells dance safely within their comfort zone — zero hangover tomorrow!',
+        reaction: 'Because the earplug tamed the loud gig evenly, both the front cymbal/vocal hair cells and the deep bass hair cells dance safely within their comfort zone — zero hangover tomorrow!',
       },
     },
   },
@@ -287,10 +258,6 @@ const PART_REACTIONS = Object.freeze({
       asymmetric: {
         status: 'Uneven left/right nerve streams',
         reaction: 'Your brain compares split-second differences between left and right auditory nerves to locate sounds in 3D space — when one nerve stream is weaker, busy rooms feel much harder to navigate.',
-      },
-      foam_plugs: {
-        status: 'Protected · Sending a bass-heavy, muffled stream',
-        reaction: 'The nerve connections stay completely safe from concert overload, though the brain receives a duller, bass-heavy version of the live band.',
       },
       musician_plugs: {
         status: 'Protected · Crisp, stress-free nerve signalling',
@@ -351,14 +318,14 @@ export function getPartStarterQuestions(partId = 'cochlea', tinnitus = 'off') {
       'Where do earplugs sit inside the ear canal?',
     ],
     earplug: [
-      'Why do musicians’ earplugs sound clearer than foam?',
+      'How do earplugs lower volume while keeping music clear?',
       'Will earplugs stop me enjoying live music?',
       'Can earplugs prevent a post-gig hearing hangover?',
     ],
     eardrum: [
       'Is post-gig muffling caused by the eardrum or inner ear?',
       'Why does bass still boom on the eardrum?',
-      'What happens to the eardrum with filtered earplugs?',
+      'What happens to the eardrum with earplugs?',
     ],
     ossicles: [
       'How do the 3 tiny bones pass sound inward?',
@@ -404,8 +371,8 @@ export function answerEarPartQuestionInstant({
   if (/grow\s*back|regrow|permanent|recover|temporary|hangover/.test(lower)) {
     return `Inside the human cochlea, we are born with a fixed set of delicate sensory hair cells — unlike birds or reptiles, human inner-ear hair cells cannot regrow once they are destroyed. After a single loud night out ("hearing hangover"), bent hair-cell tips often recover with quiet rest, whereas repeated unprotected loud gigs wear them away for good.\n\nRight now under ${base.effectLabel}, ${base.reactionText.split('\n\n')[0]}`;
   }
-  if (/foam|musician|filter|plug/.test(lower)) {
-    return `Standard foam plugs seal the ear canal with dense sponge that soaks up crisp vocal and cymbal detail while letting heavy bass rumble through, making live music sound dull and underwater. Filtered musicians’ earplugs use a tiny tuned acoustic channel inside a soft silicone seal so deep bass, warm vocals, and bright cymbals step down evenly together — keeping the band crystal clear while shielding your cochlear hair cells.`;
+  if (/musician|filter|plug/.test(lower)) {
+    return `Acoustic earplugs use a tiny tuned sound channel inside a soft silicone seal so deep bass, warm vocals, and bright cymbals step down evenly together — keeping the live band and friends’ voices crystal clear while shielding your delicate cochlear hair cells.`;
   }
   if (/tinnitus|ring|hiss|quiet|silence|cover/.test(lower)) {
     return `Tinnitus ringing or hiss does not come from outside air vibrating your outer ear or eardrum — which is why putting hands over your ears never blocks it. When inner-ear hair cells are fatigued or missing after loud sound, the auditory nerve and brain pathways turn up their own internal "gain" searching for the missing signal, creating phantom ringing or hiss that stands out sharpest once the room goes quiet.`;
@@ -423,7 +390,7 @@ export function answerEarPartQuestionInstant({
     return `When you zoom into ${base.partTitle}, green/teal highlights show healthy, responsive sensors, warm amber marks temporarily fatigued hair cells after a loud gig, and coral-red marks permanently flattened hair cells in the classic noise-notch region. Along the auditory nerve, golden or violet pulses illustrate spontaneous internal tinnitus firing.`;
   }
   if (/safe|protect|gig|concert|festival|club|break|headphone|earbud/.test(lower)) {
-    return `Three habits protect ${base.partTitle} without spoiling a night out: slip in filtered musicians’ earplugs so music stays clear at a gentler level, step a couple of metres back from main speaker stacks, and take short 5-minute chill-out breaks so your inner-ear hair cells can catch their breath.`;
+    return `Three habits protect ${base.partTitle} without spoiling a night out: slip in earplugs so music stays clear at a gentler level, step a couple of metres back from main speaker stacks, and take short 5-minute chill-out breaks so your inner-ear hair cells can catch their breath.`;
   }
   if (/bone|smallest|hammer|anvil|stirrup|drum|snail|fluid|balance|dizzy/.test(lower)) {
     return `${base.partTitle} (${base.partLatin}): ${base.roleSummary}\n\nUnder ${base.effectLabel}, ${base.reactionText.split('\n\n')[0]}`;
@@ -435,10 +402,8 @@ export function answerEarPartQuestionInstant({
 export function buildDeepDivePhysiologySummary(partId = 'cochlea', effectKey = 'original', tinnitus = 'off') {
   const info = getInstantEarPartExplanation(partId, effectKey, tinnitus);
   const protectTip = effectKey === 'musician_plugs'
-    ? 'With filtered musicians’ earplugs in place, sound waves arrive evenly tamed so you hear every vocal and cymbal nuance without post-gig fatigue.'
-    : effectKey === 'foam_plugs'
-      ? 'Swapping dense foam for filtered musicians’ earplugs keeps the same ear protection while restoring natural vocal and guitar sparkle.'
-      : 'Filtered musicians’ earplugs and short quiet breaks at gigs shield delicate cochlear hair cells before temporary fatigue turns permanent.';
+    ? 'With earplugs in place, sound waves arrive evenly tamed so you hear every vocal and cymbal nuance without post-gig fatigue.'
+    : 'Earplugs and short quiet breaks at gigs shield delicate cochlear hair cells before temporary fatigue turns permanent.';
   return `${info.partTitle} (${info.partLatin}) — Deep-Dive\n\nHow it works: ${info.roleSummary}\n\nWhat happens under ${info.effectLabel}: ${info.reactionText}\n\nTakeaway for live music: ${protectTip}`;
 }
 

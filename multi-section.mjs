@@ -2,8 +2,8 @@
 // Allows assigning distinct hearing-loss & tinnitus presets to multiple chapters across a clip,
 // with smooth 0.15s equal-gain crossfades for live playback, WAV export, and MP4/WebM video export.
 
-import { getEffectTheme } from './output-calibration.mjs?v=1e03b2b326';
-import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=1e03b2b326';
+import { getEffectTheme } from './output-calibration.mjs?v=d3071d3d38';
+import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=d3071d3d38';
 
 export const CHAPTER_FADE_SECONDS = 0.15;
 const PEAK_LIMIT = 10 ** (-1 / 20);

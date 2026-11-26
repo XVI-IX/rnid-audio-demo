@@ -2,15 +2,15 @@ import {
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=1e03b2b326';
-import { confirmRingingPlayback, isRingingConfirmed } from './tinnitus-warning.mjs?v=1e03b2b326';
-import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=1e03b2b326';
+} from './output-calibration.mjs?v=d3071d3d38';
+import { confirmRingingPlayback, isRingingConfirmed } from './tinnitus-warning.mjs?v=d3071d3d38';
+import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=d3071d3d38';
 
 const chapters = [
   { id: 'live', start: 0, end: 4.8, choice: 'original', cue: 'Listen for the bright bells above the bass.' },
   { id: 'after', start: 0, end: 4.8, choice: 'muffled', cue: 'The same bells sound duller straight after the gig.' },
   { id: 'quiet', start: 7.25, end: 9.95, choice: 'ringing', cue: 'As the music fades, listen for the ringing or hiss.' },
-  { id: 'plugs', start: 0, end: 4.8, choice: 'filtered', cue: 'Compare how each earplug changes the same music.' },
+  { id: 'plugs', start: 0, end: 4.8, choice: 'filtered', cue: 'Compare how earplugs lower the music evenly while keeping it clear.' },
 ];
 const hearingSuffix = {
   original: '',
@@ -40,8 +40,7 @@ const comparisonCues = {
   quiet: { off: 'Listen to the same fade with the tinnitus illustration turned off.' },
   plugs: {
     open: 'Listen to the music with no earplugs.',
-    foam: 'Listen for how the foam example softens the bells and cymbals.',
-    filtered: 'Listen for how the filtered example lowers the music more evenly.',
+    filtered: 'Listen for how earplugs lower the music evenly without muffling the bells.',
   },
 };
 const chapterOffsets = [0];

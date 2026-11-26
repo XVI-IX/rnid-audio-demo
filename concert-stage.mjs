@@ -3,17 +3,17 @@
 // + 6 telescoping linear-phase FIR convolution kernels (exact bit-accurate sum at 0 dB!),
 // isolating true 340 Hz–7.5 kHz center vocals (body vs sibilant consonants) with smooth musical crossfades.
 
-import { buildConcert3DScene } from './concert-3d-scene.mjs?v=1e03b2b326';
-import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=1e03b2b326';
-import { createBandKernels } from './freq-band-audio.mjs?v=1e03b2b326';
+import { buildConcert3DScene } from './concert-3d-scene.mjs?v=d3071d3d38';
+import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=d3071d3d38';
+import { createBandKernels } from './freq-band-audio.mjs?v=d3071d3d38';
 import {
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=1e03b2b326';
-import { getTheme, onThemeChange } from './theme.mjs?v=1e03b2b326';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=1e03b2b326';
-import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=1e03b2b326';
+} from './output-calibration.mjs?v=d3071d3d38';
+import { getTheme, onThemeChange } from './theme.mjs?v=d3071d3d38';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=d3071d3d38';
+import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=d3071d3d38';
 
 export const CONCERT_SONGS = Object.freeze([
   {
@@ -227,27 +227,11 @@ export const CONCERT_CONDITIONS = Object.freeze({
       cymbals: { audibility: 2, gain: 0.006, status: 'Gone completely', lost: true },
     },
   },
-  foam_plugs: {
-    id: 'foam_plugs',
-    label: 'Foam earplugs',
-    lostHeadline: 'Protected, but treble dumped unevenly',
-    summary: 'Dense foam blocks cymbals (14%) and guitar bite (24%) far more than heavy bass (82%), making live songs sound underwater — so gig-goers pull them out.',
-    vowelRetention: 52,
-    consonantRetention: 14,
-    lyricClarity: 38,
-    stems: {
-      bass: { audibility: 82, gain: 0.78, status: 'Bass leaks through', lost: false },
-      keys: { audibility: 55, gain: 0.46, status: 'Boxy & woolly', lost: false },
-      vocals: { audibility: 38, vowelGain: 0.52, consonantGain: 0.14, status: 'Underwater mix', lost: true },
-      guitar: { audibility: 24, gain: 0.14, status: 'Attack dulled', lost: true },
-      cymbals: { audibility: 14, gain: 0.06, status: 'Cymbals killed', lost: true },
-    },
-  },
   musician_plugs: {
     id: 'musician_plugs',
-    label: 'Musicians’ −15 dB',
+    label: 'Earplugs',
     lostHeadline: 'Safe −15 dB · All 5 stems stay clear',
-    summary: 'Tuned acoustic filters lower all 5 stems evenly to a comfortable level — keeping 100% of vocal diction, guitar solo, and cymbal sparkle with zero hangover.',
+    summary: 'Earplugs lower all 5 stems evenly to a comfortable level — keeping 100% of vocal diction, guitar solo, and cymbal sparkle with zero hangover.',
     vowelRetention: 100,
     consonantRetention: 100,
     lyricClarity: 100,
@@ -263,8 +247,7 @@ export const CONCERT_CONDITIONS = Object.freeze({
 
 export function normaliseConcertCondition(rawKey = 'original') {
   const k = String(rawKey || 'original').toLowerCase();
-  if (k.includes('foam')) return 'foam_plugs';
-  if (k.includes('musician') || k === 'filtered') return 'musician_plugs';
+  if (k.includes('plug') || k.includes('musician') || k === 'filtered' || k.includes('foam')) return 'musician_plugs';
   if (k.includes('post_gig') || k === 'muffled') return 'post_gig';
   if (k.includes('nihl_moderate') || k.includes('nihl_mild') || k.includes('high_frequency') || k.includes('severe') || k === 'stronger' || k.includes('broadband') || k.includes('age_related')) {
     return 'severe_hf';
