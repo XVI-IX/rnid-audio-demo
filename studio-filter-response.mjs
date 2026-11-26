@@ -1,4 +1,5 @@
-import { displayProfileName } from './studio-filters.mjs?v=d3071d3d38';
+import { displayProfileName } from './studio-filters.mjs?v=e6a4a8ed98';
+import { getTheme, onThemeChange } from './theme.mjs?v=e6a4a8ed98';
 
 const bandRows = [125, 500, 1000, 2000, 4000, 8000];
 const chartEnd = 16000;
@@ -55,11 +56,12 @@ function drawResponse(canvas, panel, points, isOriginal) {
   const color = name => style.getPropertyValue(name).trim();
 
   // Subtle acoustic & speech frequency-zone shading so non-engineers can map Hz to sound.
+  const isDark = getTheme() === 'dark';
   const zones = [
-    { from: 25, to: 250, fill: '#e3ece266', label: 'Bass' },
+    { from: 25, to: 250, fill: isDark ? '#10b9811a' : '#e3ece266', label: 'Bass' },
     { from: 250, to: 2000, fill: '#ffffff00', label: 'Vowels & melody' },
-    { from: 2000, to: 6000, fill: '#efe4cc78', label: 'Consonants · 4k notch' },
-    { from: 6000, to: 16000, fill: '#dfe9e860', label: 'Air & cymbals' },
+    { from: 2000, to: 6000, fill: isDark ? '#f59e0b1a' : '#efe4cc78', label: 'Consonants · 4k notch' },
+    { from: 6000, to: 16000, fill: isDark ? '#38bdf816' : '#dfe9e860', label: 'Air & cymbals' },
   ];
   plot.save();
   plot.font = '600 10px system-ui, sans-serif';
@@ -71,7 +73,7 @@ function drawResponse(canvas, panel, points, isOriginal) {
     plot.fillStyle = zone.fill;
     plot.fillRect(x1, top, x2 - x1, bottom - top);
     if (showZoneLabels) {
-      plot.fillStyle = '#485b52';
+      plot.fillStyle = isDark ? '#94a3b8' : '#485b52';
       plot.fillText(zone.label, (x1 + x2) / 2, 10);
     }
   }
@@ -196,6 +198,7 @@ export function connectStudioFilterResponse() {
   }
 
   if (typeof ResizeObserver === 'function') new ResizeObserver(paint).observe(canvas);
+  onThemeChange(paint);
 
   return (profileId, isOriginal) => {
     if (current?.profileId === profileId && !current.failed) {

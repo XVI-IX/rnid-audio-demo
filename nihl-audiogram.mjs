@@ -1,14 +1,17 @@
+import { getTheme, onThemeChange } from './theme.mjs?v=e6a4a8ed98';
+
 const frequencyTicks = [125, 250, 500, 1000, 2000, 4000, 8000];
 const minimumLevel = -10;
 const maximumLevel = 120;
 const hearingRanges = [
-  { bounds: [0, 20.5], label: 'Normal range', color: '#edf5f0' },
-  { bounds: [20.5, 40.5], label: 'Mild', color: '#f6f5e9' },
-  { bounds: [40.5, 70.5], label: 'Moderate', color: '#faf1e7' },
-  { bounds: [70.5, 90.5], label: 'Severe', color: '#f8edf0' },
-  { bounds: [90.5, maximumLevel], label: 'Profound', color: '#f0eafa' },
+  { bounds: [0, 20.5], label: 'Normal range', color: '#edf5f0', darkColor: '#132622' },
+  { bounds: [20.5, 40.5], label: 'Mild', color: '#f6f5e9', darkColor: '#22231a' },
+  { bounds: [40.5, 70.5], label: 'Moderate', color: '#faf1e7', darkColor: '#261e1a' },
+  { bounds: [70.5, 90.5], label: 'Severe', color: '#f8edf0', darkColor: '#271923' },
+  { bounds: [90.5, maximumLevel], label: 'Profound', color: '#f0eafa', darkColor: '#1e1930' },
 ];
 const earColors = { right: '#a32235', left: '#2254a3' };
+const darkEarColors = { right: '#fb7185', left: '#60a5fa' };
 
 // Approximate locations redrawn from the illustrative overlay on slide 2.
 const speechRegion = [
@@ -31,15 +34,15 @@ function line(ctx, x1, y1, x2, y2) {
   ctx.stroke();
 }
 
-function outlinedLabel(ctx, label, x, y, maxWidth) {
-  ctx.strokeStyle = '#fffffff2';
+function outlinedLabel(ctx, label, x, y, maxWidth, isDark = false) {
+  ctx.strokeStyle = isDark ? '#0f1324eb' : '#fffffff2';
   ctx.lineJoin = 'round';
   ctx.lineWidth = 3;
   ctx.strokeText(label, x, y, maxWidth);
   ctx.fillText(label, x, y, maxWidth);
 }
 
-function drawSpeech(ctx, x, y, width) {
+function drawSpeech(ctx, x, y, width, isDark = false) {
   ctx.save();
   ctx.beginPath();
   for (const [index, [hz, db]] of speechRegion.entries()) {
@@ -47,20 +50,20 @@ function drawSpeech(ctx, x, y, width) {
     else ctx.lineTo(x(hz), y(db));
   }
   ctx.closePath();
-  ctx.fillStyle = '#8459bd30';
-  ctx.strokeStyle = '#735097';
+  ctx.fillStyle = isDark ? '#a78bfa2e' : '#8459bd30';
+  ctx.strokeStyle = isDark ? '#a78bfa' : '#735097';
   ctx.lineWidth = 1;
   ctx.fill();
   ctx.stroke();
 
-  ctx.fillStyle = '#482c70';
+  ctx.fillStyle = isDark ? '#e9d5ff' : '#482c70';
   ctx.font = `600 ${width >= 480 ? 12 : 10}px system-ui, sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  outlinedLabel(ctx, 'Speech banana', x(1030), y(40), width * .38);
+  outlinedLabel(ctx, 'Speech banana', x(1030), y(40), width * .38, isDark);
   if (width >= 330) {
-    outlinedLabel(ctx, 'a, o, u', x(430), y(47), width * .22);
-    outlinedLabel(ctx, 's, f, th', x(5330), y(24), width * .22);
+    outlinedLabel(ctx, 'a, o, u', x(430), y(47), width * .22, isDark);
+    outlinedLabel(ctx, 's, f, th', x(5330), y(24), width * .22, isDark);
   }
 
   for (const { label, hz, db, align } of soundExamples) {
@@ -68,14 +71,14 @@ function drawSpeech(ctx, x, y, width) {
     ctx.arc(x(hz), y(db), 2.6, 0, 2 * Math.PI);
     ctx.fill();
     ctx.textAlign = align;
-    outlinedLabel(ctx, label, x(hz) + (align === 'left' ? 6 : -6), y(db), width * .39);
+    outlinedLabel(ctx, label, x(hz) + (align === 'left' ? 6 : -6), y(db), width * .39, isDark);
   }
   ctx.restore();
 }
 
-function drawEar(ctx, frequencies, thresholds, x, y, side) {
+function drawEar(ctx, frequencies, thresholds, x, y, side, isDark = false) {
   ctx.save();
-  ctx.strokeStyle = earColors[side];
+  ctx.strokeStyle = (isDark ? darkEarColors : earColors)[side];
   ctx.lineWidth = 1.7;
   if (side === 'left') ctx.setLineDash([4, 3]);
   ctx.beginPath();
@@ -106,6 +109,7 @@ function drawEar(ctx, frequencies, thresholds, x, y, side) {
 }
 
 function drawChart(ctx, width, height, data, showSpeech) {
+  const isDark = getTheme() === 'dark';
   const showRangeNames = width >= 480;
   const left = width < 320 ? 41 : 49;
   const top = 13;
@@ -117,15 +121,15 @@ function drawChart(ctx, width, height, data, showSpeech) {
   const y = db => top + (db - minimumLevel) / (maximumLevel - minimumLevel) * plotHeight;
 
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = '#fff';
+  ctx.fillStyle = isDark ? '#0f1324' : '#fff';
   ctx.fillRect(0, 0, width, height);
-  for (const { bounds: [start, end], color } of hearingRanges) {
-    ctx.fillStyle = color;
+  for (const { bounds: [start, end], color, darkColor } of hearingRanges) {
+    ctx.fillStyle = isDark ? darkColor : color;
     ctx.fillRect(left, y(start), plotWidth, y(end) - y(start));
   }
 
-  ctx.strokeStyle = '#d4d5e1';
-  ctx.fillStyle = '#525570';
+  ctx.strokeStyle = isDark ? '#2a3254' : '#d4d5e1';
+  ctx.fillStyle = isDark ? '#a8b0d0' : '#525570';
   ctx.lineWidth = 1;
   ctx.font = `${width < 340 ? 9 : 11}px system-ui, sans-serif`;
   ctx.textAlign = 'right';
@@ -142,14 +146,14 @@ function drawChart(ctx, width, height, data, showSpeech) {
   ctx.setLineDash([2, 3]);
   for (const hz of [3000, 6000]) line(ctx, x(hz), top, x(hz), bottom);
   ctx.setLineDash([]);
-  ctx.strokeStyle = '#8e91a8';
+  ctx.strokeStyle = isDark ? '#4a537d' : '#8e91a8';
   ctx.strokeRect(left, top, plotWidth, plotHeight);
 
-  if (showSpeech) drawSpeech(ctx, x, y, plotWidth);
-  drawEar(ctx, data.frequenciesHz, data.rightDbHl, x, y, 'right');
-  drawEar(ctx, data.frequenciesHz, data.leftDbHl, x, y, 'left');
+  if (showSpeech) drawSpeech(ctx, x, y, plotWidth, isDark);
+  drawEar(ctx, data.frequenciesHz, data.rightDbHl, x, y, 'right', isDark);
+  drawEar(ctx, data.frequenciesHz, data.leftDbHl, x, y, 'left', isDark);
 
-  ctx.fillStyle = '#333655';
+  ctx.fillStyle = isDark ? '#e2e8f0' : '#333655';
   ctx.font = '600 11px system-ui, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('Frequency (Hz)', (left + right) / 2, bottom + 29);
@@ -160,11 +164,15 @@ function drawChart(ctx, width, height, data, showSpeech) {
   ctx.restore();
   if (showRangeNames) {
     ctx.textAlign = 'left';
-    for (const { bounds: [start, end], label, color } of hearingRanges) {
+    for (const { bounds: [start, end], label, color, darkColor } of hearingRanges) {
       const middle = y((start + end) / 2);
-      ctx.fillStyle = color;
+      ctx.fillStyle = isDark ? darkColor : color;
       ctx.fillRect(right + 11, middle - 4, 8, 8);
-      ctx.fillStyle = '#525570';
+      if (isDark) {
+        ctx.strokeStyle = '#47507a';
+        ctx.strokeRect(right + 11, middle - 4, 8, 8);
+      }
+      ctx.fillStyle = isDark ? '#cbd5e1' : '#525570';
       ctx.fillText(label, right + 24, middle);
     }
   }
@@ -212,6 +220,7 @@ export function connectNIHLAudiogram(root) {
   });
   if (typeof view.ResizeObserver === 'function') new view.ResizeObserver(redraw).observe(chart);
   else view.addEventListener('resize', redraw);
+  onThemeChange(redraw);
 
   return data => {
     current = data;

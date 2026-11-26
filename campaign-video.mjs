@@ -2,7 +2,7 @@
 // Turns any audio-only clip in "Your audio" into a ready-to-share awareness video showing live
 // frequency bars, a clear ORIGINAL HEARING -> WITH HEARING LOSS transition, and RNID protection guidance.
 
-import { recordingFormat, withWebmDuration } from './video-export.mjs?v=d3071d3d38';
+import { recordingFormat, withWebmDuration } from './video-export.mjs?v=e6a4a8ed98';
 
 export const CAMPAIGN_ASPECTS = Object.freeze({
   portrait: {

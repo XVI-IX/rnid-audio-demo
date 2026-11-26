@@ -6,7 +6,7 @@ import {
   generateEarPartAiResponse,
   getInstantEarPartExplanation,
   getPartStarterQuestions,
-} from './ear-anatomy-ai.mjs?v=d3071d3d38';
+} from './ear-anatomy-ai.mjs?v=e6a4a8ed98';
 import {
   ANATOMY_PARTS,
   ANATOMY_PART_BY_ID,
@@ -15,10 +15,10 @@ import {
   buildSpatialLabFloor,
   createStudioEnvironmentTexture,
   normalisePartId,
-} from './ear-anatomy-geometry.mjs?v=d3071d3d38';
-import { getEffectTheme } from './output-calibration.mjs?v=d3071d3d38';
-import { getTheme, onThemeChange } from './theme.mjs?v=d3071d3d38';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=d3071d3d38';
+} from './ear-anatomy-geometry.mjs?v=e6a4a8ed98';
+import { getEffectTheme } from './output-calibration.mjs?v=e6a4a8ed98';
+import { getTheme, onThemeChange } from './theme.mjs?v=e6a4a8ed98';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=e6a4a8ed98';
 
 export const ANATOMY_IMPACT_GUIDES = Object.freeze({
   original: {
@@ -968,6 +968,7 @@ export function connectEar3DStage({
           return;
         }
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setClearColor(0x000000, 0);
         if ('toneMapping' in renderer && THREE.ACESFilmicToneMapping !== undefined) {
           renderer.toneMapping = THREE.ACESFilmicToneMapping;
           renderer.toneMappingExposure = 1.06;
@@ -977,7 +978,10 @@ export function connectEar3DStage({
         canvasWrap.prepend(renderer.domElement);
 
         const scene = new THREE.Scene();
-        let envMap = createStudioEnvironmentTexture(THREE, renderer, getTheme() === 'dark');
+        const lightEnvMap = createStudioEnvironmentTexture(THREE, renderer, false);
+        const darkEnvMap = createStudioEnvironmentTexture(THREE, renderer, true);
+        renderer.setClearColor(0x000000, 0);
+        let envMap = getTheme() === 'dark' ? darkEnvMap : lightEnvMap;
         if (envMap) scene.environment = envMap;
 
         const camera = new THREE.PerspectiveCamera(38, 16 / 9, 0.1, 120);
@@ -1003,12 +1007,10 @@ export function connectEar3DStage({
           keyLight.intensity = dark ? 1.65 : 1.45;
           fillLight.color.setHex(dark ? 0x60a5fa : 0xdbeafe);
           fillLight.intensity = dark ? 0.95 : 0.72;
-          const nextEnv = createStudioEnvironmentTexture(THREE, renderer, dark);
-          if (nextEnv) {
-            envMap?.dispose?.();
-            envMap = nextEnv;
-            scene.environment = envMap;
-          }
+          envMap = dark ? darkEnvMap : lightEnvMap;
+          if (envMap) scene.environment = envMap;
+          renderer.setClearColor(0x000000, 0);
+          labFloor.visible = !dark;
         }
         applyThreeTheme(getTheme());
         const unsubTheme = onThemeChange(applyThreeTheme);
@@ -1723,7 +1725,8 @@ export function connectEar3DStage({
           unsubTheme?.();
           unsubLlmStatus?.();
           ro?.disconnect();
-          envMap?.dispose?.();
+          lightEnvMap?.dispose?.();
+          darkEnvMap?.dispose?.();
           renderer.domElement.removeEventListener('pointerdown', onPointerDown);
           renderer.domElement.removeEventListener('pointermove', onPointerMove);
           renderer.domElement.removeEventListener('pointerup', onPointerUp);

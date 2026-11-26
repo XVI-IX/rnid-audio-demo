@@ -117,7 +117,7 @@
 }
 #render .upload-preview-heading h2 { margin: 0; }
 #render #upload-time {
-  color: #555875;
+  color: var(--soft-ink);
   font-size: .825rem;
   letter-spacing: -.025em;
 }

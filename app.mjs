@@ -1,37 +1,37 @@
-import { getSharedWebLlmClient } from './audio-explainer.mjs?v=d3071d3d38';
-import { connectAudiologistSandbox } from './audiologist-sandbox.mjs?v=d3071d3d38';
-import { assembleComparisonZip } from './bundle.mjs?v=d3071d3d38';
-import { connectConcertStage } from './concert-stage.mjs?v=d3071d3d38';
-import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs?v=d3071d3d38';
-import { connectEar3DStage } from './ear-3d-stage.mjs?v=d3071d3d38';
-import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs?v=d3071d3d38';
-import { connectFreqBandSim } from './freq-band-sim.mjs?v=d3071d3d38';
-import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs?v=d3071d3d38';
-import { connectHomeVideo } from './home-video.mjs?v=d3071d3d38';
-import { connectHomeVideoEffects } from './home-video-effects.mjs?v=d3071d3d38';
-import { connectListeningPreviews } from './listening-previews.mjs?v=d3071d3d38';
-import { connectLiveMic } from './live-mic.mjs?v=d3071d3d38';
-import { attachMarkerDrag } from './marker-scrubber.mjs?v=d3071d3d38';
-import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs?v=d3071d3d38';
-import { connectNIHLExamples } from './nihl-examples.mjs?v=d3071d3d38';
+import { getSharedWebLlmClient } from './audio-explainer.mjs?v=e6a4a8ed98';
+import { connectAudiologistSandbox } from './audiologist-sandbox.mjs?v=e6a4a8ed98';
+import { assembleComparisonZip } from './bundle.mjs?v=e6a4a8ed98';
+import { connectConcertStage } from './concert-stage.mjs?v=e6a4a8ed98';
+import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs?v=e6a4a8ed98';
+import { connectEar3DStage } from './ear-3d-stage.mjs?v=e6a4a8ed98';
+import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs?v=e6a4a8ed98';
+import { connectFreqBandSim } from './freq-band-sim.mjs?v=e6a4a8ed98';
+import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs?v=e6a4a8ed98';
+import { connectHomeVideo } from './home-video.mjs?v=e6a4a8ed98';
+import { connectHomeVideoEffects } from './home-video-effects.mjs?v=e6a4a8ed98';
+import { connectListeningPreviews } from './listening-previews.mjs?v=e6a4a8ed98';
+import { connectLiveMic } from './live-mic.mjs?v=e6a4a8ed98';
+import { attachMarkerDrag } from './marker-scrubber.mjs?v=e6a4a8ed98';
+import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs?v=e6a4a8ed98';
+import { connectNIHLExamples } from './nihl-examples.mjs?v=e6a4a8ed98';
 import {
   connectCalibrationControls,
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=d3071d3d38';
-import { connectVolumeGuardrail } from './safe-listening.mjs?v=d3071d3d38';
-import { connectListeningShare, readListeningLink } from './share.mjs?v=d3071d3d38';
-import { connectSpectrogram } from './spectrogram.mjs?v=d3071d3d38';
-import { connectStoryJourney } from './story-journey.mjs?v=d3071d3d38';
-import { connectStudioExplainer } from './studio-explainer.mjs?v=d3071d3d38';
-import { connectStudioFilterResponse } from './studio-filter-response.mjs?v=d3071d3d38';
-import { displayProfileName, updateStudioFilter } from './studio-filters.mjs?v=d3071d3d38';
-import { connectThemeToggle, onThemeChange } from './theme.mjs?v=d3071d3d38';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=d3071d3d38';
-import { connectUploadPreview, isVideoFile } from './upload-preview.mjs?v=d3071d3d38';
-import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=d3071d3d38';
-import { connectViewNavigation } from './views.mjs?v=d3071d3d38';
+} from './output-calibration.mjs?v=e6a4a8ed98';
+import { connectVolumeGuardrail } from './safe-listening.mjs?v=e6a4a8ed98';
+import { connectListeningShare, readListeningLink } from './share.mjs?v=e6a4a8ed98';
+import { connectSpectrogram } from './spectrogram.mjs?v=e6a4a8ed98';
+import { connectStoryJourney } from './story-journey.mjs?v=e6a4a8ed98';
+import { connectStudioExplainer } from './studio-explainer.mjs?v=e6a4a8ed98';
+import { connectStudioFilterResponse } from './studio-filter-response.mjs?v=e6a4a8ed98';
+import { displayProfileName, updateStudioFilter } from './studio-filters.mjs?v=e6a4a8ed98';
+import { connectThemeToggle, onThemeChange } from './theme.mjs?v=e6a4a8ed98';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=e6a4a8ed98';
+import { connectUploadPreview, isVideoFile } from './upload-preview.mjs?v=e6a4a8ed98';
+import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=e6a4a8ed98';
+import { connectViewNavigation } from './views.mjs?v=e6a4a8ed98';
 
 const demo = new URL('./demo/', import.meta.url);
 const collection = new URL('music/collection.json', demo);
@@ -151,6 +151,7 @@ const stopListeningPreviews = connectListeningPreviews({
 });
 connectThemeToggle();
 onThemeChange(() => {
+  waveformSize = undefined;
   resizeWaveform();
 });
 connectCalibrationControls();

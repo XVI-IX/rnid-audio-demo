@@ -25,9 +25,14 @@ export function getTheme() {
 export function setTheme(nextTheme, { persist = true } = {}) {
   const mode = nextTheme === 'dark' ? 'dark' : 'light';
   currentTheme = mode;
-  if (typeof document !== 'undefined' && document.documentElement) {
-    document.documentElement.dataset.theme = mode;
-    document.documentElement.style.colorScheme = mode;
+  if (typeof document !== 'undefined') {
+    if (document.documentElement) {
+      document.documentElement.dataset.theme = mode;
+      document.documentElement.style.colorScheme = mode;
+    }
+    if (document.body) {
+      document.body.dataset.theme = mode;
+    }
   }
   if (persist) {
     try {
@@ -67,15 +72,19 @@ export function connectThemeToggle(root = document) {
     const isDark = currentTheme === 'dark';
     btn.setAttribute('aria-pressed', String(isDark));
     btn.title = isDark ? 'Switch to Light mode' : 'Switch to Dark mode';
+    btn.setAttribute('aria-label', isDark ? 'Switch to Light mode' : 'Switch to Dark mode');
     if (labelEl) {
-      labelEl.textContent = isDark ? 'Dark' : 'Light';
+      labelEl.textContent = isDark ? 'Light mode' : 'Dark mode';
     }
   }
 
-  btn?.addEventListener('click', () => {
-    toggleTheme();
-    syncButton();
-  });
+  if (btn && !btn.dataset.themeBound) {
+    btn.dataset.themeBound = 'true';
+    btn.addEventListener('click', () => {
+      toggleTheme();
+      syncButton();
+    });
+  }
 
   onThemeChange(syncButton);
   syncButton();
