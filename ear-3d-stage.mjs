@@ -6,7 +6,7 @@ import {
   generateEarPartAiResponse,
   getInstantEarPartExplanation,
   getPartStarterQuestions,
-} from './ear-anatomy-ai.mjs?v=a9b61dce6e';
+} from './ear-anatomy-ai.mjs?v=6ae70402b9';
 import {
   ANATOMY_PARTS,
   ANATOMY_PART_BY_ID,
@@ -15,10 +15,10 @@ import {
   buildSpatialLabFloor,
   createStudioEnvironmentTexture,
   normalisePartId,
-} from './ear-anatomy-geometry.mjs?v=a9b61dce6e';
-import { getEffectTheme } from './output-calibration.mjs?v=a9b61dce6e';
-import { getTheme, onThemeChange } from './theme.mjs?v=a9b61dce6e';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=a9b61dce6e';
+} from './ear-anatomy-geometry.mjs?v=6ae70402b9';
+import { getEffectTheme } from './output-calibration.mjs?v=6ae70402b9';
+import { getTheme, onThemeChange } from './theme.mjs?v=6ae70402b9';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=6ae70402b9';
 
 export const ANATOMY_IMPACT_GUIDES = Object.freeze({
   original: {
@@ -178,6 +178,133 @@ export function computeZoomUiMetrics(radius = 9.4, baselineRadius = 9.4) {
     : Math.max(0.42, 1 / Math.pow(zoomRatio, 0.72));
   const basePinScale = Number(Math.max(0.86, Math.min(1.12, 0.78 + zoomRatio * 0.22)).toFixed(3));
   return { zoomRatio, zoomState, radialSpread, basePinScale };
+}
+
+export const EAR_INTRO_DURATION_SEC = 1.85;
+
+/**
+ * Computes the sculptural 3D entrance pose as the human ear model spins & settles into position.
+ */
+export function computeEarIntroPose(progress = 1, spinScale = 1) {
+  const u = Math.max(0, Math.min(1, Number(progress) || 0));
+  const s = Math.max(0, Math.min(1.5, Number(spinScale) || 0));
+  if (u >= 1 || s === 0) {
+    return {
+      progress: 1,
+      ease: 1,
+      spinY: 0,
+      tiltX: 0,
+      tiltZ: 0,
+      scale: 1,
+      offsetY: 0,
+      introExplode: 0,
+      cameraRadiusDelta: 0,
+      pinAlpha: 1,
+      done: true,
+    };
+  }
+  const oneMinus = 1 - u;
+  const ease = 1 - oneMinus * oneMinus * oneMinus * oneMinus;
+  const rem = 1 - ease;
+  const rawPin = Math.max(0, Math.min(1, (u - 0.54) / 0.42));
+  const pinAlpha = rawPin * rawPin * (3 - 2 * rawPin);
+  return {
+    progress: u,
+    ease,
+    spinY: -Math.PI * 1.12 * rem * s,
+    tiltX: 0.22 * rem * s,
+    tiltZ: -0.075 * Math.sin(u * Math.PI) * rem * s,
+    scale: 1 - 0.22 * rem * s,
+    offsetY: -0.34 * rem * s,
+    introExplode: 0.24 * Math.pow(oneMinus, 2.6) * s,
+    cameraRadiusDelta: 2.0 * rem * s,
+    pinAlpha,
+    done: false,
+  };
+}
+
+/**
+ * Synthesizes a subtle, warm stereo acoustic swoop synced to the 3D ear model's entrance spin.
+ * Combines velvety swept pink air, a soft low-frequency body glide, and a whisper-quiet harmonic settle.
+ */
+export function generateEarIntroSwoopSamples(sampleRate = 44100, durationSec = 1.15) {
+  const sr = Math.max(8000, Math.round(Number(sampleRate) || 44100));
+  const dur = Math.max(0.25, Math.min(3.0, Number(durationSec) || 1.15));
+  const length = Math.max(1, Math.round(sr * dur));
+  const left = new Float32Array(length);
+  const right = new Float32Array(length);
+
+  let rng = 0x51a7e3d1;
+  const nextNoise = () => {
+    rng ^= rng << 13;
+    rng ^= rng >>> 17;
+    rng ^= rng << 5;
+    return ((rng >>> 0) / 0x80000000) - 1;
+  };
+
+  let pinkL = 0;
+  let pinkR = 0;
+  let lpL = 0;
+  let bpL = 0;
+  let lpR = 0;
+  let bpR = 0;
+  let bodyPhase = 0;
+  let shimmerPhaseA = 0;
+  let shimmerPhaseB = 0;
+  const twoPiOverSr = (Math.PI * 2) / sr;
+
+  for (let i = 0; i < length; i += 1) {
+    const u = i / Math.max(1, length - 1);
+    const attack = u < 0.09 ? 0.5 - 0.5 * Math.cos(Math.PI * (u / 0.09)) : 1;
+    const decay = Math.pow(1 - u, 2.35);
+    const env = attack * decay;
+
+    // Smooth rotational velocity curve peaking early in the spin and feathering out cleanly
+    const sweepCurve = Math.sin(Math.pow(u, 0.62) * Math.PI);
+    const cutoffHz = 210 + 640 * sweepCurve;
+    const f = 2 * Math.sin(Math.PI * Math.min(0.22, cutoffHz / sr));
+    const q = 0.68;
+
+    pinkL = 0.82 * pinkL + 0.18 * nextNoise();
+    pinkR = 0.82 * pinkR + 0.18 * nextNoise();
+
+    lpL += f * bpL;
+    const hpL = pinkL - lpL - q * bpL;
+    bpL += f * hpL;
+
+    lpR += f * bpR;
+    const hpR = pinkR - lpR - q * bpR;
+    bpR += f * hpR;
+
+    const airL = (bpL * 0.72 + lpL * 0.28) * 0.095 * env;
+    const airR = (bpR * 0.72 + lpR * 0.28) * 0.095 * env;
+
+    // Subtle warm physical body glide (112 Hz -> 184 Hz -> 136 Hz)
+    const bodyHz = 112 + 72 * sweepCurve + 24 * u;
+    bodyPhase += bodyHz * twoPiOverSr;
+    const body = Math.sin(bodyPhase) * 0.026 * env;
+
+    // Barely-perceptible crystalline settle as the cochlea eases into focus
+    let settle = 0;
+    if (u > 0.22) {
+      const su = (u - 0.22) / 0.78;
+      const settleEnv = Math.pow(Math.sin(su * Math.PI), 2.2) * (1 - u);
+      shimmerPhaseA += 392 * twoPiOverSr;
+      shimmerPhaseB += 588 * twoPiOverSr;
+      settle = (Math.sin(shimmerPhaseA) * 0.68 + Math.sin(shimmerPhaseB) * 0.32) * 0.009 * settleEnv;
+    }
+
+    // Binaural stereo trajectory: sweeps gently from left (-0.56) across center (+0.20) to dead-center (0.0)
+    const pan = (-0.56 * Math.pow(1 - u, 1.8) + 0.26 * Math.sin(u * Math.PI)) * (1 - u * 0.65);
+    const panAngle = (Math.max(-1, Math.min(1, pan)) + 1) * (Math.PI * 0.25);
+    const gainL = Math.cos(panAngle);
+    const gainR = Math.sin(panAngle);
+
+    left[i] = (airL + body + settle) * gainL * 1.35;
+    right[i] = (airR + body + settle) * gainR * 1.35;
+  }
+
+  return { left, right, sampleRate: sr, length };
 }
 
 export function resolveNonOverlappingPins(items = [], {
@@ -374,9 +501,151 @@ export function connectEar3DStage({
 
   let activeAiAbort = null;
   let focusCameraCallback = null;
+  let replayIntroSpinCallback = null;
   let synthCtx = null;
+  let cachedIntroSwoopBuffer = null;
+  let cleanupIntroAudioUnlock = () => {};
   let lastStrumSlot = -1;
   let lastStrumTime = 0;
+
+  function ensureIntroSwoopBuffer(ctx) {
+    if (cachedIntroSwoopBuffer && cachedIntroSwoopBuffer.sampleRate === ctx.sampleRate) {
+      return cachedIntroSwoopBuffer;
+    }
+    const swoop = generateEarIntroSwoopSamples(ctx.sampleRate, 1.15);
+    const buf = ctx.createBuffer(2, swoop.length, swoop.sampleRate);
+    buf.getChannelData(0).set(swoop.left);
+    buf.getChannelData(1).set(swoop.right);
+    cachedIntroSwoopBuffer = buf;
+    return buf;
+  }
+
+  function playEarIntroSwoop({ gainScale = 1, offsetSec = 0 } = {}) {
+    if (disposed || !state.touchAudio || state.calmMotion || typeof window === 'undefined') return false;
+    if (!synthCtx || synthCtx.state !== 'running') return false;
+    try {
+      const buf = ensureIntroSwoopBuffer(synthCtx);
+      const safeOffset = Math.max(0, Math.min(buf.duration - 0.18, Number(offsetSec) || 0));
+      const src = synthCtx.createBufferSource();
+      const gain = synthCtx.createGain();
+      const now = synthCtx.currentTime;
+      const peakGain = Math.max(0.05, Math.min(1.2, Number(gainScale) || 1));
+
+      src.buffer = buf;
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(peakGain, now + 0.018);
+      src.connect(gain);
+      gain.connect(synthCtx.destination);
+      src.onended = () => {
+        try {
+          src.disconnect();
+          gain.disconnect();
+        } catch {
+          // Ignore cleanup errors
+        }
+      };
+      src.start(now, safeOffset);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function scheduleIntroSwoopOnLoad(getIntroProgress) {
+    cleanupIntroAudioUnlock();
+    if (disposed || !state.touchAudio || state.calmMotion || typeof window === 'undefined') return;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+
+    let played = false;
+    let checkTimer = 0;
+
+    try {
+      synthCtx ??= new AudioContextClass();
+      if (synthCtx.state === 'suspended') {
+        void synthCtx.resume().catch(() => {});
+      }
+      if (synthCtx.state === 'running') {
+        played = playEarIntroSwoop({ gainScale: 1, offsetSec: 0 });
+        if (played) return;
+      }
+    } catch {
+      return;
+    }
+
+    const detach = () => {
+      if (checkTimer) {
+        clearTimeout(checkTimer);
+        checkTimer = 0;
+      }
+      if (synthCtx && synthCtx.onstatechange === handleCtxState) {
+        synthCtx.onstatechange = null;
+      }
+      window.removeEventListener('pointerdown', handleFirstGesture, true);
+      window.removeEventListener('touchstart', handleFirstGesture, true);
+      window.removeEventListener('keydown', handleFirstGesture, true);
+    };
+
+    function handleCtxState() {
+      if (played || disposed) return;
+      if (synthCtx?.state === 'running') {
+        const prog = getIntroProgress();
+        if (prog < 0.82) {
+          played = playEarIntroSwoop({ gainScale: 1, offsetSec: prog * 0.45 });
+        }
+        detach();
+      }
+    }
+
+    function handleFirstGesture(ev) {
+      if (played || disposed) {
+        detach();
+        return;
+      }
+      const prog = getIntroProgress();
+      const targetEl = ev?.target instanceof Element ? ev.target : null;
+      const clickedControl = Boolean(targetEl?.closest('button, a, input, select, summary'));
+      const touchedEarCanvas = Boolean(canvasWrap && targetEl && canvasWrap.contains(targetEl) && !clickedControl);
+
+      detach();
+      if (!state.touchAudio || state.calmMotion || state.playing) return;
+      // Only play after unlock if the entrance spin is still mid-flight OR the visitor's first touch is orbiting the 3D ear canvas
+      if (prog >= 0.82 && !touchedEarCanvas) return;
+
+      try {
+        synthCtx ??= new AudioContextClass();
+        const triggerAfterResume = () => {
+          if (played || disposed || state.playing) return;
+          const latestProg = getIntroProgress();
+          if (latestProg < 0.85) {
+            played = playEarIntroSwoop({ gainScale: 1, offsetSec: latestProg * 0.42 });
+          } else if (touchedEarCanvas) {
+            played = playEarIntroSwoop({ gainScale: 0.72, offsetSec: 0 });
+          }
+        };
+        if (synthCtx.state === 'running') {
+          triggerAfterResume();
+        } else {
+          void synthCtx.resume().then(triggerAfterResume).catch(() => {});
+        }
+      } catch {
+        // Ignore strict browser audio restrictions cleanly
+      }
+    }
+
+    synthCtx.onstatechange = handleCtxState;
+    checkTimer = window.setTimeout(() => {
+      if (!played && synthCtx?.state === 'running' && getIntroProgress() < 0.82) {
+        played = playEarIntroSwoop({ gainScale: 1, offsetSec: getIntroProgress() * 0.45 });
+        detach();
+      }
+    }, 160);
+
+    window.addEventListener('pointerdown', handleFirstGesture, true);
+    window.addEventListener('touchstart', handleFirstGesture, true);
+    window.addEventListener('keydown', handleFirstGesture, true);
+    cleanupIntroAudioUnlock = detach;
+  }
 
   // Tactile Web Audio physical-modelling touch sound synthesizer!
   // Lets visitors literally HEAR individual cochlear hair cells (healthy vs damaged!) and ear structures.
@@ -1033,9 +1302,17 @@ export function connectEar3DStage({
           phi: 1.38,
         };
 
+        let introActive = !state.calmMotion;
+        let introElapsed = introActive ? 0 : EAR_INTRO_DURATION_SEC;
+        let introDuration = EAR_INTRO_DURATION_SEC;
+        let introSpinScale = 1;
+        let introFastSettle = false;
+        let lastFrameTime = 0;
+        stageEl.dataset.introState = introActive ? 'spinning' : 'ready';
+
         const currentTarget = new THREE.Vector3(getOverviewTargetX(), 0.08, 0.05);
         const desiredTarget = currentTarget.clone();
-        let currentRadius = overviewCamera.radius;
+        let currentRadius = overviewCamera.radius + (introActive ? 2.0 : 0);
         let desiredRadius = overviewCamera.radius;
         let currentTheta = overviewCamera.theta;
         let desiredTheta = overviewCamera.theta;
@@ -1051,8 +1328,38 @@ export function connectEar3DStage({
           }
         };
 
+        replayIntroSpinCallback = ({ duration = 0.95, spinScale = 0.44, swoopGain = 0.65 } = {}) => {
+          if (state.calmMotion || state.sceneMode === 'pub') return;
+          introActive = true;
+          introElapsed = 0;
+          introDuration = duration;
+          introSpinScale = spinScale;
+          introFastSettle = false;
+          stageEl.dataset.introState = 'spinning';
+          if (state.touchAudio && typeof window !== 'undefined') {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (AudioContextClass) {
+              try {
+                synthCtx ??= new AudioContextClass();
+                if (synthCtx.state === 'running') {
+                  playEarIntroSwoop({ gainScale: swoopGain, offsetSec: 0 });
+                } else {
+                  void synthCtx.resume().then(() => {
+                    playEarIntroSwoop({ gainScale: swoopGain, offsetSec: 0 });
+                  }).catch(() => {});
+                }
+              } catch {
+                // Ignore Web Audio restrictions cleanly
+              }
+            }
+          }
+        };
+
         focusCameraCallback = (partOrMode, customHitPoint = null) => {
           userZoomedManually = false;
+          if (partOrMode !== 'overview' && introActive) {
+            introFastSettle = true;
+          }
           if (partOrMode === 'pub') {
             const rightBias = window.innerWidth > 1080 && !state.inspectorCollapsed ? 0.45 : 0;
             desiredTarget.set(rightBias, 0.05, 0.15);
@@ -1106,6 +1413,7 @@ export function connectEar3DStage({
           state.explodeAmount = 0;
           syncHud();
           focusCameraCallback('overview');
+          replayIntroSpinCallback?.({ duration: 0.95, spinScale: 0.44, swoopGain: 0.65 });
         });
 
         const raycaster = new THREE.Raycaster();
@@ -1128,6 +1436,9 @@ export function connectEar3DStage({
 
         const onPointerDown = (e) => {
           dismissMobileHint();
+          if (introActive) {
+            introFastSettle = true;
+          }
           activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
           if (activePointers.size === 1) {
             downPos = { x: e.clientX, y: e.clientY, button: e.button };
@@ -1323,31 +1634,55 @@ export function connectEar3DStage({
         function animate() {
           if (disposed) return;
           const t = clock.getElapsedTime();
+          const dt = Math.min(0.08, Math.max(0, t - lastFrameTime));
+          lastFrameTime = t;
           const motionScale = state.calmMotion ? 0.08 : 1;
           const normKey = normaliseAnatomyEffectKey(state.effectKey);
           const impact = ANATOMY_IMPACT_GUIDES[normKey] ?? ANATOMY_IMPACT_GUIDES.original;
+
+          if (introActive) {
+            if (state.calmMotion) {
+              introElapsed = introDuration;
+            } else {
+              introElapsed += dt * (introFastSettle ? 4.2 : 1);
+            }
+          }
+          const introPose = computeEarIntroPose(
+            introActive ? introElapsed / Math.max(0.01, introDuration) : 1,
+            introSpinScale,
+          );
+          if (introActive && introPose.done) {
+            introActive = false;
+            introFastSettle = false;
+            stageEl.dataset.introState = 'ready';
+          }
 
           const showAnatomy = state.sceneMode !== 'pub';
           anatomy.rootGroup.visible = showAnatomy;
           pubSpaceGroup.visible = !showAnatomy;
 
-          // Smooth Exploded-View Separation along the anatomical pathway!
+          // Smooth Exploded-View Separation + Entrance Convergence along the anatomical pathway!
           currentExplode += (state.explodeAmount - currentExplode) * 0.1;
+          const effectiveExplode = Math.min(1, currentExplode + introPose.introExplode);
           for (const part of ANATOMY_PARTS) {
             const grp = anatomy.partGroups[part.id];
             const baseP = anatomy.partBasePositions[part.id];
             if (grp && baseP) {
               grp.position.set(
-                baseP.x + part.explodeOffset[0] * currentExplode,
-                baseP.y + part.explodeOffset[1] * currentExplode,
-                baseP.z + part.explodeOffset[2] * currentExplode,
+                baseP.x + part.explodeOffset[0] * effectiveExplode,
+                baseP.y + part.explodeOffset[1] * effectiveExplode,
+                baseP.z + part.explodeOffset[2] * effectiveExplode,
               );
             }
           }
-          // Subtle idle breathing drift when calmMotion is off and user isn't dragging
-          if (activePointers.size === 0 && !state.calmMotion) {
-            anatomy.rootGroup.position.y = Math.sin(t * 0.9) * 0.045;
-          }
+          // Sculptural entrance spin-into-position + subtle idle breathing drift
+          const idleBobY = (activePointers.size === 0 && !state.calmMotion)
+            ? Math.sin(t * 0.9) * 0.045 * introPose.ease
+            : 0;
+          anatomy.rootGroup.position.y = introPose.offsetY + idleBobY;
+          anatomy.rootGroup.rotation.set(introPose.tiltX, introPose.spinY, introPose.tiltZ);
+          anatomy.rootGroup.scale.setScalar(introPose.scale);
+          anatomy.rootGroup.updateMatrixWorld();
 
           if (!showAnatomy && activePointers.size === 0) {
             // Keep camera smoothly looking at the sculpted 3D human bust while allowing full 360° orbit!
@@ -1451,7 +1786,7 @@ export function connectEar3DStage({
             }
 
             // Canal acoustic waves (shifted with canal's exploded offset)
-            const canalShiftX = ANATOMY_PART_BY_ID.canal.explodeOffset[0] * currentExplode;
+            const canalShiftX = ANATOMY_PART_BY_ID.canal.explodeOffset[0] * effectiveExplode;
             anatomy.waveRings.forEach((ring) => {
               const u = (ring.userData.phase + t * 0.44 * motionScale) % 1;
               const pos = anatomy.canalCurve.getPointAt(u);
@@ -1487,15 +1822,22 @@ export function connectEar3DStage({
             // Conical Eardrum & Articulated Ossicles
             const plugAtten = wantMusician ? 0.52 : (wantFoam ? 0.74 : 1);
             const drumExcursion = Math.sin(t * 14 * motionScale) * 0.065 * bassAmp * plugAtten;
-            const drumBaseX = anatomy.partBasePositions.eardrum.x + ANATOMY_PART_BY_ID.eardrum.explodeOffset[0] * currentExplode;
+            const drumBaseX = anatomy.partBasePositions.eardrum.x + ANATOMY_PART_BY_ID.eardrum.explodeOffset[0] * effectiveExplode;
             anatomy.eardrumGroup.position.x = drumBaseX + drumExcursion;
             anatomy.ossicleChain.rotation.z = -drumExcursion * 1.15;
             anatomy.stapesGroup.position.x = 0.38 + drumExcursion * 0.65;
 
-            // 48 Tonotopic Hair-Cell Stereocilia Bundles + Strum Ripple!
+            // 48 Tonotopic Hair-Cell Stereocilia Bundles + Strum Ripple + Entrance Shimmer!
+            const introWaveFront = !introPose.done ? introPose.progress * 1.28 : -1;
             anatomy.hairCells.forEach((bundle) => {
               const u = bundle.userData.u;
               const health = computeHairCellHealth(u, normKey);
+              if (introWaveFront >= 0) {
+                const waveDist = Math.abs(u - introWaveFront);
+                if (waveDist < 0.16) {
+                  bundle.userData.rippleBoost = Math.max(bundle.userData.rippleBoost, (1 - waveDist / 0.16) * 0.65);
+                }
+              }
               bundle.userData.rippleBoost *= 0.88;
 
               if (health > 0.78) {
@@ -1578,11 +1920,13 @@ export function connectEar3DStage({
 
               for (const part of ANATOMY_PARTS) {
                 const ex = part.explodeOffset;
-                const wx = part.pinAnchor[0] + ex[0] * currentExplode;
-                const wy = part.pinAnchor[1] + ex[1] * currentExplode + anatomy.rootGroup.position.y;
-                const wz = part.pinAnchor[2] + ex[2] * currentExplode;
+                const wx = part.pinAnchor[0] + ex[0] * effectiveExplode;
+                const wy = part.pinAnchor[1] + ex[1] * effectiveExplode;
+                const wz = part.pinAnchor[2] + ex[2] * effectiveExplode;
 
-                anchorVec.set(wx, wy, wz).project(camera);
+                anchorVec.set(wx, wy, wz);
+                anatomy.rootGroup.localToWorld(anchorVec);
+                anchorVec.project(camera);
 
                 // Scale label offset radially with zoom so labels fan out when zoomed out & tuck close when zoomed in!
                 const offDx = (part.pinLabelOffset[0] - part.pinAnchor[0]) * zoomMetrics.radialSpread;
@@ -1590,10 +1934,12 @@ export function connectEar3DStage({
                 const offDz = (part.pinLabelOffset[2] - part.pinAnchor[2]) * zoomMetrics.radialSpread;
 
                 labelVec.set(
-                  wx + offDx + ex[0] * currentExplode * 0.05,
+                  wx + offDx + ex[0] * effectiveExplode * 0.05,
                   wy + offDy,
                   wz + offDz,
-                ).project(camera);
+                );
+                anatomy.rootGroup.localToWorld(labelVec);
+                labelVec.project(camera);
 
                 const inFront = anchorVec.z < 1 && anchorVec.z > -1 && labelVec.z < 1 && labelVec.z > -1;
                 const ax = (anchorVec.x * 0.5 + 0.5) * viewWidth;
@@ -1652,12 +1998,13 @@ export function connectEar3DStage({
                   ? Math.min(1.16, zoomMetrics.basePinScale * 1.08)
                   : zoomMetrics.basePinScale;
 
-                pinEl.style.opacity = p.visible ? '1' : '0';
-                pinEl.style.pointerEvents = p.visible ? 'auto' : 'none';
+                const pinOpacity = p.visible ? introPose.pinAlpha : 0;
+                pinEl.style.opacity = pinOpacity.toFixed(3);
+                pinEl.style.pointerEvents = p.visible && introPose.pinAlpha > 0.6 ? 'auto' : 'none';
                 pinEl.style.transform = `translate(${p.lx.toFixed(1)}px, ${p.ly.toFixed(1)}px) translate(-50%, -50%) scale(${scaleVal.toFixed(3)})`;
 
                 if (leader) {
-                  leader.g.style.opacity = p.visible ? '1' : '0';
+                  leader.g.style.opacity = pinOpacity.toFixed(3);
                   leader.line.setAttribute('x1', p.ax.toFixed(1));
                   leader.line.setAttribute('y1', p.ay.toFixed(1));
                   leader.line.setAttribute('x2', p.lx.toFixed(1));
@@ -1719,9 +2066,11 @@ export function connectEar3DStage({
           rafId = requestAnimationFrame(animate);
         }
         rafId = requestAnimationFrame(animate);
+        scheduleIntroSwoopOnLoad(() => (introActive ? Math.min(1, introElapsed / Math.max(0.01, introDuration)) : 1));
 
         cleanupThree = () => {
           cancelAnimationFrame(rafId);
+          cleanupIntroAudioUnlock();
           unsubTheme?.();
           unsubLlmStatus?.();
           ro?.disconnect();

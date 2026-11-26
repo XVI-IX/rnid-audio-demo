@@ -1,5 +1,5 @@
-import { displayProfileName } from './studio-filters.mjs?v=a9b61dce6e';
-import { getTheme, onThemeChange } from './theme.mjs?v=a9b61dce6e';
+import { displayProfileName } from './studio-filters.mjs?v=6ae70402b9';
+import { getTheme, onThemeChange } from './theme.mjs?v=6ae70402b9';
 
 const bandRows = [125, 500, 1000, 2000, 4000, 8000];
 const chartEnd = 16000;

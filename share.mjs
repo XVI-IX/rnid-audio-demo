@@ -1,4 +1,4 @@
-import { CUE_SAMPLE_RATE } from './cue.mjs?v=a9b61dce6e';
+import { CUE_SAMPLE_RATE } from './cue.mjs?v=6ae70402b9';
 
 const idPattern = /^[a-z0-9][a-z0-9_-]{0,63}$/;
 const validViews = new Set(['reference', 'simulated']);

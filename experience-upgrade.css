@@ -366,6 +366,15 @@ html[data-scroll-flow="ready"] [data-flow-section].is-visible {
   cursor: grabbing;
 }
 
+@keyframes earCanvasFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .ear-3d-canvas {
   position: absolute;
   inset: 0;
@@ -373,6 +382,7 @@ html[data-scroll-flow="ready"] [data-flow-section].is-visible {
   width: 100%;
   height: 100%;
   touch-action: none;
+  animation: earCanvasFadeIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Architectural 1px SVG Leader Lines */
@@ -3439,6 +3449,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ear-3d-canvas {
+    animation: none !important;
+  }
+
   .concert-performer-svg,
   .concert-kick-head {
     transform: none !important;
