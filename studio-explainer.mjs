@@ -9,7 +9,7 @@ import {
   connectExplainerChat,
   formatExplainerTime,
   isMedicalAdviceQuery,
-} from './audio-explainer.mjs?v=e6a4a8ed98';
+} from './audio-explainer.mjs?v=a9b61dce6e';
 
 const SAVED_JSON_URL = new URL('./demo/studio-explanations.json', import.meta.url);
 

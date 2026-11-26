@@ -3,17 +3,21 @@
 // + 6 telescoping linear-phase FIR convolution kernels (exact bit-accurate sum at 0 dB!),
 // isolating true 340 Hz–7.5 kHz center vocals (body vs sibilant consonants) with smooth musical crossfades.
 
-import { buildConcert3DScene } from './concert-3d-scene.mjs?v=e6a4a8ed98';
-import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=e6a4a8ed98';
-import { createBandKernels } from './freq-band-audio.mjs?v=e6a4a8ed98';
+import { buildConcert3DScene } from './concert-3d-scene.mjs?v=a9b61dce6e';
+import {
+  createCrowdAmbienceBuffer,
+  createCrowdCheeringBuffer,
+  crowdPercentToGain,
+} from './crowd-ambience.mjs?v=a9b61dce6e';
+import { createBandKernels } from './freq-band-audio.mjs?v=a9b61dce6e';
 import {
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=e6a4a8ed98';
-import { getTheme, onThemeChange } from './theme.mjs?v=e6a4a8ed98';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=e6a4a8ed98';
-import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=e6a4a8ed98';
+} from './output-calibration.mjs?v=a9b61dce6e';
+import { getTheme, onThemeChange } from './theme.mjs?v=a9b61dce6e';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=a9b61dce6e';
+import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=a9b61dce6e';
 
 export const CONCERT_SONGS = Object.freeze([
   {
@@ -27,7 +31,7 @@ export const CONCERT_SONGS = Object.freeze([
     startOffset: 72.0,
     isInstrumental: false,
     vocalCheckKicker: 'Josh Woodward · Chorus Lead Vocal Check',
-    vocalFocusNote: 'Full folk-rock vocal chorus at 1:12 — compare warm chest vowels (340 Hz–2.5 kHz) against crisp s, t, and k word edges (2.5–7.5 kHz).',
+    vocalFocusNote: 'Full folk-rock vocal chorus at 1:12 — compare warm chest vowels against crisp s, t, and k word edges.',
   },
   {
     id: 'i-just-wanna',
@@ -66,7 +70,7 @@ export const CONCERT_SONGS = Object.freeze([
     startOffset: 20.2,
     isInstrumental: false,
     vocalCheckKicker: 'Madam Snowflake · Female Lead Vocal Check',
-    vocalFocusNote: 'Airy female lead vocal from 0:20 — delicate breath, f, and s consonants sit above 2.5 kHz and vanish first when inner-ear hair cells tire.',
+    vocalFocusNote: 'Airy female lead vocal from 0:20 — delicate breath, f, and s consonants vanish first when inner-ear hair cells tire.',
   },
   {
     id: 'its-your-birthday',
@@ -122,7 +126,7 @@ export const CONCERT_INSTRUMENTS = Object.freeze([
     id: 'keys',
     title: 'Rhythm Chords & Keys',
     shortLabel: 'Keys',
-    bandLabel: 'Warm Stereo · 220 Hz–2.5 kHz',
+    bandLabel: 'Warm Stereo Chords',
     accent: '#60a5fa',
     earPart: 'cochlea',
   },
@@ -130,7 +134,7 @@ export const CONCERT_INSTRUMENTS = Object.freeze([
     id: 'bass',
     title: 'Bass & Kick Drum',
     shortLabel: 'Bass',
-    bandLabel: 'Low Foundation · 20–220 Hz',
+    bandLabel: 'Deep Stage Pulse',
     accent: '#10b981',
     earPart: 'eardrum',
   },
@@ -140,7 +144,7 @@ export const CONCERT_INSTRUMENTS = Object.freeze([
     instrumentalTitle: 'Center Lead & Snare',
     shortLabel: 'Vocals',
     instrumentalShortLabel: 'Center Lead',
-    bandLabel: 'Center Mid · 340 Hz–7.5 kHz',
+    bandLabel: 'Center Voice & Lyrics',
     accent: '#f472b6',
     earPart: 'nerve',
   },
@@ -148,7 +152,7 @@ export const CONCERT_INSTRUMENTS = Object.freeze([
     id: 'guitar',
     title: 'Guitar Bite & Snare',
     shortLabel: 'Guitar',
-    bandLabel: '4 kHz Zone · 2.5–6.2 kHz',
+    bandLabel: 'Sharp Pick & Snare',
     accent: '#f59e0b',
     earPart: 'cochlea',
   },
@@ -156,7 +160,7 @@ export const CONCERT_INSTRUMENTS = Object.freeze([
     id: 'cymbals',
     title: 'Hi-Hats & Cymbals',
     shortLabel: 'Cymbals',
-    bandLabel: 'High Shimmer · 6.2–20 kHz',
+    bandLabel: 'Bright Air & Shimmer',
     accent: '#a78bfa',
     earPart: 'cochlea',
   },
@@ -183,7 +187,7 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'post_gig',
     label: 'Post-gig muffled',
     lostHeadline: '2 stems fading · High consonants softened',
-    summary: 'Temporary “hearing hangover”: kick & bass still pound at 98%, while hi-hat shimmer and sharp 2.5–7.5 kHz consonants dim behind stage haze.',
+    summary: 'Temporary “hearing hangover”: kick & bass still pound at 98%, while hi-hat shimmer and sharp s, t, and k consonants dim behind stage haze.',
     vowelRetention: 90,
     consonantRetention: 22,
     lyricClarity: 56,
@@ -359,6 +363,7 @@ export function connectConcertStage({
   const summaryEl = sectionEl.querySelector('#concert-stage-summary');
 
   const conditionBtns = [...sectionEl.querySelectorAll('[data-concert-condition]')];
+  const cheerBtn = sectionEl.querySelector('#concert-cheer-btn');
   const ringingBtn = sectionEl.querySelector('#concert-ringing-btn');
   const warningBannerEl = sectionEl.querySelector('#concert-tinnitus-warning');
   const warningStopBtn = sectionEl.querySelector('#concert-tinnitus-stop');
@@ -408,6 +413,7 @@ export function connectConcertStage({
     condition: 'original',
     tinnitus: 'off',
     crowdPercent: 0,
+    crowdCheering: true,
     soloInstrument: null,
     mutedIds: new Set(),
     hoveredStem: null,
@@ -425,6 +431,8 @@ export function connectConcertStage({
   let tinnitusBus = null;
   let liveTinnitus = null;
   let liveCrowd = null;
+  let liveCheer = null;
+  let cheerBurstUntil = 0;
   let graphBuiltRate = 0;
   let stemNodes = null;
   let activeRun = null;
@@ -614,6 +622,67 @@ export function connectConcertStage({
     calibrationStage?.sync();
     syncTinnitusAudio();
     syncCrowdAudio();
+    syncCheerAudio();
+  }
+
+  function stopCheerAudio() {
+    if (!liveCheer || !audioCtx) return;
+    const prev = liveCheer;
+    liveCheer = null;
+    try {
+      const now = audioCtx.currentTime;
+      prev.gainNode.gain.cancelScheduledValues(now);
+      prev.gainNode.gain.setTargetAtTime(0.0001, now, 0.08);
+      prev.source.stop(now + 0.28);
+    } catch {
+      try { prev.source.disconnect(); prev.gainNode.disconnect(); } catch { /* ignore */ }
+    }
+  }
+
+  function syncCheerAudio({ swell = false } = {}) {
+    if (!audioCtx || !stemNodes || !state.playing || !state.crowdCheering) {
+      stopCheerAudio();
+      return;
+    }
+    const baseGain = 0.145;
+    const peakGain = 0.27;
+    const now = audioCtx.currentTime;
+
+    if (liveCheer) {
+      liveCheer.gainNode.gain.cancelScheduledValues(now);
+      if (swell) {
+        liveCheer.gainNode.gain.setValueAtTime(Math.max(0.05, liveCheer.gainNode.gain.value), now);
+        liveCheer.gainNode.gain.linearRampToValueAtTime(peakGain, now + 0.32);
+        liveCheer.gainNode.gain.setTargetAtTime(baseGain, now + 1.1, 0.65);
+      } else {
+        liveCheer.gainNode.gain.setTargetAtTime(baseGain, now, 0.14);
+      }
+      return;
+    }
+
+    try {
+      const buf = createCrowdCheeringBuffer(audioCtx);
+      const src = audioCtx.createBufferSource();
+      const gainNode = audioCtx.createGain();
+      gainNode.gain.setValueAtTime(0.0001, now);
+      if (swell) {
+        gainNode.gain.linearRampToValueAtTime(peakGain, now + 0.35);
+        gainNode.gain.setTargetAtTime(baseGain, now + 1.15, 0.65);
+      } else {
+        gainNode.gain.linearRampToValueAtTime(baseGain, now + 0.45);
+      }
+      src.buffer = buf;
+      src.loop = true;
+      src.connect(gainNode);
+      gainNode.connect(stemNodes.sourceEntry);
+      src.onended = () => {
+        try { src.disconnect(); gainNode.disconnect(); } catch { /* ignore */ }
+      };
+      src.start(now);
+      liveCheer = { source: src, gainNode };
+    } catch {
+      liveCheer = null;
+    }
   }
 
   function stopCrowdAudio() {
@@ -862,6 +931,7 @@ export function connectConcertStage({
     }
     stopTinnitusAudio();
     stopCrowdAudio();
+    stopCheerAudio();
     const wasPlaying = state.playing || state.loading;
     state.playing = false;
     state.loading = false;
@@ -962,6 +1032,10 @@ export function connectConcertStage({
 
     for (const btn of conditionBtns) {
       btn.setAttribute('aria-pressed', String(btn.dataset.concertCondition === snap.conditionId));
+    }
+    if (cheerBtn) {
+      cheerBtn.setAttribute('aria-pressed', String(Boolean(state.crowdCheering)));
+      cheerBtn.textContent = state.crowdCheering ? 'Crowd cheering: On' : '+ Crowd cheering';
     }
     if (ringingBtn) {
       const hasTin = state.tinnitus === 'ringing' || state.tinnitus === 'hiss';
@@ -1074,6 +1148,20 @@ export function connectConcertStage({
     });
   }
 
+  cheerBtn?.addEventListener('click', () => {
+    state.crowdCheering = !state.crowdCheering;
+    if (state.crowdCheering) {
+      cheerBurstUntil = (typeof performance !== 'undefined' ? performance.now() : 0) + 2400;
+      syncCheerAudio({ swell: true });
+      if (!state.playing && !state.loading) {
+        void startConcert();
+      }
+    } else {
+      stopCheerAudio();
+    }
+    syncUi();
+  });
+
   ringingBtn?.addEventListener('click', () => {
     if (state.tinnitus === 'ringing' || state.tinnitus === 'hiss') {
       state.tinnitus = 'off';
@@ -1128,14 +1216,14 @@ export function connectConcertStage({
         if (disposed) return;
         let renderer;
         try {
-          renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
+          renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
         } catch {
           canvasWrap.dataset.webgl = 'unavailable';
           return;
         }
         const isSmallMobile = window.innerWidth <= 640;
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isSmallMobile ? 1.65 : 2));
-        renderer.setClearColor(0x090c1a, 1);
+        renderer.setClearColor(0x000000, 0);
         if ('toneMapping' in renderer && THREE.ACESFilmicToneMapping !== undefined) {
           renderer.toneMapping = THREE.ACESFilmicToneMapping;
           renderer.toneMappingExposure = 1.12;
@@ -1145,27 +1233,34 @@ export function connectConcertStage({
         canvasWrap.prepend(renderer.domElement);
 
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x090c1a, 0.036);
         const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.1, 80);
 
-        const hemiLight = new THREE.HemisphereLight(0xc7d2fe, 0x0f172a, 0.85);
-        const keyLight = new THREE.DirectionalLight(0xf8fafc, 1.15);
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x312e81, 0.95);
+        const keyLight = new THREE.DirectionalLight(0xf8fafc, 1.25);
         keyLight.position.set(0, 8.5, 6.5);
-        const backRimLight = new THREE.DirectionalLight(0x818cf8, 0.85);
+        const backRimLight = new THREE.DirectionalLight(0x818cf8, 0.92);
         backRimLight.position.set(0, 4.5, -6.5);
         scene.add(hemiLight, keyLight, backRimLight);
 
+        const arena = buildConcert3DScene(THREE);
+        scene.add(arena.rootGroup);
+
         const applyArenaTheme = (mode) => {
           const dark = mode === 'dark';
-          const bgHex = dark ? 0x070a15 : 0x0b1022;
-          renderer.setClearColor(bgHex, 1);
-          scene.fog.color.setHex(bgHex);
+          renderer.setClearColor(0x000000, 0);
+          hemiLight.color.setHex(dark ? 0xc7d2fe : 0xffffff);
+          hemiLight.groundColor.setHex(dark ? 0x0f172a : 0xc7d2fe);
+          hemiLight.intensity = dark ? 0.88 : 1.12;
+          keyLight.intensity = dark ? 1.18 : 1.32;
+          if (arena.stageMaterials) {
+            arena.stageMaterials.deckMat.color.setHex(dark ? 0x161a2e : 0x1e243d);
+            arena.stageMaterials.crowdMat.color.setHex(dark ? 0x26314f : 0x334155);
+            arena.stageMaterials.crowdMat.emissiveIntensity = dark ? 0.22 : 0.1;
+            arena.stageMaterials.stageFloorGlowMat.opacity = dark ? 0.16 : 0.1;
+          }
         };
         applyArenaTheme(getTheme());
         const unsubTheme = onThemeChange(applyArenaTheme);
-
-        const arena = buildConcert3DScene(THREE);
-        scene.add(arena.rootGroup);
 
         const overviewCam = { radius: 9.8, theta: 0, phi: 1.24, targetX: 0, targetY: 0.95, targetZ: -0.25 };
         let desiredRadius = overviewCam.radius;
@@ -1479,8 +1574,31 @@ export function connectConcertStage({
           }
 
           const bassBeat = stemEnergies.bass || 0;
+          const burstActive = typeof performance !== 'undefined' && performance.now() < cheerBurstUntil;
+          const cheerDrive = state.crowdCheering
+            ? (state.playing ? 0.82 + bassBeat * 0.35 : 0.42) + (burstActive ? 0.38 : 0)
+            : 0;
+
           for (const person of arena.crowdSilhouettes) {
-            person.position.y = person.userData.baseY + Math.abs(Math.sin(t * 3.6 + person.userData.phase)) * bassBeat * 0.12;
+            const ph = person.userData.phase || 0;
+            const enth = person.userData.enthusiasm || 1;
+            const bounce = state.crowdCheering
+              ? Math.abs(Math.sin(t * 4.4 + ph)) * (0.04 + bassBeat * 0.14 + (burstActive ? 0.06 : 0))
+              : Math.abs(Math.sin(t * 3.2 + ph)) * bassBeat * 0.07;
+            person.position.y = person.userData.baseY + bounce;
+
+            if (person.userData.leftArm && person.userData.rightArm) {
+              const targetRaise = cheerDrive > 0
+                ? Math.min(1, cheerDrive * enth)
+                : 0;
+              // Resting arms down (~2.55 rad) vs raised cheering & waving toward stage (~0.35 rad)
+              const waveL = Math.sin(t * 6.2 + ph) * 0.28 * targetRaise;
+              const waveR = Math.cos(t * 5.8 + ph * 1.3) * 0.28 * targetRaise;
+              const goalL = (1 - targetRaise) * 2.55 + targetRaise * (0.34 + waveL);
+              const goalR = -((1 - targetRaise) * 2.55 + targetRaise * (0.34 + waveR));
+              person.userData.leftArm.rotation.z += (goalL - person.userData.leftArm.rotation.z) * 0.14;
+              person.userData.rightArm.rotation.z += (goalR - person.userData.rightArm.rotation.z) * 0.14;
+            }
           }
 
           const showRing = state.tinnitus === 'ringing';

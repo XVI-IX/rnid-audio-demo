@@ -2629,34 +2629,41 @@ body {
 }
 
 /* ==========================================================================
-   13. INTERACTIVE LIVE CONCERT STAGE ("WHAT VANISHES FROM A LIVE CONCERT?")
+   13. UN-CAGED FULL-BLEED 3D CONCERT FLOW ("WHAT VANISHES FROM A LIVE CONCERT?")
    ========================================================================== */
 .concert-stage-section {
   position: relative;
   z-index: 1;
   isolation: isolate;
-  overflow: hidden;
-  margin: 0 0 0.65rem;
-  padding: clamp(1.1rem, 2.6vw, 1.75rem);
-  border-radius: 1.45rem;
-  border: 1px solid rgba(99, 102, 241, 0.28);
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  padding: clamp(0.85rem, 2.2vw, 1.5rem) 0 clamp(1.1rem, 2.6vw, 1.85rem);
+  border: 0;
+  border-radius: 0;
   background:
-    radial-gradient(ellipse 85% 42% at 50% -6%, rgba(129, 140, 248, 0.26) 0%, transparent 64%),
-    radial-gradient(ellipse 70% 36% at 50% 106%, rgba(45, 212, 191, 0.12) 0%, transparent 62%),
-    linear-gradient(180deg, #161b33 0%, #0f1326 100%);
-  color: #f1f5f9;
-  box-shadow:
-    0 26px 64px rgba(24, 28, 62, 0.16),
-    0 0 0 6px rgba(99, 102, 241, 0.06);
-  transition: box-shadow 0.35s ease, border-color 0.35s ease;
+    radial-gradient(ellipse 74% 46% at 50% 46%, rgba(99, 102, 241, 0.1) 0%, rgba(20, 184, 166, 0.04) 48%, transparent 76%);
+  color: var(--ink, #22233c);
+  box-shadow: none;
 }
 
 :root[data-theme="dark"] .concert-stage-section {
-  border-color: rgba(129, 140, 248, 0.22);
+  border: 0;
   background:
-    radial-gradient(ellipse 85% 42% at 50% -6%, rgba(99, 102, 241, 0.2) 0%, transparent 64%),
-    linear-gradient(180deg, #11162b 0%, #0b0e1d 100%);
-  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.42);
+    radial-gradient(ellipse 74% 48% at 50% 46%, rgba(99, 102, 241, 0.2) 0%, rgba(20, 184, 166, 0.07) 48%, transparent 78%);
+  color: #f1f5f9;
+  box-shadow: none;
+}
+
+.concert-stage-top,
+.concert-seek-row,
+.concert-condition-bar,
+.concert-tinnitus-warning,
+.concert-lyric-bar,
+.concert-instruments-grid {
+  width: min(calc(100% - 3rem), 76rem);
+  margin-inline: auto;
 }
 
 .concert-stage-top {
@@ -2665,7 +2672,7 @@ body {
   justify-content: space-between;
   gap: 0.85rem 1.4rem;
   flex-wrap: wrap;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.75rem;
 }
 
 .concert-stage-copy {
@@ -2687,7 +2694,7 @@ body {
   font-weight: 760;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  color: #a5b4fc;
+  color: var(--action, #4f4cad);
 }
 
 .concert-lost-badge {
@@ -2698,40 +2705,58 @@ body {
   border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 700;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.38);
+  color: #047857;
+}
+
+:root[data-theme="dark"] .concert-lost-badge {
   background: rgba(16, 185, 129, 0.16);
-  border: 1px solid rgba(52, 211, 153, 0.42);
+  border-color: rgba(52, 211, 153, 0.42);
   color: #a7f3d0;
 }
 
 .concert-lost-badge[data-severity="medium"] {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.45);
+  color: #b45309;
+}
+
+:root[data-theme="dark"] .concert-lost-badge[data-severity="medium"] {
   background: rgba(245, 158, 11, 0.18);
   border-color: rgba(251, 191, 36, 0.48);
   color: #fde68a;
 }
 
 .concert-lost-badge[data-severity="high"] {
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #b91c1c;
+}
+
+:root[data-theme="dark"] .concert-lost-badge[data-severity="high"] {
   background: rgba(239, 68, 68, 0.2);
   border-color: rgba(248, 113, 113, 0.52);
   color: #fecaca;
 }
 
 .concert-stage-copy h2 {
-  font: 400 clamp(1.6rem, 3.1vw, 2.35rem)/1.06 var(--display-font, Georgia, serif);
-  letter-spacing: -0.04em;
-  color: #f8fafc;
+  font: 400 clamp(1.75rem, 3.3vw, 2.55rem)/1.05 var(--display-font, Georgia, serif);
+  letter-spacing: -0.045em;
+  color: var(--ink, #22233c);
 }
 
 .concert-stage-copy h2 em {
-  color: #c4b5fd;
+  color: var(--action, #4f4cad);
   font-style: italic;
 }
 
 .concert-sub {
   margin-top: 0.35rem;
   max-width: 62ch;
-  font-size: 0.86rem;
-  line-height: 1.45;
-  color: #cbd5e1;
+  font-size: 0.88rem;
+  line-height: 1.46;
+  color: var(--soft-ink, #525570);
 }
 
 .concert-transport-actions {
@@ -2761,9 +2786,9 @@ body {
 }
 
 .concert-song-label {
-  font-size: 0.71rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  color: #cbd5e1;
+  color: var(--soft-ink, #525570);
 }
 
 #concert-song-select {
@@ -2772,11 +2797,10 @@ body {
   min-width: 0;
   min-height: 2.35rem;
   padding: 0.32rem 0.65rem;
-  border-radius: 0.58rem;
-  border: 1px solid rgba(148, 163, 184, 0.34);
-  background: #0d1124;
-  color: #f8fafc;
-  color-scheme: dark;
+  border-radius: 999px;
+  border: 1px solid var(--control-border, #8589ad);
+  background: var(--paper, #ffffff);
+  color: var(--ink, #22233c);
   font-size: 0.82rem;
   font-weight: 640;
   overflow: hidden;
@@ -2785,116 +2809,134 @@ body {
 
 .concert-song-credit {
   font-size: 0.69rem;
-  color: #a5b4fc;
+  color: var(--action, #4f4cad);
   justify-self: end;
 }
 
+/* Open borderless timeline ribbon (zero box container) */
 .concert-seek-row {
   display: flex;
   align-items: center;
   gap: 0.65rem;
   flex-wrap: wrap;
-  margin-bottom: 0.72rem;
-  padding: 0.42rem 0.68rem;
-  border-radius: 0.68rem;
-  background: rgba(15, 20, 38, 0.78);
-  border: 1px solid rgba(148, 163, 184, 0.18);
+  margin-bottom: 0.65rem;
+  padding: 0.15rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 #concert-seek {
   flex: 1 1 12rem;
   min-width: 0;
-  accent-color: #818cf8;
+  accent-color: var(--action, #4f4cad);
 }
 
 .concert-time {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.75rem;
-  color: #cbd5e1;
+  color: var(--soft-ink, #525570);
   white-space: nowrap;
 }
 
 .concert-status {
   font-size: 0.73rem;
-  color: #a5b4fc;
+  color: var(--action, #4f4cad);
 }
 
 .concert-play-btn.button {
-  min-height: 2.65rem;
-  padding: 0.42rem 1.15rem;
+  min-height: 2.6rem;
+  padding: 0.4rem 1.15rem;
   border-radius: 999px;
   background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
   border-color: #818cf8;
   color: #ffffff;
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   font-weight: 730;
-  box-shadow: 0 8px 22px rgba(79, 70, 229, 0.36);
+  box-shadow: 0 8px 22px rgba(79, 70, 229, 0.26);
 }
 
 .concert-play-btn.button[aria-pressed="true"] {
   background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
   border-color: #34d399;
-  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.38);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
 }
 
 .concert-fullband-btn.button {
   min-height: 2.45rem;
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
-  border-color: rgba(165, 180, 252, 0.42);
-  background: rgba(30, 36, 66, 0.85);
-  color: #e2e8f0;
+  border-color: var(--control-border, #8589ad);
+  background: var(--paper, #ffffff);
+  color: var(--ink, #22233c);
   font-size: 0.78rem;
 }
 
-/* Swipeable Condition Pills */
+/* Open Condition & Crowd Cheering Pills */
 .concert-condition-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 0.34rem;
-  margin-bottom: 0.8rem;
-  width: 100%;
+  margin-bottom: 0.5rem;
   max-width: 100%;
   min-width: 0;
 }
 
 .concert-cond-pill {
-  padding: 0.34rem 0.72rem;
+  padding: 0.32rem 0.72rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  background: rgba(24, 30, 56, 0.88);
-  color: #e2e8f0;
+  border: 1px solid rgba(34, 35, 60, 0.16);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
+  color: var(--ink, #22233c);
   font-size: 0.77rem;
   font-weight: 660;
   white-space: nowrap;
 }
 
 .concert-cond-pill:hover {
-  background: rgba(38, 46, 82, 0.95);
-  border-color: rgba(199, 210, 254, 0.55);
+  background: #ffffff;
+  border-color: rgba(34, 35, 60, 0.36);
 }
 
 .concert-cond-pill[aria-pressed="true"] {
+  background: var(--ink, #22233c);
+  border-color: var(--ink, #22233c);
+  color: #ffffff;
+}
+
+:root[data-theme="dark"] .concert-cond-pill {
+  background: rgba(20, 26, 48, 0.88);
+  border-color: rgba(148, 163, 184, 0.3);
+  color: #e2e8f0;
+}
+
+:root[data-theme="dark"] .concert-cond-pill:hover:not([aria-pressed="true"]) {
+  background: #242c50;
+  border-color: rgba(165, 180, 252, 0.55);
+  color: #ffffff;
+}
+
+:root[data-theme="dark"] .concert-cond-pill[aria-pressed="true"] {
   background: #f8fafc;
+  border-color: #f8fafc;
   color: #0f172a;
 }
 
 .concert-tinnitus-warning {
-  margin: 0 0 0.75rem;
-  background: rgba(120, 53, 15, 0.38) !important;
-  border-color: rgba(251, 191, 36, 0.52) !important;
-  color: #fef3c7 !important;
+  margin-top: 0;
+  margin-bottom: 0.55rem;
 }
 
-/* Interactive Three.js 3D Concert Arena Viewport */
+/* Un-Caged Full-Bleed 3D Concert Arena Viewport (floats directly in open page air!) */
 .concert-3d-canvas-wrap {
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: clamp(17.5rem, 36vw, 24.5rem);
-  border-radius: 0.98rem;
-  border: 1px solid rgba(148, 163, 184, 0.24);
-  background: #090c1a;
+  height: clamp(19rem, 39vw, 27rem);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   cursor: grab;
   user-select: none;
 }
@@ -2927,41 +2969,55 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.26rem;
-  padding: 0.16rem 0.48rem;
+  padding: 0.18rem 0.52rem;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--pin-color) 52%, rgba(148, 163, 184, 0.3));
-  background: rgba(11, 15, 30, 0.88);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #f8fafc;
-  font-size: 0.69rem;
+  border: 1.5px solid color-mix(in srgb, var(--pin-color) 55%, rgba(34, 35, 60, 0.22));
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #181a30;
+  font-size: 0.7rem;
   font-weight: 700;
   white-space: nowrap;
   pointer-events: auto;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.38);
+  box-shadow: 0 6px 16px rgba(18, 21, 46, 0.12);
   transition: border-color 0.16s ease, background 0.16s ease, opacity 0.16s ease;
+}
+
+:root[data-theme="dark"] .concert-3d-pin {
+  border-color: color-mix(in srgb, var(--pin-color) 52%, rgba(148, 163, 184, 0.3));
+  background: rgba(13, 17, 34, 0.9);
+  color: #f8fafc;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.38);
 }
 
 .concert-3d-pin:hover,
 .concert-3d-pin[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--pin-color) 24%, #0f172a);
   border-color: var(--pin-color);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--pin-color) 35%, transparent);
 }
 
 .concert-3d-pin[data-ghosted="true"] {
-  border-color: rgba(248, 113, 113, 0.55);
+  border-color: rgba(239, 68, 68, 0.55);
+  color: #b91c1c;
+}
+
+:root[data-theme="dark"] .concert-3d-pin[data-ghosted="true"] {
   color: #fca5a5;
 }
 
 .concert-pin-pct {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.63rem;
+  font-size: 0.64rem;
+  color: color-mix(in srgb, var(--pin-color) 78%, var(--ink, #1e293b));
+}
+
+:root[data-theme="dark"] .concert-pin-pct {
   color: color-mix(in srgb, var(--pin-color) 72%, #ffffff);
 }
 
 .concert-3d-pin[data-ghosted="true"] .concert-pin-pct {
-  color: #fca5a5;
+  color: inherit;
 }
 
 .concert-3d-tooltip {
@@ -2969,8 +3025,7 @@ body {
   z-index: 6;
   padding: 0.26rem 0.58rem;
   border-radius: 0.42rem;
-  background: rgba(15, 23, 42, 0.94);
-  border: 1px solid rgba(165, 180, 252, 0.32);
+  background: rgba(15, 23, 42, 0.92);
   color: #f8fafc;
   font-size: 0.72rem;
   font-weight: 650;
@@ -2980,32 +3035,27 @@ body {
 
 .concert-3d-cam-bar {
   position: absolute;
-  top: 0.65rem;
-  right: 0.65rem;
+  top: 0.5rem;
+  right: max(1.5rem, calc((100% - 76rem) / 2));
   z-index: 4;
   display: inline-flex;
   gap: 0.24rem;
 }
 
-.concert-3d-cam-bar .ear-tool-pill {
-  background: rgba(15, 20, 38, 0.85);
-  border-color: rgba(148, 163, 184, 0.34);
-  color: #f1f5f9;
-}
-
 .concert-3d-hint {
   position: absolute;
-  bottom: 0.52rem;
+  bottom: 0.35rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 4;
   margin: 0;
   padding: 0.2rem 0.68rem;
   border-radius: 999px;
-  background: rgba(11, 15, 30, 0.78);
-  color: #cbd5e1;
-  font-size: 0.68rem;
-  font-weight: 640;
+  background: color-mix(in srgb, var(--paper, #ffffff) 82%, transparent);
+  backdrop-filter: blur(8px);
+  color: var(--soft-ink, #525570);
+  font-size: 0.69rem;
+  font-weight: 650;
   white-space: nowrap;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -3015,17 +3065,19 @@ body {
   opacity: 0;
 }
 
-/* Lyric Consonant Clarity & Stage Summary Bar */
+/* Open Editorial Vocal Crispness Flow (no surrounding box!) */
 .concert-lyric-bar {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: 0.75rem 1.1rem;
+  gap: 0.85rem 1.75rem;
   align-items: center;
-  margin: 0.78rem 0;
-  padding: 0.72rem 0.9rem;
-  border-radius: 0.85rem;
-  background: rgba(22, 28, 52, 0.86);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  margin-top: 0.4rem;
+  margin-bottom: 1.05rem;
+  padding: 0.85rem 0 0;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--line, #d7daeb) 72%, transparent);
+  border-radius: 0;
+  background: transparent;
 }
 
 .concert-lyric-box {
@@ -3038,58 +3090,61 @@ body {
   justify-content: space-between;
   gap: 0.5rem;
   flex-wrap: wrap;
-  margin-bottom: 0.22rem;
+  margin-bottom: 0.24rem;
 }
 
 .concert-lyric-kicker {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.66rem;
+  font-size: 0.68rem;
   font-weight: 740;
   text-transform: uppercase;
   letter-spacing: 0.07em;
+  color: #db2777;
+}
+
+:root[data-theme="dark"] .concert-lyric-kicker {
   color: #f472b6;
 }
 
 .concert-lyric-clarity {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.69rem;
+  font-size: 0.71rem;
   font-weight: 740;
-  color: #cbd5e1;
+  color: var(--soft-ink, #525570);
 }
 
 .concert-vocal-note {
-  margin: 0 0 0.48rem;
-  font-size: 0.81rem;
-  line-height: 1.44;
-  color: #e2e8f0;
+  margin: 0 0 0.52rem;
+  font-size: 0.84rem;
+  line-height: 1.46;
+  color: var(--ink, #22233c);
   overflow-wrap: anywhere;
 }
 
 .concert-vocal-meters {
   display: grid;
-  gap: 0.32rem;
+  gap: 0.36rem;
 }
 
 .concert-vocal-meter-row {
   display: grid;
-  grid-template-columns: minmax(7.5rem, 11.5rem) minmax(0, 1fr) 2.7rem;
+  grid-template-columns: minmax(7.5rem, 13.5rem) minmax(0, 1fr) 2.7rem;
   align-items: center;
-  gap: 0.48rem;
-  font-size: 0.7rem;
+  gap: 0.5rem;
+  font-size: 0.74rem;
 }
 
 .concert-vocal-meter-label {
-  color: #cbd5e1;
-  font-weight: 640;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--soft-ink, #525570);
+  font-weight: 660;
+  white-space: normal;
+  line-height: 1.25;
 }
 
 .concert-vocal-track {
-  height: 0.42rem;
+  height: 0.44rem;
   border-radius: 999px;
-  background: rgba(148, 163, 184, 0.18);
+  background: color-mix(in srgb, var(--ink, #22233c) 11%, transparent);
   overflow: hidden;
 }
 
@@ -3100,32 +3155,32 @@ body {
 }
 
 .concert-vocal-fill.vowel {
-  background: linear-gradient(90deg, #f472b6, #fb7185);
+  background: linear-gradient(90deg, #ec4899, #fb7185);
 }
 
 .concert-vocal-fill.cons {
-  background: linear-gradient(90deg, #2dd4bf, #38bdf8);
+  background: linear-gradient(90deg, #14b8a6, #0ea5e9);
 }
 
 .concert-vocal-pct {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.69rem;
+  font-size: 0.71rem;
   font-weight: 740;
-  color: #f8fafc;
+  color: var(--ink, #22233c);
   text-align: right;
 }
 
 .concert-stage-summary {
-  font-size: 0.81rem;
-  line-height: 1.45;
-  color: #cbd5e1;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--soft-ink, #525570);
 }
 
-/* 5 Interactive Instrument Stem Cards */
+/* 5 Un-Boxed Open Architectural Stem Lanes (zero card boxes!) */
 .concert-instruments-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: 0.85rem 1.15rem;
 }
 
 .concert-stem-card {
@@ -3133,29 +3188,29 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0.45rem;
+  gap: 0.42rem;
   min-width: 0;
-  padding: 0.68rem 0.72rem;
-  border-radius: 0.82rem;
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  background: rgba(20, 25, 47, 0.92);
-  transition: border-color 0.18s ease, opacity 0.2s ease, transform 0.16s ease, box-shadow 0.18s ease;
+  padding: 0.62rem 0 0.25rem;
+  border: 0;
+  border-top: 2.5px solid var(--stem-color);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transition: border-color 0.2s ease, opacity 0.2s ease, transform 0.16s ease;
 }
 
 .concert-stem-card[data-ghosted="true"] {
-  border-style: dashed;
-  border-color: rgba(248, 113, 113, 0.42);
-  background: rgba(15, 19, 36, 0.75);
+  border-top-style: dashed;
+  border-top-color: rgba(239, 68, 68, 0.65);
 }
 
 .concert-stem-card[data-soloed="true"] {
-  border-style: solid;
-  border-color: var(--stem-color);
-  box-shadow: 0 0 0 1px var(--stem-color), 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-top-width: 3.5px;
+  transform: translateY(-2px);
 }
 
 .concert-stem-card[data-muted="true"] {
-  opacity: 0.52;
+  opacity: 0.48;
 }
 
 .concert-stem-top {
@@ -3167,36 +3222,40 @@ body {
 
 .concert-stem-top h3 {
   margin: 0;
-  font-size: 0.81rem;
+  font-size: 0.84rem;
   font-weight: 740;
-  line-height: 1.2;
-  color: #f8fafc;
+  line-height: 1.22;
+  color: var(--ink, #22233c);
 }
 
 .concert-stem-hz {
   display: block;
   margin-top: 0.1rem;
-  font-size: 0.67rem;
-  color: #94a3b8;
+  font-size: 0.69rem;
+  color: var(--soft-ink, #525570);
 }
 
 .concert-stem-pct {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.8rem;
   font-weight: 760;
-  color: var(--stem-color);
+  color: color-mix(in srgb, var(--stem-color) 82%, var(--ink, #1e293b));
   flex: none;
 }
 
+:root[data-theme="dark"] .concert-stem-pct {
+  color: var(--stem-color);
+}
+
 .concert-stem-card[data-ghosted="true"] .concert-stem-pct {
-  color: #fca5a5;
+  color: var(--error, #a0213c);
 }
 
 .concert-stem-meter {
   width: 100%;
-  height: 0.4rem;
+  height: 0.34rem;
   border-radius: 999px;
-  background: rgba(148, 163, 184, 0.16);
+  background: color-mix(in srgb, var(--ink, #22233c) 11%, transparent);
   overflow: hidden;
 }
 
@@ -3220,34 +3279,35 @@ body {
 }
 
 .concert-stem-status {
-  font-size: 0.69rem;
+  font-size: 0.71rem;
   font-weight: 660;
-  color: #cbd5e1;
+  color: var(--soft-ink, #525570);
 }
 
 .concert-stem-card[data-ghosted="true"] .concert-stem-status {
-  color: #fca5a5;
+  color: var(--error, #a0213c);
 }
 
 .concert-stem-btns {
   display: inline-flex;
-  gap: 0.24rem;
+  gap: 0.28rem;
 }
 
 .concert-mini-btn {
   min-height: 1.78rem;
-  padding: 0.16rem 0.5rem;
-  border-radius: 0.42rem;
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  background: rgba(30, 38, 68, 0.9);
-  color: #e2e8f0;
-  font-size: 0.69rem;
+  padding: 0.16rem 0.56rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ink, #22233c) 18%, transparent);
+  background: transparent;
+  color: var(--ink, #22233c);
+  font-size: 0.7rem;
   font-weight: 680;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .concert-mini-btn:hover {
   border-color: var(--stem-color);
-  color: #ffffff;
+  background: color-mix(in srgb, var(--stem-color) 12%, transparent);
 }
 
 .concert-mini-btn[aria-pressed="true"] {
@@ -3256,7 +3316,7 @@ body {
   color: #0b0e1a;
 }
 
-/* Responsive Tablet & Mobile Concert Stage (320px – 980px) */
+/* Responsive Tablet & Mobile Concert Flow (320px – 980px) */
 @media (max-width: 980px) {
   .concert-instruments-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3268,6 +3328,19 @@ body {
 }
 
 @media (max-width: 768px) {
+  .concert-stage-top,
+  .concert-seek-row,
+  .concert-condition-bar,
+  .concert-tinnitus-warning,
+  .concert-lyric-bar,
+  .concert-instruments-grid {
+    width: calc(100% - 1.6rem);
+  }
+
+  .concert-3d-cam-bar {
+    right: 0.75rem;
+  }
+
   .concert-condition-bar {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -3286,8 +3359,7 @@ body {
 
 @media (max-width: 640px) {
   .concert-stage-section {
-    padding: 0.92rem 0.82rem;
-    border-radius: 1rem;
+    padding: 0.75rem 0 1.15rem;
   }
 
   .concert-song-and-transport {
@@ -3310,7 +3382,7 @@ body {
   }
 
   .concert-3d-canvas-wrap {
-    height: clamp(15rem, 42svh, 19.5rem);
+    height: clamp(16rem, 44svh, 20.5rem);
   }
 
   .concert-3d-pin {
@@ -3336,10 +3408,10 @@ body {
 
   .concert-instruments-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.48rem;
+    gap: 0.65rem 0.75rem;
   }
 
-  /* Centerpiece Lead Vocals spans full mobile width so all 5 cards align cleanly */
+  /* Centerpiece Lead Vocals spans full mobile width so all 5 lanes align cleanly */
   .concert-stem-card-vocals {
     grid-column: 1 / -1;
   }

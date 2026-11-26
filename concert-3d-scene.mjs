@@ -14,10 +14,10 @@ export function buildConcert3DScene(THREE) {
     });
   };
 
-  // --- 1. Stage Deck, Curved Apron, PA Line-Arrays, Overhead Truss & Front-Row Crowd ---
+  // --- 1. Open Floating Stage Deck, Curved Apron, PA Line-Arrays, Overhead Truss & Cheering Crowd ---
   const stageGroup = new THREE.Group();
   const deckMat = new THREE.MeshStandardMaterial({
-    color: 0x161a2e,
+    color: 0x1e243d,
     roughness: 0.42,
     metalness: 0.22,
   });
@@ -30,8 +30,21 @@ export function buildConcert3DScene(THREE) {
   rearDeck.position.set(0, -0.22, -1.75);
   stageGroup.add(rearDeck);
 
+  // Soft un-caged floor halo beneath the stage so it floats organically in Light & Dark space
+  const stageFloorGlowMat = new THREE.MeshBasicMaterial({
+    color: 0x6366f1,
+    transparent: true,
+    opacity: 0.11,
+    depthWrite: false,
+  });
+  const stageFloorGlow = new THREE.Mesh(new THREE.CircleGeometry(6.8, 48), stageFloorGlowMat);
+  stageFloorGlow.rotation.x = -Math.PI / 2;
+  stageFloorGlow.scale.set(1.12, 0.62, 1);
+  stageFloorGlow.position.set(0, -0.41, 0.15);
+  stageGroup.add(stageFloorGlow);
+
   // Glowing front stage apron trim
-  const apronTrimMat = new THREE.MeshBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.55 });
+  const apronTrimMat = new THREE.MeshBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.62 });
   const apronTrim = new THREE.Mesh(
     new THREE.TorusGeometry(5.82, 0.025, 10, 64, Math.PI * 0.92),
     apronTrimMat,
@@ -43,7 +56,7 @@ export function buildConcert3DScene(THREE) {
   stageGroup.add(apronTrim);
 
   // Overhead Lighting Truss & Pillars
-  const trussMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.32, metalness: 0.78 });
+  const trussMat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.32, metalness: 0.78 });
   const topBeam = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 10.6, 14), trussMat);
   topBeam.rotation.z = Math.PI / 2;
   topBeam.position.set(0, 3.85, -0.55);
@@ -54,6 +67,7 @@ export function buildConcert3DScene(THREE) {
   rearBeam.position.set(0, 3.65, -1.75);
   stageGroup.add(rearBeam);
 
+  const paMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.48, metalness: 0.35 });
   for (const side of [-1, 1]) {
     const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.08, 4.2, 12), trussMat);
     pillar.position.set(side * 5.2, 1.85, -1.25);
@@ -61,7 +75,6 @@ export function buildConcert3DScene(THREE) {
 
     // Hanging Line-Array PA Speaker Stack (4 curved array boxes per side)
     const paGroup = new THREE.Group();
-    const paMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.5, metalness: 0.35 });
     for (let b = 0; b < 4; b += 1) {
       const box = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.28, 0.46), paMat);
       box.position.set(0, -b * 0.31, b * 0.04);
@@ -73,18 +86,54 @@ export function buildConcert3DScene(THREE) {
     stageGroup.add(paGroup);
   }
 
-  // Subtle Front-Row Audience Silhouettes in the Pit
+  // Expressive Two-Row Cheering Concert Crowd with Articulated Waving Arms!
   const crowdSilhouettes = [];
-  const crowdMat = new THREE.MeshStandardMaterial({ color: 0x090c18, roughness: 0.85, metalness: 0.05 });
-  for (let i = 0; i < 15; i += 1) {
-    const u = (i / 14) * 2 - 1;
+  const crowdMat = new THREE.MeshStandardMaterial({
+    color: 0x334155,
+    emissive: new THREE.Color(0x312e81),
+    emissiveIntensity: 0.14,
+    roughness: 0.72,
+    metalness: 0.08,
+  });
+  const armGeo = new THREE.CapsuleGeometry(0.042, 0.26, 4, 8);
+  for (let i = 0; i < 22; i += 1) {
+    const isBackRow = i >= 13;
+    const rowIdx = isBackRow ? i - 13 : i;
+    const rowCount = isBackRow ? 9 : 13;
+    const u = (rowIdx / Math.max(1, rowCount - 1)) * 2 - 1 + (isBackRow ? 0.04 : 0);
+
     const person = new THREE.Group();
-    const shoulders = new THREE.Mesh(new THREE.CapsuleGeometry(0.19, 0.18, 6, 10), crowdMat);
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.125, 12, 10), crowdMat);
+    const shoulders = new THREE.Mesh(new THREE.CapsuleGeometry(0.18, 0.19, 6, 10), crowdMat);
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.12, 12, 10), crowdMat);
     head.position.y = 0.28;
-    person.add(shoulders, head);
-    person.position.set(u * 4.5, -0.58, 2.35 + Math.abs(u) * 0.38 + (i % 2) * 0.16);
-    person.userData = { phase: i * 0.7, baseY: person.position.y };
+
+    // Left & Right shoulder-pivoted arms so the crowd waves & cheers!
+    const leftArmPivot = new THREE.Group();
+    leftArmPivot.position.set(-0.18, 0.12, 0);
+    const leftArmMesh = new THREE.Mesh(armGeo, crowdMat);
+    leftArmMesh.position.y = 0.16;
+    leftArmPivot.add(leftArmMesh);
+    leftArmPivot.rotation.z = 0.34;
+
+    const rightArmPivot = new THREE.Group();
+    rightArmPivot.position.set(0.18, 0.12, 0);
+    const rightArmMesh = new THREE.Mesh(armGeo, crowdMat);
+    rightArmMesh.position.y = 0.16;
+    rightArmPivot.add(rightArmMesh);
+    rightArmPivot.rotation.z = -0.34;
+
+    person.add(shoulders, head, leftArmPivot, rightArmPivot);
+    const zBase = isBackRow ? 2.95 : 2.32;
+    const yBase = isBackRow ? -0.66 : -0.58;
+    person.position.set(u * 4.65, yBase, zBase + Math.abs(u) * 0.42 + (i % 2) * 0.14);
+    person.rotation.y = -u * 0.25;
+    person.userData = {
+      phase: i * 0.83,
+      baseY: person.position.y,
+      leftArm: leftArmPivot,
+      rightArm: rightArmPivot,
+      enthusiasm: 0.72 + (i % 4) * 0.12,
+    };
     crowdSilhouettes.push(person);
     stageGroup.add(person);
   }
@@ -371,5 +420,13 @@ export function buildConcert3DScene(THREE) {
     crowdSilhouettes,
     ringingHalo,
     ringingHaloMat,
+    stageMaterials: {
+      deckMat,
+      trussMat,
+      paMat,
+      crowdMat,
+      stageFloorGlowMat,
+      apronTrimMat,
+    },
   };
 }

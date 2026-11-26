@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Listen to examples of hearing changes after loud music and tinnitus, explore a 3D inner ear, or compare your own clip in the RNID listening studio.">
   <title>RNID Audio Tool</title>
-  <link rel="stylesheet" href="./styles.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./home-video-effects.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./home-story.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./hearing-guide.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./nihl-examples.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./freq-band-sim.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./studio-filter-response.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./studio-layout.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./upload-layout.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./ear-levels.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./audio-explainer.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./live-mic.css?v=e6a4a8ed98">
-  <link rel="stylesheet" href="./experience-upgrade.css?v=e6a4a8ed98">
-  <script type="module" src="./app.mjs?v=e6a4a8ed98"></script>
+  <link rel="stylesheet" href="./styles.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./home-video-effects.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./home-story.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./hearing-guide.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./nihl-examples.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./freq-band-sim.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./studio-filter-response.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./studio-layout.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./upload-layout.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./ear-levels.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./audio-explainer.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./live-mic.css?v=a9b61dce6e">
+  <link rel="stylesheet" href="./experience-upgrade.css?v=a9b61dce6e">
+  <script type="module" src="./app.mjs?v=a9b61dce6e"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -225,6 +225,7 @@
           <button class="concert-cond-pill" type="button" data-concert-condition="permanent_notch" data-effect-color="coral" aria-pressed="false">4 kHz notch</button>
           <button class="concert-cond-pill" type="button" data-concert-condition="severe_hf" data-effect-color="violet" aria-pressed="false">Strong treble loss</button>
           <button class="concert-cond-pill" type="button" data-concert-condition="musician_plugs" data-effect-color="mint" aria-pressed="false">Earplugs</button>
+          <button class="concert-cond-pill" id="concert-cheer-btn" type="button" data-effect-color="cyan" aria-pressed="true">Crowd cheering: On</button>
           <button class="concert-cond-pill" id="concert-ringing-btn" type="button" data-effect-color="gold" aria-pressed="false">+ Ringing</button>
         </div>
 
@@ -250,15 +251,15 @@
               <span class="concert-lyric-kicker" id="concert-vocal-kicker">Josh Woodward · Chorus Lead Vocal Check</span>
               <span class="concert-lyric-clarity" id="concert-lyric-clarity">Consonant crispness: 100%</span>
             </div>
-            <p class="concert-vocal-note" id="concert-lyric-text">Full folk-rock vocal chorus at 1:12 — compare warm chest vowels (340 Hz–2.5 kHz) against crisp s, t, and k word edges (2.5–7.5 kHz).</p>
+            <p class="concert-vocal-note" id="concert-lyric-text">Full folk-rock vocal chorus at 1:12 — compare warm chest vowels against crisp s, t, and k word edges.</p>
             <div class="concert-vocal-meters" aria-hidden="true">
               <div class="concert-vocal-meter-row">
-                <span class="concert-vocal-meter-label">Vowel warmth (340 Hz–2.5 kHz)</span>
+                <span class="concert-vocal-meter-label">Vowel warmth</span>
                 <div class="concert-vocal-track"><div class="concert-vocal-fill vowel" id="concert-vowel-bar" style="width: 100%;"></div></div>
                 <span class="concert-vocal-pct" id="concert-vowel-pct">100%</span>
               </div>
               <div class="concert-vocal-meter-row">
-                <span class="concert-vocal-meter-label">Word edges &amp; s/t/f (2.5–7.5 kHz)</span>
+                <span class="concert-vocal-meter-label">Consonant crispness (s, t, f, k)</span>
                 <div class="concert-vocal-track"><div class="concert-vocal-fill cons" id="concert-consonant-bar" style="width: 100%;"></div></div>
                 <span class="concert-vocal-pct" id="concert-consonant-pct">100%</span>
               </div>
@@ -272,7 +273,7 @@
             <div class="concert-stem-top">
               <div>
                 <h3>Rhythm Chords &amp; Keys</h3>
-                <span class="concert-stem-hz">Warm Stereo · 220 Hz–2.5 kHz</span>
+                <span class="concert-stem-hz">Warm Stereo Chords</span>
               </div>
               <strong class="concert-stem-pct" data-stem-pct>100%</strong>
             </div>
@@ -290,7 +291,7 @@
             <div class="concert-stem-top">
               <div>
                 <h3>Bass &amp; Kick Drum</h3>
-                <span class="concert-stem-hz">Low Foundation · 20–220 Hz</span>
+                <span class="concert-stem-hz">Deep Stage Pulse</span>
               </div>
               <strong class="concert-stem-pct" data-stem-pct>100%</strong>
             </div>
@@ -308,7 +309,7 @@
             <div class="concert-stem-top">
               <div>
                 <h3>Center Lead Vocals</h3>
-                <span class="concert-stem-hz">Center Mid · 340 Hz–7.5 kHz</span>
+                <span class="concert-stem-hz">Center Voice &amp; Lyrics</span>
               </div>
               <strong class="concert-stem-pct" data-stem-pct>100%</strong>
             </div>
@@ -326,7 +327,7 @@
             <div class="concert-stem-top">
               <div>
                 <h3>Guitar Bite &amp; Snare</h3>
-                <span class="concert-stem-hz">4 kHz Zone · 2.5–6.2 kHz</span>
+                <span class="concert-stem-hz">Sharp Pick &amp; Snare</span>
               </div>
               <strong class="concert-stem-pct" data-stem-pct>100%</strong>
             </div>
@@ -344,7 +345,7 @@
             <div class="concert-stem-top">
               <div>
                 <h3>Hi-Hats &amp; Cymbals</h3>
-                <span class="concert-stem-hz">High Shimmer · 6.2–20 kHz</span>
+                <span class="concert-stem-hz">Bright Air &amp; Shimmer</span>
               </div>
               <strong class="concert-stem-pct" data-stem-pct>100%</strong>
             </div>
