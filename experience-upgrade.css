@@ -3572,7 +3572,674 @@ body {
   }
 }
 
+/* ==========================================================================
+   14. UN-CAGED EDITORIAL FLOW & KINETIC PIZZAZZ (EXPLORE, STUDIO, YOUR AUDIO)
+   ========================================================================== */
+
+@keyframes auroraBreath {
+  0%, 100% {
+    opacity: 0.78;
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04) translateY(-6px);
+  }
+}
+
+@keyframes vinylSpin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+#explore.explore-view,
+#demo.studio-view,
+#render.workspace {
+  position: relative;
+  isolation: isolate;
+  max-width: 74rem;
+}
+
+/* Full-bleed atmospheric acoustic auroras behind each page's open stage */
+#explore.explore-view::before,
+#demo.studio-view::before,
+#render.workspace::before {
+  content: "";
+  position: absolute;
+  top: -3.5rem;
+  left: 50%;
+  width: 100vw;
+  height: 34rem;
+  margin-left: -50vw;
+  z-index: -1;
+  pointer-events: none;
+  transition: background 0.45s ease, opacity 0.4s ease;
+}
+
+#explore.explore-view::before {
+  background:
+    radial-gradient(ellipse 52% 48% at 18% 18%, rgba(79, 76, 173, 0.12), transparent 70%),
+    radial-gradient(ellipse 46% 42% at 82% 24%, rgba(20, 184, 166, 0.11), transparent 70%);
+}
+
+#demo.studio-view {
+  --studio-aurora: #10b981;
+}
+#demo.studio-view:has(.listen-deck[data-active-profile="post_gig_muffled_v1"])    { --studio-aurora: #f59e0b; }
+#demo.studio-view:has(.listen-deck[data-active-profile="nihl_demo_v1"])           { --studio-aurora: #f43f5e; }
+#demo.studio-view:has(.listen-deck[data-active-profile="high_frequency_demo_v1"]) { --studio-aurora: #8b5cf6; }
+#demo.studio-view:has(.listen-deck[data-active-profile="broadband_demo_v1"])      { --studio-aurora: #3b82f6; }
+#demo.studio-view:has(.listen-deck[data-active-profile="asymmetric_demo_v1"])     { --studio-aurora: #06b6d4; }
+
+#demo.studio-view::before {
+  background:
+    radial-gradient(ellipse 56% 52% at 24% 22%, color-mix(in srgb, var(--studio-aurora) 18%, transparent), transparent 72%),
+    radial-gradient(ellipse 48% 44% at 80% 16%, rgba(99, 102, 241, 0.12), transparent 70%);
+}
+
+#demo.studio-view:has(.listen-deck[data-playing="true"])::before {
+  animation: auroraBreath 4.2s ease-in-out infinite;
+}
+
+#render.workspace {
+  --render-aurora: #6366f1;
+}
+#render.workspace:has([data-upload-listen="original"][aria-pressed="true"])  { --render-aurora: #10b981; }
+#render.workspace:has([data-upload-listen="simulated"][aria-pressed="true"]) { --render-aurora: #f59e0b; }
+
+#render.workspace::before {
+  background:
+    radial-gradient(ellipse 54% 50% at 76% 20%, color-mix(in srgb, var(--render-aurora) 18%, transparent), transparent 72%),
+    radial-gradient(ellipse 46% 42% at 18% 24%, rgba(20, 184, 166, 0.10), transparent 70%);
+}
+
+/* Expressive Editorial Headings Across Explore, Studio & Your Audio */
+:is(#explore, #demo, #render) .view-heading {
+  padding-bottom: 1.35rem;
+  margin-bottom: clamp(1.6rem, 3.4vw, 2.5rem);
+  border-bottom: 1px solid rgba(34, 35, 60, 0.1);
+}
+
+:root[data-theme="dark"] :is(#explore, #demo, #render) .view-heading {
+  border-bottom-color: rgba(148, 163, 184, 0.16);
+}
+
+#explore .explore-heading h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.55rem, 6vw, 4.8rem);
+  font-weight: 400;
+  line-height: 0.99;
+  letter-spacing: -0.06em;
+}
+
+/* --- A. UN-CAGED STUDIO (#demo) --- */
+#demo .listen-deck {
+  --deck-text: var(--ink, #1e2038);
+  --deck-muted: var(--soft-ink, #525570);
+  --deck-line: rgba(34, 35, 60, 0.12);
+  --studio-field: rgba(255, 255, 255, 0.78);
+  --studio-field-border: rgba(34, 35, 60, 0.18);
+  --studio-hover: #ffffff;
+  --studio-hover-border: var(--action, #4f4cad);
+  --studio-selection: rgba(79, 76, 173, 0.11);
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+#demo .listen-deck::before {
+  left: 0;
+  right: 0;
+  top: -1.4rem;
+  height: 2px;
+  opacity: 0.75;
+}
+
+:root[data-theme="dark"] #demo .listen-deck {
+  --deck-text: #f4f5ff;
+  --deck-muted: #a3a9c7;
+  --deck-line: rgba(148, 163, 184, 0.16);
+  --studio-field: rgba(20, 25, 46, 0.78);
+  --studio-field-border: rgba(148, 163, 184, 0.28);
+  --studio-hover: #1e2544;
+  --studio-hover-border: #a5b4fc;
+  --studio-selection: rgba(129, 140, 248, 0.2);
+}
+
+#demo .studio-console-top {
+  padding: 0 0 1.35rem;
+  border-bottom: 1px solid var(--deck-line);
+}
+
+#demo .studio-fields select,
+#demo .studio-tinnitus select {
+  border-radius: 999px;
+  padding-inline: 0.95rem 2.1rem;
+  color-scheme: light;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(18, 21, 44, 0.05);
+}
+
+:root[data-theme="dark"] #demo .studio-fields select,
+:root[data-theme="dark"] #demo .studio-tinnitus select {
+  color-scheme: dark;
+  box-shadow: none;
+}
+
+#demo #play {
+  border-radius: 999px;
+  padding-inline: 1.25rem;
+  font-weight: 740;
+  background: linear-gradient(135deg, var(--action, #4f4cad), color-mix(in srgb, var(--console-glow) 52%, #4f4cad));
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 10px 24px -6px color-mix(in srgb, var(--console-glow) 48%, rgba(79, 76, 173, 0.35));
+  transition: transform 0.16s ease, box-shadow 0.2s ease, filter 0.16s ease;
+}
+
+#demo #play:enabled:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.07);
+  background: linear-gradient(135deg, var(--action, #4f4cad), color-mix(in srgb, var(--console-glow) 60%, #4f4cad));
+}
+
+#demo .studio-quick-downloads .button {
+  border-radius: 999px;
+}
+
+#demo .studio-workbench {
+  gap: 2.4rem;
+  padding-top: 1.6rem;
+}
+
+#demo .studio-monitor {
+  padding: 0;
+}
+
+#demo .plot-mode {
+  border-radius: 999px;
+  background: rgba(34, 35, 60, 0.06);
+  border-color: transparent;
+}
+
+#demo .plot-mode .button {
+  border-radius: 999px;
+  color: var(--soft-ink);
+  border-color: transparent;
+}
+
+#demo .plot-mode .button[aria-pressed="true"] {
+  background: var(--paper);
+  color: var(--action);
+  box-shadow: 0 2px 8px rgba(16, 19, 40, 0.09);
+}
+
+:root[data-theme="dark"] #demo .plot-mode {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+:root[data-theme="dark"] #demo .plot-mode .button[aria-pressed="true"] {
+  background: #232a4a;
+  color: #e0e7ff;
+}
+
+/* Floating Luminous Oscilloscope Canvas */
+#demo .waveform {
+  border: 0;
+  border-radius: 1.15rem;
+  background-color: #0e1224;
+  background-image:
+    radial-gradient(ellipse 75% 60% at 50% 105%, color-mix(in srgb, var(--console-glow) 26%, transparent), transparent 70%),
+    linear-gradient(to right, rgba(167, 175, 210, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(167, 175, 210, 0.09) 1px, transparent 1px);
+  box-shadow: 0 24px 54px -16px color-mix(in srgb, var(--console-glow) 34%, rgba(12, 15, 32, 0.34));
+  transition: box-shadow 0.35s ease;
+}
+
+#demo .listen-deck[data-playing="true"] .waveform {
+  box-shadow: 0 28px 64px -12px color-mix(in srgb, var(--console-glow) 52%, rgba(12, 15, 32, 0.42));
+}
+
+/* Open Un-Boxed Studio Hearing Profiles & Tactile Floating Tiles */
+#demo .studio-effects {
+  padding: 0;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+#demo .studio-effects a {
+  color: var(--action);
+}
+
+#demo .version-control .button {
+  min-height: 3.1rem;
+  border-radius: 0.72rem;
+  border: 1px solid var(--deck-line);
+  border-left: 3.5px solid var(--fx-color, var(--action));
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px);
+  color: var(--ink);
+  box-shadow: 0 6px 18px rgba(18, 21, 44, 0.05);
+}
+
+#demo .version-control .button:enabled:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  border-color: color-mix(in srgb, var(--fx-color, var(--action)) 55%, transparent);
+  border-left-color: var(--fx-color, var(--action));
+  box-shadow: 0 12px 26px -8px color-mix(in srgb, var(--fx-color, var(--action)) 28%, rgba(18, 21, 44, 0.12));
+}
+
+#demo .version-control .button[aria-pressed="true"] {
+  transform: translateY(0);
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--fx-color, var(--console-glow)) 16%, transparent), rgba(255, 255, 255, 0.92) 75%);
+  border-color: var(--fx-color, var(--console-glow)) !important;
+  border-left-width: 4px !important;
+  box-shadow: 0 12px 28px -8px color-mix(in srgb, var(--fx-color, var(--console-glow)) 36%, transparent) !important;
+}
+
+:root[data-theme="dark"] #demo .version-control .button {
+  background: rgba(20, 25, 46, 0.72);
+  border-color: rgba(148, 163, 184, 0.18);
+  border-left: 3.5px solid var(--fx-color, var(--action));
+  color: #e2e8f0;
+  box-shadow: none;
+}
+
+:root[data-theme="dark"] #demo .version-control .button:enabled:hover {
+  background: rgba(30, 37, 68, 0.92);
+  color: #ffffff;
+}
+
+:root[data-theme="dark"] #demo .version-control .button[aria-pressed="true"] {
+  color: #ffffff;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--fx-color, var(--console-glow)) 28%, #151a30), rgba(22, 27, 50, 0.95) 80%);
+}
+
+/* Open Borderless Frequency Lanes in Studio & Your Audio Explainers */
+#demo .studio-ai-explainer,
+#render .upload-ai-explainer {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid var(--deck-line, var(--line)) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 1.25rem 0 0 !important;
+  margin-top: 1.1rem;
+}
+
+:is(#demo .studio-ai-explainer, #render .upload-ai-explainer) .explainer-band-pills {
+  gap: 0.75rem 1rem;
+}
+
+:is(#demo .studio-ai-explainer, #render .upload-ai-explainer) .explainer-band-pill {
+  --lane-accent: #10b981;
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 2.5px solid var(--lane-accent) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.52rem 0.15rem 0.25rem !important;
+}
+
+:is(#demo .studio-ai-explainer, #render .upload-ai-explainer) .explainer-band-pill[data-severity="mild"] {
+  --lane-accent: #eab308;
+}
+:is(#demo .studio-ai-explainer, #render .upload-ai-explainer) .explainer-band-pill[data-severity="moderate"] {
+  --lane-accent: #f97316;
+}
+:is(#demo .studio-ai-explainer, #render .upload-ai-explainer) .explainer-band-pill[data-severity="strong"] {
+  --lane-accent: #ef4444;
+}
+
+#demo .studio-ai-explainer .explainer-pill-name {
+  color: var(--deck-muted);
+}
+#demo .studio-ai-explainer .explainer-pill-db {
+  color: var(--deck-text);
+}
+#demo .chatbot-details > summary {
+  color: var(--action);
+}
+:root[data-theme="dark"] #demo .chatbot-details > summary {
+  color: #c7d2fe;
+}
+
+:is(#demo .studio-ai-explainer, #render .upload-ai-explainer) .chatbot-thread {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+/* Open Hairline Strips for Filter Response & Secondary Tool Drawers */
+.filter-response,
+.tool-panel,
+.ear-settings {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding-inline: 0 !important;
+}
+
+.filter-response-landmarks {
+  gap: 0.85rem 1.1rem;
+}
+
+.filter-response-landmarks li {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 2px solid var(--action) !important;
+  border-radius: 0 !important;
+  padding: 0.5rem 0.15rem 0.2rem !important;
+}
+
+/* --- B. UN-CAGED YOUR AUDIO (#render) & SPINNING IRIDESCENT VINYL --- */
+#render .upload-workspace {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  gap: 2.6rem;
+  align-items: start;
+}
+
+#render .upload-source {
+  border: 0;
+  border-radius: 1.4rem;
+  min-height: 16.5rem;
+  background:
+    radial-gradient(circle at 80% 50%, color-mix(in srgb, var(--render-aurora, #6366f1) 34%, transparent) 0%, transparent 58%),
+    radial-gradient(circle at 15% 15%, rgba(45, 212, 191, 0.16) 0%, transparent 48%),
+    linear-gradient(135deg, #101426 0%, #1a1f3c 100%);
+  box-shadow: 0 26px 58px -18px rgba(24, 28, 62, 0.34);
+}
+
+#render .upload-platter-art {
+  right: -2.4rem;
+  width: 17.5rem;
+  height: 17.5rem;
+  border: 1px solid rgba(199, 210, 254, 0.26);
+  background:
+    radial-gradient(circle, #f8fafc 0 0.42rem, #111528 0.46rem 2.1rem, rgba(99, 102, 241, 0.42) 2.15rem 2.3rem, transparent 2.35rem),
+    conic-gradient(from 0deg, transparent 0deg, rgba(165, 180, 252, 0.18) 38deg, transparent 82deg, rgba(45, 212, 191, 0.16) 180deg, transparent 230deg, rgba(244, 114, 182, 0.14) 310deg, transparent 360deg),
+    repeating-radial-gradient(circle, rgba(255, 255, 255, 0.055) 0 1.5px, transparent 1.5px 8px);
+  animation: vinylSpin 26s linear infinite;
+}
+
+#render .upload-source:hover .upload-platter-art,
+#render .upload-source[data-dragover="true"] .upload-platter-art,
+#render.workspace:has([data-upload-listen][aria-pressed="true"]) .upload-platter-art {
+  animation-duration: 4.5s;
+  border-color: rgba(52, 211, 153, 0.55);
+}
+
+#render .upload-preview {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 1.6rem 0 0 !important;
+}
+
+#render .upload-listen {
+  background: rgba(34, 35, 60, 0.05);
+  border: 0;
+  border-radius: 999px;
+  padding: 0.3rem;
+}
+
+:root[data-theme="dark"] #render .upload-listen {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+#render .upload-listen .button {
+  border-radius: 999px;
+}
+
+#render .upload-player {
+  border-radius: 1.15rem;
+  border: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 105%, color-mix(in srgb, var(--render-aurora, #6366f1) 26%, transparent), transparent 72%),
+    #101426;
+  box-shadow: 0 22px 50px -16px rgba(15, 18, 38, 0.32);
+}
+
+#render .quick-export-bar {
+  background: transparent !important;
+  border: 0 !important;
+  padding-inline: 0 !important;
+}
+
+#render .preview-downloads .button,
+#render .campaign-export-row .button,
+#render .campaign-export-row select {
+  border-radius: 999px;
+}
+
+#render .upload-inspector {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+#render .upload-effects-fields {
+  gap: 0;
+}
+
+#render .rack-module {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.95rem 0 !important;
+  margin: 0 !important;
+}
+
+#render .upload-inspector select {
+  border-radius: 999px;
+  padding-inline: 0.9rem 2rem;
+}
+
+#render .multi-section-item {
+  background: transparent !important;
+  border: 0 !important;
+  border-left: 3px solid var(--seg-color, var(--action)) !important;
+  border-radius: 0 !important;
+  padding: 0.45rem 0 0.45rem 0.75rem !important;
+}
+
+/* --- C. UN-CAGED EXPLORE EXHIBITION (#explore) --- */
+#explore .story-journey {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 0 1.6rem !important;
+  margin-bottom: 1.8rem;
+}
+
+#explore .story-steps {
+  gap: 0.85rem;
+}
+
+#explore .story-step-btn {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 2.5px solid var(--line) !important;
+  border-radius: 0 !important;
+  padding: 0.65rem 0.25rem 0.35rem !important;
+  transition: border-color 0.2s ease, transform 0.16s ease;
+}
+
+#explore .story-step-btn:hover {
+  border-top-color: color-mix(in srgb, var(--action) 55%, var(--line)) !important;
+  transform: translateY(-1px);
+}
+
+#explore .story-step-btn[aria-pressed="true"] {
+  border-top-color: var(--action) !important;
+}
+
+#explore .story-step-btn[aria-pressed="true"] .story-step-num {
+  background: var(--action);
+  border-color: var(--action);
+  color: #ffffff;
+}
+
+#explore .home-story {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 2.4rem;
+}
+
+#explore .home-video-stage {
+  padding: 0;
+  color: var(--ink);
+}
+
+#explore .home-video-stage .home-video-picture {
+  border: 0;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  box-shadow: 0 26px 58px -18px rgba(15, 18, 38, 0.34);
+}
+
+#explore .home-story-details {
+  margin-top: 0.85rem;
+  border: 0;
+  background: transparent;
+}
+
+#explore .home-video-actions {
+  background: transparent;
+  padding: 0.85rem 0 0;
+}
+
+#explore .nihl-examples,
+#explore .freq-band-sim,
+#explore .live-mic-panel {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: clamp(1.9rem, 3.8vw, 2.8rem) 0 0.8rem !important;
+  margin-bottom: 1.8rem;
+}
+
+#explore .nihl-chart-stage,
+#explore .nihl-audition,
+#explore .freq-band-context-bar,
+#explore .freq-band-transport,
+#explore .live-mic-gate {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding-inline: 0 !important;
+}
+
+#explore [data-nihl-chart] {
+  border-radius: 1.1rem;
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 44px -18px rgba(18, 21, 44, 0.12);
+}
+
+#explore :is(.nihl-actions, .nihl-audition-options, .freq-band-presets, .live-mic-presets) .button,
+#explore .freq-band-pub-btn.button,
+#explore #freq-band-play,
+#explore #freq-band-reset,
+#explore #live-mic-toggle {
+  border-radius: 999px;
+}
+
+#explore .freq-band-context-field select {
+  border-radius: 999px;
+  padding-inline: 0.9rem 2rem;
+}
+
+#explore .freq-band-stage {
+  border: 0;
+  border-radius: 1.2rem;
+  padding: clamp(0.95rem, 2.2vw, 1.35rem);
+  background:
+    radial-gradient(ellipse 72% 58% at 50% 105%, rgba(129, 140, 248, 0.25), transparent 70%),
+    linear-gradient(180deg, #13172c 0%, #0d1020 100%);
+  box-shadow: 0 24px 54px -16px rgba(20, 24, 52, 0.34);
+  transition: box-shadow 0.35s ease;
+}
+
+#explore .freq-band-sim:has(#freq-band-play[aria-pressed="true"]) .freq-band-stage {
+  box-shadow: 0 28px 64px -12px rgba(99, 102, 241, 0.42);
+}
+
+#explore .live-mic-panel:has(#live-mic-toggle[aria-pressed="true"]) {
+  border-top: 2px solid #ef4444 !important;
+}
+
+#explore .compact-insights-row {
+  gap: 1.25rem;
+  margin: 0.5rem 0 2rem;
+}
+
+#explore .compact-learn-drawer {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 2px solid rgba(79, 76, 173, 0.28) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding-inline: 0 !important;
+}
+
+#explore :is(.mechanism-list li, .protect-list li) {
+  background: transparent !important;
+  border: 0 !important;
+  border-left: 2px solid var(--action) !important;
+  border-radius: 0 !important;
+  padding: 0.2rem 0 0.2rem 0.7rem !important;
+}
+
+#explore .rnid-support-card {
+  border: 0 !important;
+  border-top: 2px solid #10b981 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.08), transparent 65%) !important;
+  padding: 1.6rem 1.2rem 1.6rem 0 !important;
+}
+
+#explore .rnid-support-actions .button {
+  border-radius: 999px;
+}
+
+#explore .example-card {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+  padding-inline: 0 !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  #demo.studio-view:has(.listen-deck[data-playing="true"])::before,
+  #render .upload-platter-art {
+    animation: none !important;
+  }
+
   .ear-3d-canvas {
     animation: none !important;
   }

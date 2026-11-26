@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Listen to examples of hearing changes after loud music and tinnitus, explore a 3D inner ear, or compare your own clip in the RNID listening studio.">
   <title>RNID Audio Tool</title>
-  <link rel="stylesheet" href="./styles.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./home-video-effects.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./home-story.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./hearing-guide.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./nihl-examples.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./freq-band-sim.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./studio-filter-response.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./studio-layout.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./upload-layout.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./ear-levels.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./audio-explainer.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./live-mic.css?v=6c8561a22e">
-  <link rel="stylesheet" href="./experience-upgrade.css?v=6c8561a22e">
-  <script type="module" src="./app.mjs?v=6c8561a22e"></script>
+  <link rel="stylesheet" href="./styles.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./home-video-effects.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./home-story.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./hearing-guide.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./nihl-examples.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./freq-band-sim.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./studio-filter-response.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./studio-layout.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./upload-layout.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./ear-levels.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./audio-explainer.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./live-mic.css?v=0f7222afbc">
+  <link rel="stylesheet" href="./experience-upgrade.css?v=0f7222afbc">
+  <script type="module" src="./app.mjs?v=0f7222afbc"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -460,7 +460,7 @@
             </button>
           </div>
           <div class="home-story-choices" role="group" aria-label="Compare chapter effects">
-            <button class="home-story-choice" type="button" data-story-for="live after" data-story-choice="original" data-effect-color="emerald" aria-pressed="true">✦ Original</button>
+            <button class="home-story-choice" type="button" data-story-for="live after" data-story-choice="original" data-effect-color="emerald" aria-pressed="true">Original</button>
             <button class="home-story-choice" type="button" data-story-for="live after" data-story-choice="muffled" data-effect-color="amber" aria-pressed="false"><svg class="story-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-3 4 6 3-3h4M3 18h18"/></svg>Muffled</button>
             <button class="home-story-choice" type="button" data-story-for="after" data-story-choice="stronger" data-effect-color="coral" aria-pressed="false" hidden><svg class="story-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m13 3-8 10h6l-1 8 9-11h-7z"/></svg>Enhanced demo</button>
             <button class="home-story-choice" type="button" data-story-for="quiet" data-story-choice="off" aria-pressed="false" hidden>Off</button>
@@ -481,37 +481,37 @@
           <p class="feedback" id="home-video-status" role="status"></p>
         </div>
         <details class="home-story-details">
-          <summary>🎛️ All sound and picture effects</summary>
+          <summary>All sound &amp; picture effects</summary>
           <div class="home-video-actions" role="group" aria-labelledby="home-effects-title">
           <h2 class="visually-hidden" id="home-effects-title">Effects</h2>
           <div class="home-video-setting" role="group" aria-labelledby="home-video-sound-label" aria-controls="home-video">
             <div class="home-video-setting-header">
               <p class="home-video-setting-label" id="home-video-sound-label">Hearing hangover</p>
-              <button class="button utility home-video-cue" type="button" data-home-video-cue="contrast" disabled>↺ Replay bells</button>
+              <button class="button utility home-video-cue" type="button" data-home-video-cue="contrast" disabled>Replay bells</button>
             </div>
             <div class="home-video-options home-video-compare-options">
-              <button class="button sample-button" type="button" data-home-video-mode="original" data-effect-color="emerald" aria-pressed="true" disabled>✦ Original</button>
-              <button class="button sample-button" type="button" data-home-video-mode="muffled" data-effect-color="amber" aria-pressed="false" disabled>☁ Post-gig muffled</button>
+              <button class="button sample-button" type="button" data-home-video-mode="original" data-effect-color="emerald" aria-pressed="true" disabled>Original</button>
+              <button class="button sample-button" type="button" data-home-video-mode="muffled" data-effect-color="amber" aria-pressed="false" disabled>Post-gig muffled</button>
             </div>
           </div>
           <div class="home-video-setting" role="group" aria-labelledby="home-video-tinnitus-label" aria-controls="home-video">
             <div class="home-video-setting-header">
               <p class="home-video-setting-label" id="home-video-tinnitus-label">Tinnitus</p>
-              <button class="button utility home-video-cue" type="button" data-home-video-cue="fade" aria-describedby="home-video-fade-help" disabled>🌙 Quiet ending</button>
+              <button class="button utility home-video-cue" type="button" data-home-video-cue="fade" aria-describedby="home-video-fade-help" disabled>Quiet ending</button>
             </div>
             <p class="visually-hidden" id="home-video-fade-help">Plays the music fade and selects ringing if tinnitus is off.</p>
             <div class="home-video-options">
               <button class="button sample-button" type="button" data-home-video-tinnitus="off" aria-pressed="true" disabled>Off</button>
-              <button class="button sample-button" type="button" data-home-video-tinnitus="ringing" data-effect-color="gold" aria-pressed="false" disabled>🔔 Ringing</button>
-              <button class="button sample-button" type="button" data-home-video-tinnitus="hiss" data-effect-color="lavender" aria-pressed="false" disabled>🌫 Hiss</button>
+              <button class="button sample-button" type="button" data-home-video-tinnitus="ringing" data-effect-color="gold" aria-pressed="false" disabled>Ringing</button>
+              <button class="button sample-button" type="button" data-home-video-tinnitus="hiss" data-effect-color="lavender" aria-pressed="false" disabled>Hiss</button>
             </div>
           </div>
           <div class="home-video-setting" role="group" aria-labelledby="home-video-other-hearing-label" aria-controls="home-video">
             <p class="home-video-setting-label" id="home-video-other-hearing-label">More profiles</p>
             <div class="home-video-options">
-              <button class="button sample-button" type="button" data-home-video-mode="stronger" data-effect-color="violet" aria-pressed="false" disabled>↘ Strong treble</button>
-              <button class="button sample-button" type="button" data-home-video-mode="left" data-effect-color="cyan" aria-pressed="false" disabled>◐ Left quieter</button>
-              <button class="button sample-button" type="button" data-home-video-mode="right" data-effect-color="cyan" aria-pressed="false" disabled>◑ Right quieter</button>
+              <button class="button sample-button" type="button" data-home-video-mode="stronger" data-effect-color="violet" aria-pressed="false" disabled>Strong treble</button>
+              <button class="button sample-button" type="button" data-home-video-mode="left" data-effect-color="cyan" aria-pressed="false" disabled>Left quieter</button>
+              <button class="button sample-button" type="button" data-home-video-mode="right" data-effect-color="cyan" aria-pressed="false" disabled>Right quieter</button>
             </div>
           </div>
           <div class="home-hearing-guide" id="home-hearing-guide" aria-live="polite">
@@ -542,6 +542,7 @@
 
       <section class="nihl-examples" id="nihl-examples" data-flow-section aria-labelledby="nihl-heading">
         <header class="nihl-examples-header">
+          <span class="section-eyebrow">01 · Clinical Curves</span>
           <h2 id="nihl-heading">Audiogram examples</h2>
           <p>Pick a chart to hear how the vocal clip changes.</p>
         </header>
@@ -587,7 +588,7 @@
       <div class="compact-insights-row" aria-label="Quick hearing science and protection drawers">
         <details class="compact-learn-drawer">
           <summary>
-            <span>🔬 Why it isn’t “just quieter”</span>
+            <span>Why it isn’t “just quieter”</span>
             <span class="drawer-pills">Bass stays loud · Words blur</span>
           </summary>
           <ul class="mechanism-list">
@@ -598,7 +599,7 @@
         </details>
         <details class="compact-learn-drawer">
           <summary>
-            <span id="protect-music-title">🛡️ Keep the music, skip the hangover</span>
+            <span id="protect-music-title">Keep the music, skip the hangover</span>
             <span class="drawer-pills">Earplugs · Quiet breaks</span>
           </summary>
           <ul class="protect-list">
@@ -613,14 +614,15 @@
       <section class="freq-band-sim" id="freq-band-sim" data-flow-section aria-labelledby="freq-band-title">
         <header class="freq-band-header">
           <div>
-            <h2 id="freq-band-title">🎚️ Frequency &amp; Pub Chatter Explorer</h2>
+            <span class="section-eyebrow">02 · Six-Band Cochlear EQ</span>
+            <h2 id="freq-band-title">Frequency &amp; Pub Chatter</h2>
             <p>Add pub chatter or solo frequency bands.</p>
           </div>
-          <button class="button secondary" id="freq-band-reset" type="button">↺ Reset</button>
+          <button class="button secondary" id="freq-band-reset" type="button">Reset</button>
         </header>
         <div class="freq-band-context-bar" role="group" aria-label="Loop track and background environment">
           <div class="freq-band-context-field">
-            <label for="freq-band-source">🎵 Song</label>
+            <label for="freq-band-source">Song</label>
             <select id="freq-band-source">
               <option value="instrumental">Bells &amp; synth demo</option>
               <option value="happy-birthday">Happy Birthday (Traditional)</option>
@@ -637,10 +639,10 @@
             </select>
           </div>
           <div class="freq-band-context-field">
-            <label for="freq-band-crowd"><span>🍻 Pub chatter</span> <output id="freq-band-crowd-value" for="freq-band-crowd">Off</output></label>
+            <label for="freq-band-crowd"><span>Pub chatter</span> <output id="freq-band-crowd-value" for="freq-band-crowd">Off</output></label>
             <input id="freq-band-crowd" type="range" min="0" max="100" step="5" value="0">
           </div>
-          <button class="button secondary freq-band-pub-btn" id="freq-band-pub-demo" type="button">🍻 Busy pub demo</button>
+          <button class="button secondary freq-band-pub-btn" id="freq-band-pub-demo" type="button">Try busy pub demo</button>
         </div>
         <div class="freq-band-transport" role="group" aria-label="Loop playback">
           <button class="button primary" id="freq-band-play" type="button" aria-pressed="false">Play loop</button>
@@ -649,18 +651,18 @@
           <span class="freq-band-time" id="freq-band-time">0:00.0 / –:––</span>
         </div>
         <div class="freq-band-presets" role="group" aria-label="Frequency band presets">
-          <button class="button" type="button" data-band-preset="normal" data-effect-color="emerald" aria-pressed="true">✦ Normal hearing</button>
-          <button class="button" type="button" data-band-preset="post_gig" data-effect-color="amber" aria-pressed="false">☁ Post-gig hangover</button>
-          <button class="button" type="button" data-band-preset="permanent_notch" data-effect-color="coral" aria-pressed="false">⚡ 4 kHz noise notch</button>
-          <button class="button" type="button" data-band-preset="severe_hf" data-effect-color="violet" aria-pressed="false">↘ Severe HF loss</button>
-          <button class="button" type="button" data-band-preset="isolate_speech" data-effect-color="pink" aria-pressed="false">💬 Speech band (2–6 kHz)</button>
-          <button class="button" type="button" data-band-preset="musician_plugs" data-effect-color="mint" aria-pressed="false">🛡 Earplugs</button>
+          <button class="button" type="button" data-band-preset="normal" data-effect-color="emerald" aria-pressed="true">Normal hearing</button>
+          <button class="button" type="button" data-band-preset="post_gig" data-effect-color="amber" aria-pressed="false">Post-gig hangover</button>
+          <button class="button" type="button" data-band-preset="permanent_notch" data-effect-color="coral" aria-pressed="false">4 kHz noise notch</button>
+          <button class="button" type="button" data-band-preset="severe_hf" data-effect-color="violet" aria-pressed="false">Severe HF loss</button>
+          <button class="button" type="button" data-band-preset="isolate_speech" data-effect-color="pink" aria-pressed="false">Speech band (2–6 kHz)</button>
+          <button class="button" type="button" data-band-preset="musician_plugs" data-effect-color="mint" aria-pressed="false">Earplugs</button>
         </div>
         <div class="freq-band-stage">
           <div class="freq-band-stage-head">
             <div class="freq-band-audition" role="group" aria-label="Compare loop audio">
-              <button class="button" type="button" data-band-audition="original" data-effect-color="emerald" aria-pressed="false">✦ Original</button>
-              <button class="button" type="button" data-band-audition="filtered" data-effect-color="violet" aria-pressed="true">🎛️ Filtered</button>
+              <button class="button" type="button" data-band-audition="original" data-effect-color="emerald" aria-pressed="false">Original</button>
+              <button class="button" type="button" data-band-audition="filtered" data-effect-color="violet" aria-pressed="true">Filtered</button>
             </div>
             <div class="freq-band-legend" role="group" aria-label="Frequency chart legend">
               <span class="freq-legend-item"><i class="freq-swatch ghost" aria-hidden="true"></i>Original</span>
@@ -673,34 +675,37 @@
         </div>
         <p class="feedback" id="freq-band-status" role="status"></p>
         <details class="tool-panel">
-          <summary>🎚️ Fine-tune individual frequency bands (6 sliders)</summary>
+          <summary>Fine-tune all 6 frequency bands</summary>
           <div class="freq-band-controls" id="freq-band-controls"></div>
         </details>
       </section>
 
       <section class="live-mic-panel" id="live-mic-panel" aria-labelledby="live-mic-title">
         <div class="live-mic-header">
-          <h2 id="live-mic-title">🎙️ Live Voice Workshop</h2>
-          <span class="live-mic-badge">🔒 On-device only</span>
+          <div>
+            <span class="section-eyebrow">03 · Real-Time Voice Filter</span>
+            <h2 id="live-mic-title">Live Voice Workshop</h2>
+          </div>
+          <span class="live-mic-badge">On-device · Zero recording</span>
         </div>
         <p class="live-mic-intro">Wear headphones to test a live voice through hearing loss or earplugs.</p>
         <div class="live-mic-gate">
           <label class="live-mic-check" for="live-mic-headphones">
             <input id="live-mic-headphones" type="checkbox">
-            <span>🎧 Wearing headphones (prevents feedback)</span>
+            <span>Wearing headphones (prevents feedback)</span>
           </label>
           <button class="button primary" id="live-mic-toggle" type="button" aria-pressed="false" disabled>Start mic</button>
         </div>
         <div class="live-mic-presets" role="group" aria-label="Live microphone presets">
-          <button class="button" type="button" data-live-mic-preset="original" data-effect-color="emerald" aria-pressed="false">✦ Normal</button>
-          <button class="button" type="button" data-live-mic-preset="post_gig" data-effect-color="amber" aria-pressed="true">☁ Post-gig</button>
-          <button class="button" type="button" data-live-mic-preset="notch_4k" data-effect-color="coral" aria-pressed="false">⚡ 4 kHz notch</button>
-          <button class="button" type="button" data-live-mic-preset="severe_hf" data-effect-color="violet" aria-pressed="false">↘ Strong HF</button>
-          <button class="button" type="button" data-live-mic-preset="musician_plugs" data-effect-color="mint" aria-pressed="false">🛡 Earplugs</button>
+          <button class="button" type="button" data-live-mic-preset="original" data-effect-color="emerald" aria-pressed="false">Normal</button>
+          <button class="button" type="button" data-live-mic-preset="post_gig" data-effect-color="amber" aria-pressed="true">Post-gig</button>
+          <button class="button" type="button" data-live-mic-preset="notch_4k" data-effect-color="coral" aria-pressed="false">4 kHz notch</button>
+          <button class="button" type="button" data-live-mic-preset="severe_hf" data-effect-color="violet" aria-pressed="false">Strong HF</button>
+          <button class="button" type="button" data-live-mic-preset="musician_plugs" data-effect-color="mint" aria-pressed="false">Earplugs</button>
         </div>
         <div class="live-mic-controls-row">
           <div class="freq-band-context-field">
-            <label for="live-mic-crowd"><span>🍻 Pub chatter</span> <output id="live-mic-crowd-value" for="live-mic-crowd">Off</output></label>
+            <label for="live-mic-crowd"><span>Pub chatter</span> <output id="live-mic-crowd-value" for="live-mic-crowd">Off</output></label>
             <input id="live-mic-crowd" type="range" min="0" max="100" step="5" value="0">
           </div>
           <div class="live-mic-meter-wrap" aria-hidden="true">
@@ -714,29 +719,30 @@
 
       <section class="rnid-support-card" id="rnid-support-card" aria-labelledby="rnid-support-title">
         <div class="rnid-support-copy">
-          <h2 id="rnid-support-title">💚 Ringing or muffled speech after a gig?</h2>
+          <span class="section-eyebrow">RNID Support</span>
+          <h2 id="rnid-support-title">Ringing or muffled speech after a gig?</h2>
           <p>Free 3-minute RNID hearing check · Non-clinical demo.</p>
         </div>
         <div class="rnid-support-actions">
-          <a class="button primary" href="https://rnid.org.uk/information-and-support/take-online-hearing-check/" target="_blank" rel="noopener noreferrer">🩺 3-min hearing check</a>
-          <a class="button secondary" href="https://rnid.org.uk/information-and-support/tinnitus/" target="_blank" rel="noopener noreferrer">💬 Tinnitus support</a>
+          <a class="button primary" href="https://rnid.org.uk/information-and-support/take-online-hearing-check/" target="_blank" rel="noopener noreferrer">Free 3-min hearing check →</a>
+          <a class="button secondary" href="https://rnid.org.uk/information-and-support/tinnitus/" target="_blank" rel="noopener noreferrer">Tinnitus support →</a>
         </div>
       </section>
 
       <details class="tool-panel" id="more-listening-examples">
-        <summary>🎧 Tone &amp; isolated tinnitus examples</summary>
+        <summary>Tone &amp; isolated tinnitus examples</summary>
         <div class="listen-examples">
           <section class="example-card hangover-card" id="hearing-hangover" aria-labelledby="hangover-title" tabindex="-1">
             <h2 id="hangover-title">Hearing hangover</h2>
             <p>Compare music or pure test tones across profiles.</p>
             <div class="example-source-choice" role="group" aria-label="Sound to compare">
-              <button class="button" type="button" data-listen-source="music" aria-pressed="true">🎵 Music</button>
-              <button class="button" type="button" data-listen-source="tones" aria-pressed="false">〰️ Tone sequence</button>
+              <button class="button" type="button" data-listen-source="music" aria-pressed="true">Music</button>
+              <button class="button" type="button" data-listen-source="tones" aria-pressed="false">Tone sequence</button>
             </div>
             <div class="example-actions" role="group" aria-label="Compare hearing changes" aria-describedby="hangover-listening-note">
-              <button class="button sample-button" id="hangover-original" type="button" data-effect-color="emerald" aria-pressed="false" disabled>✦ Play original</button>
-              <button class="button sample-button" id="hangover-stronger" type="button" data-effect-color="violet" aria-pressed="false" disabled>↘ Strong treble loss</button>
-              <button class="button sample-button" id="hangover-muffled" type="button" data-effect-color="amber" aria-pressed="false" disabled>☁ Post-gig muffled</button>
+              <button class="button sample-button" id="hangover-original" type="button" data-effect-color="emerald" aria-pressed="false" disabled>Play original</button>
+              <button class="button sample-button" id="hangover-stronger" type="button" data-effect-color="violet" aria-pressed="false" disabled>Strong treble loss</button>
+              <button class="button sample-button" id="hangover-muffled" type="button" data-effect-color="amber" aria-pressed="false" disabled>Post-gig muffled</button>
             </div>
             <figure class="listen-waveform" data-listen-waveform="hangover" hidden>
               <figcaption><span>Waveform</span><span data-listen-waveform-time>0:00.0 / 0:00.0</span></figcaption>
@@ -750,7 +756,7 @@
               <summary>Long-term hearing loss example</summary>
               <p class="help">Illustrates a permanent 4 kHz noise-induced pattern.</p>
               <div class="tool-actions">
-                <button class="button sample-button" id="hangover-permanent" type="button" data-effect-color="coral" aria-pressed="false" disabled>⚡ Play mild 4 kHz example</button>
+                <button class="button sample-button" id="hangover-permanent" type="button" data-effect-color="coral" aria-pressed="false" disabled>Play mild 4 kHz example</button>
               </div>
             </details>
             <a class="example-source" href="https://rnid.org.uk/2026/08/the-science-behind-your-hearing-hangover/">RNID on hearing hangover</a>
@@ -767,9 +773,9 @@
               <button class="button secondary tinnitus-stop-btn" id="listen-tinnitus-stop" type="button">Stop ringing</button>
             </div>
             <div class="example-actions tinnitus-context" role="group" aria-label="Compare music with tinnitus">
-              <button class="button sample-button" id="tinnitus-music" type="button" data-effect-color="emerald" aria-pressed="false" disabled>✦ Music only</button>
-              <button class="button sample-button" id="tinnitus-music-ringing" type="button" data-effect-color="gold" aria-pressed="false" disabled>🔔 With ringing</button>
-              <button class="button sample-button" id="tinnitus-music-hiss" type="button" data-effect-color="lavender" aria-pressed="false" disabled>🌫 With hiss</button>
+              <button class="button sample-button" id="tinnitus-music" type="button" data-effect-color="emerald" aria-pressed="false" disabled>Music only</button>
+              <button class="button sample-button" id="tinnitus-music-ringing" type="button" data-effect-color="gold" aria-pressed="false" disabled>With ringing</button>
+              <button class="button sample-button" id="tinnitus-music-hiss" type="button" data-effect-color="lavender" aria-pressed="false" disabled>With hiss</button>
             </div>
             <figure class="listen-waveform" data-listen-waveform="tinnitus" hidden>
               <figcaption><span>Waveform</span><span data-listen-waveform-time>0:00.0 / 0:00.0</span></figcaption>
@@ -782,8 +788,8 @@
               <summary>Tinnitus sounds on their own</summary>
               <p class="tinnitus-care-note">Plays a softened 3.4 kHz tone or hiss. Stop anytime if you have sound sensitivity.</p>
               <div class="tool-actions">
-                <button class="button sample-button" id="tinnitus-ringing" type="button" data-effect-color="gold" aria-pressed="false" disabled>🔔 Play ringing</button>
-                <button class="button sample-button" id="tinnitus-hiss" type="button" data-effect-color="lavender" aria-pressed="false" disabled>🌫 Play hiss</button>
+                <button class="button sample-button" id="tinnitus-ringing" type="button" data-effect-color="gold" aria-pressed="false" disabled>Play ringing</button>
+                <button class="button sample-button" id="tinnitus-hiss" type="button" data-effect-color="lavender" aria-pressed="false" disabled>Play hiss</button>
               </div>
             </details>
             <a class="example-source" href="https://rnid.org.uk/information-and-support/tinnitus/what-tinnitus-sounds-like/">RNID on tinnitus sounds</a>
@@ -981,7 +987,7 @@
               </details>
             </div>
             <details class="tool-panel">
-              <summary>🔬 Ear notes for this preset</summary>
+              <summary>Ear physiology notes</summary>
               <aside class="studio-hearing-guide" id="studio-hearing-guide" aria-label="What you are hearing" aria-live="polite">
                 <div class="studio-guide-top">
                   <h3 data-studio-guide-heading>Original (unfiltered reference)</h3>
@@ -1011,10 +1017,10 @@
         <section class="filter-response" id="studio-filter-response" aria-labelledby="filter-response-title" hidden>
           <header class="filter-response-heading">
             <div>
-              <h2 id="filter-response-title">📊 Hearing filter response</h2>
+              <h2 id="filter-response-title">Hearing filter response</h2>
               <p class="filter-response-profile" id="filter-response-profile"></p>
             </div>
-            <a class="button secondary" id="filter-response-download" download hidden>⬇ Download filter WAV</a>
+            <a class="button secondary" id="filter-response-download" download hidden>Download filter WAV</a>
           </header>
           <p class="help" id="filter-response-mode"></p>
           <figure class="filter-response-figure" aria-describedby="filter-response-level">
@@ -1028,10 +1034,10 @@
             </ul>
           </figure>
           <ul class="filter-response-landmarks" aria-label="Frequency landmarks for music and speech">
-            <li><span class="landmark-hz">&lt;250 Hz</span><strong>🥁 Bass &amp; rhythm</strong><span>Kick drum &amp; warmth</span></li>
-            <li><span class="landmark-hz">250 Hz–2 kHz</span><strong>🎤 Vowels &amp; melody</strong><span>Vocal body &amp; chords</span></li>
-            <li><span class="landmark-hz">2–6 kHz</span><strong>💬 Consonants</strong><span><em>s, f, th, k</em> (“4 kHz notch”)</span></li>
-            <li><span class="landmark-hz">&gt;6 kHz</span><strong>✨ Cymbal air</strong><span>Hi-hat shimmer</span></li>
+            <li><span class="landmark-hz">&lt;250 Hz</span><strong>Bass &amp; rhythm</strong><span>Kick drum &amp; warmth</span></li>
+            <li><span class="landmark-hz">250 Hz–2 kHz</span><strong>Vowels &amp; melody</strong><span>Vocal body &amp; chords</span></li>
+            <li><span class="landmark-hz">2–6 kHz</span><strong>Consonants</strong><span><em>s, f, th, k</em> (“4 kHz notch”)</span></li>
+            <li><span class="landmark-hz">&gt;6 kHz</span><strong>Cymbal air</strong><span>Hi-hat shimmer</span></li>
           </ul>
           <p class="help" id="filter-response-level"></p>
           <p class="feedback" id="filter-response-status" role="status"></p>
@@ -1045,7 +1051,7 @@
         </section>
         <div class="studio-tools">
           <details class="tool-panel cue-editor" id="cue-editor">
-            <summary>🎯 Cue tools</summary>
+            <summary>Cue &amp; loop tools</summary>
             <div class="tool-body cue-editor-body">
               <div class="climax" id="climax" hidden>
                 <p class="help" id="climax-status" role="status"></p>
@@ -1067,10 +1073,10 @@
             </div>
           </details>
           <details class="tool-panel" id="studio-export">
-            <summary>⬇ All downloads &amp; convolution filters</summary>
+            <summary>Downloads &amp; convolution filters</summary>
             <div class="tool-body">
               <div class="tool-actions">
-                <button class="button secondary" id="share-demo" type="button">🔗 Copy listening link</button>
+                <button class="button secondary" id="share-demo" type="button">Copy listening link</button>
               </div>
               <p class="feedback" id="share-status" role="status"></p>
               <input id="share-url" type="url" readonly hidden aria-label="Listening link">
@@ -1094,7 +1100,7 @@
             </div>
           </details>
           <details class="tool-panel" id="audiologist-sandbox">
-            <summary>🩺 Audiologist review &amp; custom profile sandbox</summary>
+            <summary>Audiologist calibration sandbox</summary>
             <div class="tool-body sandbox-body">
               <p class="help">For RNID audiology teams: tune 250–8,000 Hz thresholds (0–80 dB HL) and export an approved profile JSON.</p>
               <div class="sandbox-row">
@@ -1168,16 +1174,16 @@
                 <label for="sandbox-provenance">Clinical &amp; provenance notes</label>
                 <textarea class="sandbox-textarea" id="sandbox-provenance" rows="3"></textarea>
               </div>
-              <div class="tool-actions">
-                <button class="button primary" id="sandbox-download" type="button">⬇ Download candidate profile JSON</button>
+                <div class="tool-actions">
+                  <button class="button primary" id="sandbox-download" type="button">Download candidate profile JSON</button>
+                </div>
+                <p class="feedback" id="sandbox-status" role="status"></p>
               </div>
-              <p class="feedback" id="sandbox-status" role="status"></p>
-            </div>
-          </details>
+            </details>
+          </div>
         </div>
-      </div>
-      <p class="shortcut-hint"><span><kbd>Space</kbd> Play / pause</span> <span><kbd>1</kbd> Original</span> <span><kbd>2</kbd> Last hearing effect</span></p>
-    </section>
+        <p class="shortcut-hint"><span><kbd>Space</kbd> Play / pause</span> <span><kbd>1</kbd> Original</span> <span><kbd>2</kbd> Last hearing effect</span></p>
+      </section>
 
     <section class="view workspace" id="render" data-view="your-audio" aria-labelledby="render-title" hidden>
       <header class="view-heading upload-page-heading">
@@ -1399,7 +1405,7 @@
               </div>
               <div class="multi-section-builder" id="upload-chapters-panel" hidden>
                 <div class="multi-section-toolbar">
-                  <button class="button secondary" id="upload-chapters-autofill" type="button">✨ 3-Act Story Preset</button>
+                  <button class="button secondary" id="upload-chapters-autofill" type="button">3-Act Story Preset</button>
                   <button class="button secondary" id="upload-chapters-add" type="button">+ Add chapter</button>
                 </div>
                 <div class="multi-section-list" id="upload-chapters-list" role="list" aria-label="Video and audio effect chapters"></div>
@@ -1409,7 +1415,7 @@
         </div>
 
         <details class="tool-panel" id="render-options">
-          <summary>⚙️ Full Cambridge MSBG WAV ZIP render</summary>
+          <summary>Full Cambridge MSBG WAV ZIP render</summary>
           <div class="tool-body">
             <p class="help">Run the full Python MSBG model privately in your browser (audio up to 10 minutes, zero uploads).</p>
             <p class="feedback" id="render-status" role="status"></p>
@@ -1435,7 +1441,7 @@
                 <button class="button secondary render-submit" id="render-submit" type="submit" hidden>Render audio (server)</button>
               </div>
             </fieldset>
-            <a id="result" class="button secondary" download="rnid-render.zip" hidden>⬇ Download render ZIP</a>
+            <a id="result" class="button secondary" download="rnid-render.zip" hidden>Download render ZIP</a>
           </div>
         </details>
       </form>

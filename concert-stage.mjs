@@ -3,21 +3,21 @@
 // + 6 telescoping linear-phase FIR convolution kernels (exact bit-accurate sum at 0 dB!),
 // isolating true 340 Hz–7.5 kHz center vocals (body vs sibilant consonants) with smooth musical crossfades.
 
-import { buildConcert3DScene } from './concert-3d-scene.mjs?v=6c8561a22e';
+import { buildConcert3DScene } from './concert-3d-scene.mjs?v=0f7222afbc';
 import {
   createCrowdAmbienceBuffer,
   createCrowdCheeringBuffer,
   crowdPercentToGain,
-} from './crowd-ambience.mjs?v=6c8561a22e';
-import { createBandKernels } from './freq-band-audio.mjs?v=6c8561a22e';
+} from './crowd-ambience.mjs?v=0f7222afbc';
+import { createBandKernels } from './freq-band-audio.mjs?v=0f7222afbc';
 import {
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=6c8561a22e';
-import { getTheme, onThemeChange } from './theme.mjs?v=6c8561a22e';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=6c8561a22e';
-import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=6c8561a22e';
+} from './output-calibration.mjs?v=0f7222afbc';
+import { getTheme, onThemeChange } from './theme.mjs?v=0f7222afbc';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=0f7222afbc';
+import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=0f7222afbc';
 
 export const CONCERT_SONGS = Object.freeze([
   {
