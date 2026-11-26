@@ -416,8 +416,30 @@ export function answerEarPartQuestionInstant({
   if (/pub|bar|crowd|speech|voice|word|blur|mumble/.test(lower)) {
     return `Vowels and background bar chatter sit in warmer, lower notes that still come through plenty loud, whereas telling words apart ("sat" vs "fat" vs "cat") depends on tiny, crisp consonant sounds picked up by the outer cochlear turn and carried by fast auditory-nerve fibres. When those sensors are tired or damaged, speech sounds loud enough to hear someone talking yet blurs into surrounding pub noise.`;
   }
+  if (/how\s*long|last|tomorrow|morning|sleep|rest|hours|days/.test(lower)) {
+    return `After a single loud gig, temporary muffling or ringing ("hearing hangover") means your outer hair cells and nerve connections were overworked. Quiet rest away from loud speakers gives exhausted hair cells their best chance to settle, though repeated loud nights build up permanent wear — check RNID’s guide or free 3-minute online hearing check if changes linger.`;
+  }
+  if (/zoom|look|colour|color|red|amber|green|spark|glow|see/.test(lower)) {
+    return `When you zoom into ${base.partTitle}, green/teal highlights show healthy, responsive sensors, warm amber marks temporarily fatigued hair cells after a loud gig, and coral-red marks permanently flattened hair cells in the classic noise-notch region. Along the auditory nerve, golden or violet pulses illustrate spontaneous internal tinnitus firing.`;
+  }
+  if (/safe|protect|gig|concert|festival|club|break|headphone|earbud/.test(lower)) {
+    return `Three habits protect ${base.partTitle} without spoiling a night out: slip in filtered musicians’ earplugs so music stays clear at a gentler level, step a couple of metres back from main speaker stacks, and take short 5-minute chill-out breaks so your inner-ear hair cells can catch their breath.`;
+  }
+  if (/bone|smallest|hammer|anvil|stirrup|drum|snail|fluid|balance|dizzy/.test(lower)) {
+    return `${base.partTitle} (${base.partLatin}): ${base.roleSummary}\n\nUnder ${base.effectLabel}, ${base.reactionText.split('\n\n')[0]}`;
+  }
 
-  return `${base.partTitle} (${base.effectLabel}): ${base.reactionText}`;
+  return `Looking at ${base.partTitle} under ${base.effectLabel}: ${base.reactionText}\n\nRole in healthy hearing: ${base.roleSummary}`;
+}
+
+export function buildDeepDivePhysiologySummary(partId = 'cochlea', effectKey = 'original', tinnitus = 'off') {
+  const info = getInstantEarPartExplanation(partId, effectKey, tinnitus);
+  const protectTip = effectKey === 'musician_plugs'
+    ? 'With filtered musicians’ earplugs in place, sound waves arrive evenly tamed so you hear every vocal and cymbal nuance without post-gig fatigue.'
+    : effectKey === 'foam_plugs'
+      ? 'Swapping dense foam for filtered musicians’ earplugs keeps the same ear protection while restoring natural vocal and guitar sparkle.'
+      : 'Filtered musicians’ earplugs and short quiet breaks at gigs shield delicate cochlear hair cells before temporary fatigue turns permanent.';
+  return `${info.partTitle} (${info.partLatin}) — Deep-Dive\n\nHow it works: ${info.roleSummary}\n\nWhat happens under ${info.effectLabel}: ${info.reactionText}\n\nTakeaway for live music: ${protectTip}`;
 }
 
 export function buildEarAnatomyAiPrompt({
@@ -495,7 +517,9 @@ export async function generateEarPartAiResponse({
 
   const instantFallback = userQuestion
     ? answerEarPartQuestionInstant({ partId, effectKey, tinnitus, question: userQuestion })
-    : getInstantEarPartExplanation(partId, effectKey, tinnitus).fullMessage;
+    : (useModel
+        ? buildDeepDivePhysiologySummary(partId, effectKey, tinnitus)
+        : getInstantEarPartExplanation(partId, effectKey, tinnitus).fullMessage);
 
   const modelReady = Boolean(llmClient && llmClient.isSupported?.() && (useModel || llmClient.getLoadedModel?.()));
   if (!modelReady) {

@@ -186,6 +186,72 @@ export function computeHairCellHealth(u, normKey) {
   return 1;
 }
 
+export function computeZoomUiMetrics(radius = 9.4, baselineRadius = 9.4) {
+  const safeR = Math.max(2.2, Math.min(18, Number(radius) || baselineRadius));
+  const zoomRatio = Number((baselineRadius / safeR).toFixed(2));
+  const zoomState = zoomRatio >= 1.32 ? 'close' : (zoomRatio <= 0.85 ? 'wide' : 'overview');
+  const radialSpread = zoomRatio < 1
+    ? Math.min(1.55, 1 + (1 - zoomRatio) * 1.25)
+    : Math.max(0.42, 1 / Math.pow(zoomRatio, 0.72));
+  const basePinScale = Number(Math.max(0.86, Math.min(1.12, 0.78 + zoomRatio * 0.22)).toFixed(3));
+  return { zoomRatio, zoomState, radialSpread, basePinScale };
+}
+
+export function resolveNonOverlappingPins(items = [], {
+  minX = 52,
+  maxX = 900,
+  minY = 64,
+  maxY = 500,
+  minGapY = 29,
+  collideWidth = 114,
+  zoomState = 'overview',
+} = {}) {
+  const safeMaxX = Math.max(minX + 40, maxX);
+  const safeMaxY = Math.max(minY + 40, maxY);
+  const out = items.map((item) => {
+    const anchorInSafeArea = item.inFront
+      && item.ax >= 10
+      && item.ax <= safeMaxX + 36
+      && item.ay >= 14
+      && item.ay <= safeMaxY + 38;
+    // When zoomed in close, hide peripheral labels whose structures are outside the viewport
+    const visible = zoomState === 'close'
+      ? (anchorInSafeArea && (item.active || (item.ax >= 22 && item.ax <= safeMaxX + 12 && item.ay >= minY - 26 && item.ay <= safeMaxY + 18)))
+      : anchorInSafeArea;
+    return {
+      ...item,
+      visible,
+      lx: Math.max(minX, Math.min(safeMaxX, item.rawLx)),
+      ly: Math.max(minY, Math.min(safeMaxY, item.rawLy)),
+    };
+  });
+
+  const visibleItems = out.filter((p) => p.visible);
+  for (let pass = 0; pass < 4; pass += 1) {
+    for (let i = 0; i < visibleItems.length; i += 1) {
+      for (let j = i + 1; j < visibleItems.length; j += 1) {
+        const a = visibleItems[i];
+        const b = visibleItems[j];
+        const dx = Math.abs(a.lx - b.lx);
+        const dy = b.ly - a.ly;
+        if (dx < collideWidth && Math.abs(dy) < minGapY) {
+          const push = (minGapY - Math.abs(dy)) * 0.55 + 0.5;
+          const dir = dy >= 0 ? 1 : -1;
+          if (a.active && !b.active) {
+            b.ly = Math.max(minY, Math.min(safeMaxY, b.ly + dir * push * 2));
+          } else if (b.active && !a.active) {
+            a.ly = Math.max(minY, Math.min(safeMaxY, a.ly - dir * push * 2));
+          } else {
+            a.ly = Math.max(minY, Math.min(safeMaxY, a.ly - dir * push));
+            b.ly = Math.max(minY, Math.min(safeMaxY, b.ly + dir * push));
+          }
+        }
+      }
+    }
+  }
+  return out;
+}
+
 export function connectEar3DStage({
   root = document,
   onSelectPreset = () => {},
@@ -208,10 +274,18 @@ export function connectEar3DStage({
   const pinsLayer = stageEl.querySelector('#ear-3d-pins-layer');
   const hoverTooltip = stageEl.querySelector('#ear-3d-hover-tooltip');
   const badgeEl = stageEl.querySelector('#ear-3d-badge');
+  const zoomIndicatorEl = stageEl.querySelector('#ear-zoom-indicator');
+  const mobileHintEl = stageEl.querySelector('#ear-mobile-hint');
   const calloutEl = stageEl.querySelector('#ear-3d-callout');
 
   const inspectorEl = stageEl.querySelector('#ear-ai-inspector');
+  const dockEl = stageEl.querySelector('#ear-floating-dock');
   const inspectorToggleBtn = stageEl.querySelector('#ear-ai-collapse');
+  const aiStatusBadgeEl = stageEl.querySelector('#ear-ai-status-badge');
+  const aiScrollEl = stageEl.querySelector('#ear-ai-scroll');
+  const aiProgressWrapEl = stageEl.querySelector('#ear-ai-progress-wrap');
+  const aiProgressEl = stageEl.querySelector('#ear-ai-progress');
+  const aiProgressLabelEl = stageEl.querySelector('#ear-ai-progress-label');
   const aiPartKickerEl = stageEl.querySelector('#ear-ai-part-kicker');
   const aiPartTitleEl = stageEl.querySelector('#ear-ai-part-title');
   const aiPartLatinEl = stageEl.querySelector('#ear-ai-part-latin');
@@ -457,6 +531,33 @@ export function connectEar3DStage({
       break;
     }
     aiThreadEl.scrollTop = aiThreadEl.scrollHeight;
+    if (aiScrollEl) aiScrollEl.scrollTop = aiScrollEl.scrollHeight;
+  }
+
+  const isMobileViewport = () => Boolean(
+    typeof window !== 'undefined'
+    && (window.innerWidth <= 920 || ((globalThis.navigator?.maxTouchPoints ?? 0) > 1 && window.innerWidth <= 1024)),
+  );
+
+  let unsubLlmStatus = null;
+  function ensureLlmSubscription() {
+    if (unsubLlmStatus) return;
+    const llmClient = getWebLlmClient?.();
+    if (typeof llmClient?.subscribe !== 'function') return;
+    unsubLlmStatus = llmClient.subscribe((st) => {
+      if (aiProgressWrapEl) {
+        aiProgressWrapEl.hidden = !st.loading;
+      }
+      if (st.loading) {
+        if (aiProgressEl) aiProgressEl.value = Math.max(0.03, Math.min(1, Number(st.progress) || 0));
+        if (aiProgressLabelEl) aiProgressLabelEl.textContent = st.progressText || 'Loading on-device AI…';
+        if (aiStatusBadgeEl) aiStatusBadgeEl.textContent = `Loading AI · ${Math.round((Number(st.progress) || 0) * 100)}%`;
+      } else if (st.loadedModel) {
+        if (aiStatusBadgeEl) aiStatusBadgeEl.textContent = 'AI Ear Guide · Local LLM';
+      } else if (aiStatusBadgeEl) {
+        aiStatusBadgeEl.textContent = 'AI Ear Guide · Instant';
+      }
+    });
   }
 
   function renderStarterChips() {
@@ -483,9 +584,11 @@ export function connectEar3DStage({
     const normEffect = normaliseAnatomyEffectKey(state.effectKey);
     const partMeta = ANATOMY_PART_BY_ID[normalisePartId(state.focusPart)];
     const llmClient = getWebLlmClient?.();
-    const canStreamLlm = Boolean(llmClient?.isSupported?.() && (forceModel || llmClient?.getLoadedModel?.()));
+    ensureLlmSubscription();
+    // Avoid 900 MB WebGPU downloads on mobile browsers — use fast, verified physiology deep-dive on mobile!
+    const allowLocalModel = Boolean(!isMobileViewport() && llmClient?.isSupported?.() && (forceModel || llmClient?.getLoadedModel?.()));
 
-    if (userQuestion && !canStreamLlm) {
+    if (userQuestion && !allowLocalModel) {
       const instantAnswer = answerEarPartQuestionInstant({
         partId: state.focusPart,
         effectKey: normEffect,
@@ -499,25 +602,26 @@ export function connectEar3DStage({
     if (aiLiveReplyEl) {
       aiLiveReplyEl.hidden = false;
       aiLiveReplyEl.dataset.streaming = 'true';
-      aiLiveReplyEl.textContent = canStreamLlm
+      aiLiveReplyEl.textContent = allowLocalModel
         ? `Examining ${partMeta.title.toLowerCase()}…`
-        : 'Updating…';
+        : `Analysing ${partMeta.title.toLowerCase()}…`;
     }
 
     try {
       const res = await generateEarPartAiResponse({
-        llmClient,
+        llmClient: allowLocalModel ? llmClient : null,
         partId: state.focusPart,
         effectKey: normEffect,
         tinnitus: state.tinnitus,
         userQuestion,
-        useModel: forceModel,
+        useModel: forceModel || allowLocalModel,
         signal: controller.signal,
         onToken: (partial) => {
           if (activeAiAbort !== controller || !aiLiveReplyEl) return;
           aiLiveReplyEl.hidden = false;
           aiLiveReplyEl.textContent = partial;
           if (aiThreadEl) aiThreadEl.scrollTop = aiThreadEl.scrollHeight;
+          if (aiScrollEl) aiScrollEl.scrollTop = aiScrollEl.scrollHeight;
         },
       });
       if (activeAiAbort !== controller || res?.aborted) return;
@@ -529,6 +633,7 @@ export function connectEar3DStage({
         } else {
           aiLiveReplyEl.hidden = false;
           aiLiveReplyEl.textContent = res.text;
+          if (aiScrollEl) aiScrollEl.scrollTop = aiScrollEl.scrollHeight;
         }
       }
     } finally {
@@ -569,7 +674,7 @@ export function connectEar3DStage({
       inspectorEl.dataset.collapsed = String(state.inspectorCollapsed);
     }
     if (inspectorToggleBtn) {
-      inspectorToggleBtn.textContent = state.inspectorCollapsed ? 'Open note' : 'Hide';
+      inspectorToggleBtn.textContent = state.inspectorCollapsed ? 'Open AI Guide' : 'Minimise';
       inspectorToggleBtn.setAttribute('aria-expanded', String(!state.inspectorCollapsed));
     }
 
@@ -640,9 +745,9 @@ export function connectEar3DStage({
     if (pinsLayer) pinsLayer.hidden = !showOverlayPins;
     if (leadersSvg) leadersSvg.style.display = showOverlayPins ? 'block' : 'none';
 
-    const llmClient = getWebLlmClient?.();
     if (aiDeepDiveBtn) {
-      aiDeepDiveBtn.hidden = Boolean(llmClient && !llmClient.isSupported?.());
+      // Keep AI Deep-dive always available (streams WebLLM on supported desktop or rich 3-angle physiology breakdown on mobile!)
+      aiDeepDiveBtn.hidden = false;
     }
 
     renderStarterChips();
@@ -902,8 +1007,15 @@ export function connectEar3DStage({
         let currentExplode = 0;
 
         const beaconTargetPos = new THREE.Vector3(...ANATOMY_PART_BY_ID.cochlea.camTarget);
+        let userZoomedManually = false;
+        const dismissMobileHint = () => {
+          if (mobileHintEl && !mobileHintEl.dataset.dismissed) {
+            mobileHintEl.dataset.dismissed = 'true';
+          }
+        };
 
         focusCameraCallback = (partOrMode, customHitPoint = null) => {
+          userZoomedManually = false;
           if (partOrMode === 'pub') {
             const rightBias = window.innerWidth > 1020 && !state.inspectorCollapsed ? 0.45 : 0;
             desiredTarget.set(rightBias, 0.05, 0.15);
@@ -943,12 +1055,17 @@ export function connectEar3DStage({
         };
 
         zoomInBtn?.addEventListener('click', () => {
+          userZoomedManually = true;
+          dismissMobileHint();
           desiredRadius = Math.max(2.5, desiredRadius * 0.8);
         });
         zoomOutBtn?.addEventListener('click', () => {
+          userZoomedManually = true;
+          dismissMobileHint();
           desiredRadius = Math.min(14.5, desiredRadius * 1.25);
         });
         resetViewBtn?.addEventListener('click', () => {
+          userZoomedManually = false;
           state.explodeAmount = 0;
           syncHud();
           focusCameraCallback('overview');
@@ -973,11 +1090,13 @@ export function connectEar3DStage({
         }
 
         const onPointerDown = (e) => {
+          dismissMobileHint();
           activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
           if (activePointers.size === 1) {
             downPos = { x: e.clientX, y: e.clientY, button: e.button };
             movedDistance = 0;
           } else if (activePointers.size === 2) {
+            userZoomedManually = true;
             const pts = [...activePointers.values()];
             lastPinchDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
           }
@@ -1108,6 +1227,8 @@ export function connectEar3DStage({
         const onWheel = (e) => {
           if (e.ctrlKey || e.metaKey || state.hoveredPart !== null) {
             e.preventDefault();
+            userZoomedManually = true;
+            dismissMobileHint();
             const zoomFactor = e.deltaY > 0 ? 1.09 : 0.91;
             desiredRadius = Math.max(2.5, Math.min(14.5, desiredRadius * zoomFactor));
           }
@@ -1125,12 +1246,16 @@ export function connectEar3DStage({
 
         let viewWidth = 960;
         let viewHeight = 560;
+        let lastAppliedZoomLabel = '';
         function resize() {
           const rect = canvasWrap.getBoundingClientRect();
-          viewWidth = Math.max(300, rect.width || 960);
-          viewHeight = Math.max(320, rect.height || 560);
+          viewWidth = Math.max(280, rect.width || 960);
+          viewHeight = Math.max(280, rect.height || 560);
           renderer.setSize(viewWidth, viewHeight, false);
-          camera.aspect = viewWidth / viewHeight;
+          const aspect = viewWidth / viewHeight;
+          // Widen vertical FOV on portrait mobile viewports so the full 3D ear & bust fit without horizontal clipping!
+          camera.fov = aspect < 1.15 ? Math.min(58, Math.round(38 / Math.pow(Math.max(0.5, aspect), 0.52))) : 38;
+          camera.aspect = aspect;
           camera.updateProjectionMatrix();
           if (leadersSvg) {
             leadersSvg.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
@@ -1205,6 +1330,28 @@ export function connectEar3DStage({
           );
           camera.lookAt(currentTarget);
           camera.updateMatrixWorld();
+
+          // Live Zoom-Reactive Text, Header Compaction, & Proximity Part Detection!
+          const baselineR = showAnatomy ? overviewCamera.radius : 6.2;
+          const zoomMetrics = computeZoomUiMetrics(currentRadius, baselineR);
+          if (canvasWrap.dataset.zoomState !== zoomMetrics.zoomState) {
+            canvasWrap.dataset.zoomState = zoomMetrics.zoomState;
+          }
+          canvasWrap.style.setProperty('--ear-pin-scale', String(zoomMetrics.basePinScale));
+
+          const activePartId = normalisePartId(state.focusPart);
+          const activePartMeta = ANATOMY_PART_BY_ID[activePartId];
+          const zoomText = showAnatomy
+            ? (zoomMetrics.zoomState === 'close'
+                ? `${zoomMetrics.zoomRatio.toFixed(1)}× Close-up · ${activePartMeta?.shortLabel || 'Ear'}`
+                : zoomMetrics.zoomState === 'wide'
+                  ? `${zoomMetrics.zoomRatio.toFixed(1)}× Wide view`
+                  : `${zoomMetrics.zoomRatio.toFixed(1)}× Overview`)
+            : `${zoomMetrics.zoomRatio.toFixed(1)}× Spatial view`;
+          if (zoomIndicatorEl && zoomText !== lastAppliedZoomLabel) {
+            lastAppliedZoomLabel = zoomText;
+            zoomIndicatorEl.textContent = zoomText;
+          }
 
           const pulse = state.playing ? 1 : 0.45;
           const bassAmp = (0.24 + state.bassEnergy * 0.85) * pulse;
@@ -1352,45 +1499,113 @@ export function connectEar3DStage({
               }
             });
 
-            // Project Architectural SVG Leader Lines + Minimal Callout Tags!
+            // Project Zoom-Reactive Architectural SVG Leader Lines + Anti-Overlapping Callout Tags!
             if (pinsLayer && state.showLabels) {
-              for (const part of ANATOMY_PARTS) {
-                const pinEl = pinElements.get(part.id);
-                const leader = leaderLines.get(part.id);
-                if (!pinEl) continue;
+              const isDesktopOverlay = window.innerWidth > 1020;
+              const inspectorW = (isDesktopOverlay && inspectorEl && !state.inspectorCollapsed)
+                ? (inspectorEl.offsetWidth || 356) + 28
+                : 0;
+              const dockH = (isDesktopOverlay && dockEl) ? (dockEl.offsetHeight || 110) + 24 : 24;
+              const minX = isDesktopOverlay ? 58 : 44;
+              const maxX = Math.max(minX + 80, viewWidth - inspectorW - (isDesktopOverlay ? 56 : 44));
+              const minY = zoomMetrics.zoomState === 'close'
+                ? (isDesktopOverlay ? 78 : 66)
+                : (isDesktopOverlay ? 148 : 88);
+              const maxY = Math.max(minY + 60, viewHeight - dockH);
 
+              const rawCandidates = [];
+              let closestCentrePart = null;
+              let closestCentreDist = Infinity;
+              const centreX = (minX + maxX) * 0.5;
+              const centreY = (minY + maxY) * 0.5;
+
+              for (const part of ANATOMY_PARTS) {
                 const ex = part.explodeOffset;
-                anchorVec.set(
-                  part.pinAnchor[0] + ex[0] * currentExplode,
-                  part.pinAnchor[1] + ex[1] * currentExplode + anatomy.rootGroup.position.y,
-                  part.pinAnchor[2] + ex[2] * currentExplode,
-                ).project(camera);
+                const wx = part.pinAnchor[0] + ex[0] * currentExplode;
+                const wy = part.pinAnchor[1] + ex[1] * currentExplode + anatomy.rootGroup.position.y;
+                const wz = part.pinAnchor[2] + ex[2] * currentExplode;
+
+                anchorVec.set(wx, wy, wz).project(camera);
+
+                // Scale label offset radially with zoom so labels fan out when zoomed out & tuck close when zoomed in!
+                const offDx = (part.pinLabelOffset[0] - part.pinAnchor[0]) * zoomMetrics.radialSpread;
+                const offDy = (part.pinLabelOffset[1] - part.pinAnchor[1]) * zoomMetrics.radialSpread;
+                const offDz = (part.pinLabelOffset[2] - part.pinAnchor[2]) * zoomMetrics.radialSpread;
 
                 labelVec.set(
-                  part.pinLabelOffset[0] + ex[0] * currentExplode * 1.05,
-                  part.pinLabelOffset[1] + ex[1] * currentExplode + anatomy.rootGroup.position.y,
-                  part.pinLabelOffset[2] + ex[2] * currentExplode,
+                  wx + offDx + ex[0] * currentExplode * 0.05,
+                  wy + offDy,
+                  wz + offDz,
                 ).project(camera);
 
                 const inFront = anchorVec.z < 1 && anchorVec.z > -1 && labelVec.z < 1 && labelVec.z > -1;
                 const ax = (anchorVec.x * 0.5 + 0.5) * viewWidth;
                 const ay = (-anchorVec.y * 0.5 + 0.5) * viewHeight;
-                const lx = Math.max(48, Math.min(viewWidth - 64, (labelVec.x * 0.5 + 0.5) * viewWidth));
-                const ly = Math.max(58, Math.min(viewHeight - 86, (-labelVec.y * 0.5 + 0.5) * viewHeight));
-                const visible = inFront && ax > 16 && ax < viewWidth - 16 && ay > 24 && ay < viewHeight - 40;
+                const rawLx = (labelVec.x * 0.5 + 0.5) * viewWidth;
+                const rawLy = (-labelVec.y * 0.5 + 0.5) * viewHeight;
 
-                pinEl.style.opacity = visible ? '1' : '0';
-                pinEl.style.pointerEvents = visible ? 'auto' : 'none';
-                pinEl.style.transform = `translate(${lx.toFixed(1)}px, ${ly.toFixed(1)}px) translate(-50%, -50%)`;
+                if (inFront) {
+                  const screenDist = Math.hypot(ax - centreX, ay - centreY);
+                  if (screenDist < closestCentreDist) {
+                    closestCentreDist = screenDist;
+                    closestCentrePart = part.id;
+                  }
+                }
+
+                rawCandidates.push({
+                  id: part.id,
+                  inFront,
+                  ax,
+                  ay,
+                  rawLx,
+                  rawLy,
+                  active: part.id === activePart || part.id === state.hoveredPart,
+                });
+              }
+
+              // If user manually zoomed close into a structure near viewport centre, sync AI focus automatically!
+              if (
+                userZoomedManually
+                && zoomMetrics.zoomRatio >= 1.55
+                && closestCentrePart
+                && closestCentreDist < Math.min(viewWidth, viewHeight) * 0.28
+                && closestCentrePart !== activePart
+              ) {
+                state.focusPart = closestCentrePart;
+                syncHud({ clearExtraTurns: false });
+              }
+
+              const solvedPins = resolveNonOverlappingPins(rawCandidates, {
+                minX,
+                maxX,
+                minY,
+                maxY,
+                minGapY: isDesktopOverlay ? 30 : 26,
+                collideWidth: isDesktopOverlay ? 118 : 96,
+                zoomState: zoomMetrics.zoomState,
+              });
+
+              for (const p of solvedPins) {
+                const pinEl = pinElements.get(p.id);
+                const leader = leaderLines.get(p.id);
+                if (!pinEl) continue;
+
+                const scaleVal = p.active
+                  ? Math.min(1.16, zoomMetrics.basePinScale * 1.08)
+                  : zoomMetrics.basePinScale;
+
+                pinEl.style.opacity = p.visible ? '1' : '0';
+                pinEl.style.pointerEvents = p.visible ? 'auto' : 'none';
+                pinEl.style.transform = `translate(${p.lx.toFixed(1)}px, ${p.ly.toFixed(1)}px) translate(-50%, -50%) scale(${scaleVal.toFixed(3)})`;
 
                 if (leader) {
-                  leader.g.style.opacity = visible ? '1' : '0';
-                  leader.line.setAttribute('x1', ax.toFixed(1));
-                  leader.line.setAttribute('y1', ay.toFixed(1));
-                  leader.line.setAttribute('x2', lx.toFixed(1));
-                  leader.line.setAttribute('y2', ly.toFixed(1));
-                  leader.dot.setAttribute('cx', ax.toFixed(1));
-                  leader.dot.setAttribute('cy', ay.toFixed(1));
+                  leader.g.style.opacity = p.visible ? '1' : '0';
+                  leader.line.setAttribute('x1', p.ax.toFixed(1));
+                  leader.line.setAttribute('y1', p.ay.toFixed(1));
+                  leader.line.setAttribute('x2', p.lx.toFixed(1));
+                  leader.line.setAttribute('y2', p.ly.toFixed(1));
+                  leader.dot.setAttribute('cx', p.ax.toFixed(1));
+                  leader.dot.setAttribute('cy', p.ay.toFixed(1));
                 }
               }
             }
@@ -1450,6 +1665,7 @@ export function connectEar3DStage({
         cleanupThree = () => {
           cancelAnimationFrame(rafId);
           unsubTheme?.();
+          unsubLlmStatus?.();
           ro?.disconnect();
           envMap?.dispose?.();
           renderer.domElement.removeEventListener('pointerdown', onPointerDown);
