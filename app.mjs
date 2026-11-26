@@ -1,37 +1,37 @@
-import { getSharedWebLlmClient } from './audio-explainer.mjs?v=c84af3279a';
-import { connectAudiologistSandbox } from './audiologist-sandbox.mjs?v=c84af3279a';
-import { assembleComparisonZip } from './bundle.mjs?v=c84af3279a';
-import { connectConcertStage } from './concert-stage.mjs?v=c84af3279a';
-import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs?v=c84af3279a';
-import { connectEar3DStage } from './ear-3d-stage.mjs?v=c84af3279a';
-import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs?v=c84af3279a';
-import { connectFreqBandSim } from './freq-band-sim.mjs?v=c84af3279a';
-import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs?v=c84af3279a';
-import { connectHomeVideo } from './home-video.mjs?v=c84af3279a';
-import { connectHomeVideoEffects } from './home-video-effects.mjs?v=c84af3279a';
-import { connectListeningPreviews } from './listening-previews.mjs?v=c84af3279a';
-import { connectLiveMic } from './live-mic.mjs?v=c84af3279a';
-import { attachMarkerDrag } from './marker-scrubber.mjs?v=c84af3279a';
-import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs?v=c84af3279a';
-import { connectNIHLExamples } from './nihl-examples.mjs?v=c84af3279a';
+import { getSharedWebLlmClient } from './audio-explainer.mjs?v=d09b12cf45';
+import { connectAudiologistSandbox } from './audiologist-sandbox.mjs?v=d09b12cf45';
+import { assembleComparisonZip } from './bundle.mjs?v=d09b12cf45';
+import { connectConcertStage } from './concert-stage.mjs?v=d09b12cf45';
+import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs?v=d09b12cf45';
+import { connectEar3DStage } from './ear-3d-stage.mjs?v=d09b12cf45';
+import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs?v=d09b12cf45';
+import { connectFreqBandSim } from './freq-band-sim.mjs?v=d09b12cf45';
+import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs?v=d09b12cf45';
+import { connectHomeVideo } from './home-video.mjs?v=d09b12cf45';
+import { connectHomeVideoEffects } from './home-video-effects.mjs?v=d09b12cf45';
+import { connectListeningPreviews } from './listening-previews.mjs?v=d09b12cf45';
+import { connectLiveMic } from './live-mic.mjs?v=d09b12cf45';
+import { attachMarkerDrag } from './marker-scrubber.mjs?v=d09b12cf45';
+import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs?v=d09b12cf45';
+import { connectNIHLExamples } from './nihl-examples.mjs?v=d09b12cf45';
 import {
   connectCalibrationControls,
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=c84af3279a';
-import { connectVolumeGuardrail } from './safe-listening.mjs?v=c84af3279a';
-import { connectListeningShare, readListeningLink } from './share.mjs?v=c84af3279a';
-import { connectSpectrogram } from './spectrogram.mjs?v=c84af3279a';
-import { connectStoryJourney } from './story-journey.mjs?v=c84af3279a';
-import { connectStudioExplainer } from './studio-explainer.mjs?v=c84af3279a';
-import { connectStudioFilterResponse } from './studio-filter-response.mjs?v=c84af3279a';
-import { displayProfileName, updateStudioFilter } from './studio-filters.mjs?v=c84af3279a';
-import { connectThemeToggle, onThemeChange } from './theme.mjs?v=c84af3279a';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=c84af3279a';
-import { connectUploadPreview, isVideoFile } from './upload-preview.mjs?v=c84af3279a';
-import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=c84af3279a';
-import { connectViewNavigation } from './views.mjs?v=c84af3279a';
+} from './output-calibration.mjs?v=d09b12cf45';
+import { connectVolumeGuardrail } from './safe-listening.mjs?v=d09b12cf45';
+import { connectListeningShare, readListeningLink } from './share.mjs?v=d09b12cf45';
+import { connectSpectrogram } from './spectrogram.mjs?v=d09b12cf45';
+import { connectStoryJourney } from './story-journey.mjs?v=d09b12cf45';
+import { connectStudioExplainer } from './studio-explainer.mjs?v=d09b12cf45';
+import { connectStudioFilterResponse } from './studio-filter-response.mjs?v=d09b12cf45';
+import { displayProfileName, updateStudioFilter } from './studio-filters.mjs?v=d09b12cf45';
+import { connectThemeToggle, onThemeChange } from './theme.mjs?v=d09b12cf45';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=d09b12cf45';
+import { connectUploadPreview, isVideoFile } from './upload-preview.mjs?v=d09b12cf45';
+import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=d09b12cf45';
+import { connectViewNavigation } from './views.mjs?v=d09b12cf45';
 
 const demo = new URL('./demo/', import.meta.url);
 const collection = new URL('music/collection.json', demo);
@@ -154,6 +154,31 @@ onThemeChange(() => {
   resizeWaveform();
 });
 connectCalibrationControls();
+
+// Progressive scroll-reveal choreography so sections flow smoothly into view
+if (typeof IntersectionObserver === 'function' && !window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) {
+  const flowSections = [...document.querySelectorAll('[data-flow-section]')];
+  if (flowSections.length > 0) {
+    document.documentElement.dataset.scrollFlow = 'ready';
+    const vh = window.innerHeight || 800;
+    for (const el of flowSections) {
+      if (el.getBoundingClientRect().top < vh * 0.92) {
+        el.classList.add('is-visible');
+      }
+    }
+    const flowObserver = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          flowObserver.unobserve(entry.target);
+        }
+      }
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
+    for (const el of flowSections) {
+      if (!el.classList.contains('is-visible')) flowObserver.observe(el);
+    }
+  }
+}
 
 const earModeMap = {
   original: 'original',

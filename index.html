@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Listen to examples of hearing changes after loud music and tinnitus, explore a 3D inner ear, or compare your own clip in the RNID listening studio.">
   <title>RNID Audio Tool</title>
-  <link rel="stylesheet" href="./styles.css?v=c84af3279a">
-  <link rel="stylesheet" href="./home-video-effects.css?v=c84af3279a">
-  <link rel="stylesheet" href="./home-story.css?v=c84af3279a">
-  <link rel="stylesheet" href="./hearing-guide.css?v=c84af3279a">
-  <link rel="stylesheet" href="./nihl-examples.css?v=c84af3279a">
-  <link rel="stylesheet" href="./freq-band-sim.css?v=c84af3279a">
-  <link rel="stylesheet" href="./studio-filter-response.css?v=c84af3279a">
-  <link rel="stylesheet" href="./studio-layout.css?v=c84af3279a">
-  <link rel="stylesheet" href="./upload-layout.css?v=c84af3279a">
-  <link rel="stylesheet" href="./ear-levels.css?v=c84af3279a">
-  <link rel="stylesheet" href="./audio-explainer.css?v=c84af3279a">
-  <link rel="stylesheet" href="./live-mic.css?v=c84af3279a">
-  <link rel="stylesheet" href="./experience-upgrade.css?v=c84af3279a">
-  <script type="module" src="./app.mjs?v=c84af3279a"></script>
+  <link rel="stylesheet" href="./styles.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./home-video-effects.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./home-story.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./hearing-guide.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./nihl-examples.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./freq-band-sim.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./studio-filter-response.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./studio-layout.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./upload-layout.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./ear-levels.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./audio-explainer.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./live-mic.css?v=d09b12cf45">
+  <link rel="stylesheet" href="./experience-upgrade.css?v=d09b12cf45">
+  <script type="module" src="./app.mjs?v=d09b12cf45"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -185,7 +185,12 @@
         </div>
       </section>
 
-      <section class="concert-stage-section" id="concert-stage" data-concert-condition="original" data-concert-playing="false" aria-labelledby="concert-stage-title">
+      <div class="section-flow-bridge" aria-hidden="true">
+        <span class="section-flow-line"></span>
+        <span class="section-flow-pill">01 · Step onto the live stage — hear how those hair cells shape a real band</span>
+      </div>
+
+      <section class="concert-stage-section" id="concert-stage" data-flow-section data-concert-condition="original" data-concert-playing="false" aria-labelledby="concert-stage-title">
         <div class="concert-stage-top">
           <div class="concert-stage-copy">
             <div class="concert-kicker-row">
@@ -193,13 +198,13 @@
               <span class="concert-lost-badge" id="concert-lost-badge" data-severity="healthy" aria-live="polite">All 5 song stems clear &amp; balanced</span>
             </div>
             <h2 id="concert-stage-title">What vanishes from a <em>live concert?</em></h2>
-            <p class="concert-sub">Pick a cleared royalty-free band recording, orbit the 3D stage, and switch hearing states — hear and watch cymbals, guitar solos, and vocal consonants vanish while real bass keeps pounding.</p>
+            <p class="concert-sub">Pick a cleared royalty-free band recording, orbit the 3D stage, and switch hearing states — hear and watch cymbals, guitar solos, and vocal consonants melt away while real bass keeps pounding.</p>
           </div>
           <div class="concert-song-and-transport">
             <div class="concert-song-picker">
               <label class="concert-song-label" for="concert-song-select">Royalty-free live band track</label>
               <select id="concert-song-select"></select>
-              <a class="concert-song-credit" id="concert-song-credit" href="https://freemusicarchive.org/music/Josh_Woodward/Ashes/JoshWoodward-Ashes-01-LetItIn/" target="_blank" rel="noopener noreferrer">Upbeat Indie Folk-Rock · CC BY 4.0</a>
+              <a class="concert-song-credit" id="concert-song-credit" href="https://freemusicarchive.org/music/Josh_Woodward/Ashes/JoshWoodward-Ashes-01-LetItIn/" target="_blank" rel="noopener noreferrer">Upbeat Indie Folk-Rock (Vocals &amp; Full Band) · CC BY 4.0</a>
             </div>
             <div class="concert-transport-actions">
               <button class="button primary concert-play-btn" id="concert-play-btn" type="button" aria-pressed="false">Play real song in 3D</button>
@@ -210,8 +215,8 @@
 
         <div class="concert-seek-row" role="group" aria-label="Concert song timeline">
           <label class="visually-hidden" for="concert-seek">Song playback position</label>
-          <input id="concert-seek" type="range" min="0" max="240" step="0.1" value="14" disabled>
-          <span class="concert-time" id="concert-time">0:14 / –:––</span>
+          <input id="concert-seek" type="range" min="0" max="241.6" step="0.1" value="72" disabled>
+          <span class="concert-time" id="concert-time">1:12 / –:––</span>
           <span class="concert-status" id="concert-status" role="status"></span>
         </div>
 
@@ -244,12 +249,24 @@
         <div class="concert-lyric-bar" id="concert-lyric-bar">
           <div class="concert-lyric-box">
             <div class="concert-lyric-head">
-              <span class="concert-lyric-kicker">Center Lead Vocal Stem · Diction Check</span>
-              <span class="concert-lyric-clarity" id="concert-lyric-clarity">Vocal diction: 100%</span>
+              <span class="concert-lyric-kicker" id="concert-vocal-kicker">Josh Woodward · Chorus Lead Vocal Check</span>
+              <span class="concert-lyric-clarity" id="concert-lyric-clarity">Consonant crispness: 100%</span>
             </div>
-            <p class="concert-lyric-text" id="concert-lyric-text">“<strong>St</strong>ay <strong>cl</strong>o<strong>s</strong>e <strong>t</strong>ill the hou<strong>s</strong>e ligh<strong>ts</strong> <strong>c</strong>ome up <strong>t</strong>onigh<strong>t</strong>”</p>
+            <p class="concert-vocal-note" id="concert-lyric-text">Full folk-rock vocal chorus at 1:12 — compare warm chest vowels (340 Hz–2.5 kHz) against crisp s, t, and k word edges (2.5–7.5 kHz).</p>
+            <div class="concert-vocal-meters" aria-hidden="true">
+              <div class="concert-vocal-meter-row">
+                <span class="concert-vocal-meter-label">Vowel warmth (340 Hz–2.5 kHz)</span>
+                <div class="concert-vocal-track"><div class="concert-vocal-fill vowel" id="concert-vowel-bar" style="width: 100%;"></div></div>
+                <span class="concert-vocal-pct" id="concert-vowel-pct">100%</span>
+              </div>
+              <div class="concert-vocal-meter-row">
+                <span class="concert-vocal-meter-label">Word edges &amp; s/t/f (2.5–7.5 kHz)</span>
+                <div class="concert-vocal-track"><div class="concert-vocal-fill cons" id="concert-consonant-bar" style="width: 100%;"></div></div>
+                <span class="concert-vocal-pct" id="concert-consonant-pct">100%</span>
+              </div>
+            </div>
           </div>
-          <p class="concert-stage-summary" id="concert-stage-summary">Every 3D spotlight shines — the real song’s kick drum, stereo rhythm chords, center lead vocals, guitar bite, and hi-hat shimmer sum together intact.</p>
+          <p class="concert-stage-summary" id="concert-stage-summary">Every 3D spotlight shines — kick &amp; bass, wide rhythm chords, crisp center lead, biting guitar transients, and hi-hat shimmer blend smoothly.</p>
         </div>
 
         <div class="concert-instruments-grid" id="concert-instruments-grid" role="list" aria-label="Separated song stems and audibility">
@@ -257,7 +274,7 @@
             <div class="concert-stem-top">
               <div>
                 <h3>Rhythm Chords &amp; Keys</h3>
-                <span class="concert-stem-hz">Stereo Side · 220 Hz–2.4 kHz</span>
+                <span class="concert-stem-hz">Warm Stereo · 220 Hz–2.5 kHz</span>
               </div>
               <strong class="concert-stem-pct" data-stem-pct>100%</strong>
             </div>
@@ -293,13 +310,13 @@
             <div class="concert-stem-top">
               <div>
                 <h3>Center Lead Vocals</h3>
-                <span class="concert-stem-hz">Center Mid · 220 Hz–4.2 kHz</span>
+                <span class="concert-stem-hz">Center Mid · 340 Hz–7.5 kHz</span>
               </div>
               <strong class="concert-stem-pct" data-stem-pct>100%</strong>
             </div>
             <div class="concert-stem-meter" aria-hidden="true"><div class="concert-stem-meter-fill" data-stem-meter-fill style="width: 100%;"></div></div>
             <div class="concert-stem-bottom">
-              <span class="concert-stem-status" data-stem-status>Crisp vocals</span>
+              <span class="concert-stem-status" data-stem-status>Full clarity</span>
               <div class="concert-stem-btns">
                 <button class="concert-mini-btn" type="button" data-stem-solo aria-pressed="false">Solo</button>
                 <button class="concert-mini-btn" type="button" data-stem-mute aria-pressed="false">Mute</button>
@@ -311,7 +328,7 @@
             <div class="concert-stem-top">
               <div>
                 <h3>Guitar Bite &amp; Snare</h3>
-                <span class="concert-stem-hz">4 kHz Zone · 2.4–6.2 kHz</span>
+                <span class="concert-stem-hz">4 kHz Zone · 2.5–6.2 kHz</span>
               </div>
               <strong class="concert-stem-pct" data-stem-pct>100%</strong>
             </div>
@@ -345,7 +362,12 @@
         </div>
       </section>
 
-      <nav class="story-journey" id="story-journey-bar" aria-label="Follow one night out">
+      <div class="section-flow-bridge" aria-hidden="true">
+        <span class="section-flow-line"></span>
+        <span class="section-flow-pill">02 · Follow one night out — from the venue to a quiet room</span>
+      </div>
+
+      <nav class="story-journey" id="story-journey-bar" data-flow-section aria-label="Follow one night out">
         <div class="story-journey-top">
           <span class="story-kicker">Follow one night out</span>
           <span class="story-active-caption" id="story-active-caption">01 · 10:30 pm — Compare bare ears, foam plugs, and −15 dB musicians’ filters inside the 3D ear.</span>
@@ -371,7 +393,7 @@
         </div>
       </nav>
 
-      <section class="home-story" id="home-video-example" aria-labelledby="home-video-title" data-story-scene="live">
+      <section class="home-story" id="home-video-example" data-flow-section aria-labelledby="home-video-title" data-story-scene="live">
         <div class="home-video-stage">
           <div class="home-stage-heading">
             <h2 id="home-video-title">After the gig</h2>
@@ -499,7 +521,12 @@
           </div>
         </details>
       </section>
-      <section class="nihl-examples" id="nihl-examples" aria-labelledby="nihl-heading">
+      <div class="section-flow-bridge" aria-hidden="true">
+        <span class="section-flow-line"></span>
+        <span class="section-flow-pill">03 · Explore the clinical curves &amp; 6-band frequency lab</span>
+      </div>
+
+      <section class="nihl-examples" id="nihl-examples" data-flow-section aria-labelledby="nihl-heading">
         <header class="nihl-examples-header">
           <h2 id="nihl-heading">Hearing loss examples</h2>
           <p>See what changes on a hearing chart, then compare the same vocal clip.</p>
@@ -569,7 +596,7 @@
         </details>
       </div>
 
-      <section class="freq-band-sim" id="freq-band-sim" aria-labelledby="freq-band-title">
+      <section class="freq-band-sim" id="freq-band-sim" data-flow-section aria-labelledby="freq-band-title">
         <header class="freq-band-header">
           <div>
             <h2 id="freq-band-title">🎚️ Earplugs, Pub Chatter &amp; Frequency Explorer</h2>

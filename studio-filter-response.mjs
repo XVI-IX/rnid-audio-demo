@@ -1,4 +1,4 @@
-import { displayProfileName } from './studio-filters.mjs?v=c84af3279a';
+import { displayProfileName } from './studio-filters.mjs?v=d09b12cf45';
 
 const bandRows = [125, 500, 1000, 2000, 4000, 8000];
 const chartEnd = 16000;

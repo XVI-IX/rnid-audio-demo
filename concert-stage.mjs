@@ -1,18 +1,18 @@
 // Interactive 3D Live Concert Stage + Real Royalty-Free Song 5-Stem Separator
 // Decomposes cleared CC BY / Public Domain songs in real time using Mid/Side spatial separation
-// + complementary linear-phase FIR convolution kernels (exact bit-accurate sum at 0 dB!),
-// driving a Three.js 3D concert stage with raycast soloing and mobile-first controls.
+// + 6 telescoping linear-phase FIR convolution kernels (exact bit-accurate sum at 0 dB!),
+// isolating true 340 Hz–7.5 kHz center vocals (body vs sibilant consonants) with smooth musical crossfades.
 
-import { buildConcert3DScene } from './concert-3d-scene.mjs?v=c84af3279a';
-import { createBandKernels } from './freq-band-audio.mjs?v=c84af3279a';
+import { buildConcert3DScene } from './concert-3d-scene.mjs?v=d09b12cf45';
+import { createBandKernels } from './freq-band-audio.mjs?v=d09b12cf45';
 import {
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=c84af3279a';
-import { getTheme, onThemeChange } from './theme.mjs?v=c84af3279a';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=c84af3279a';
-import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=c84af3279a';
+} from './output-calibration.mjs?v=d09b12cf45';
+import { getTheme, onThemeChange } from './theme.mjs?v=d09b12cf45';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=d09b12cf45';
+import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=d09b12cf45';
 
 export const CONCERT_SONGS = Object.freeze([
   {
@@ -23,7 +23,10 @@ export const CONCERT_SONGS = Object.freeze([
     license: 'CC BY 4.0',
     creditUrl: 'https://freemusicarchive.org/music/Josh_Woodward/Ashes/JoshWoodward-Ashes-01-LetItIn/',
     path: './demo/music/let-it-in/reference.m4a',
-    startOffset: 14,
+    startOffset: 72.0,
+    isInstrumental: false,
+    vocalCheckKicker: 'Josh Woodward · Chorus Lead Vocal Check',
+    vocalFocusNote: 'Full folk-rock vocal chorus at 1:12 — compare warm chest vowels (340 Hz–2.5 kHz) against crisp s, t, and k word edges (2.5–7.5 kHz).',
   },
   {
     id: 'i-just-wanna',
@@ -33,7 +36,10 @@ export const CONCERT_SONGS = Object.freeze([
     license: 'CC BY 3.0',
     creditUrl: 'https://ccmixter.org/files/mykleanthony/71247',
     path: './demo/music/i-just-wanna/reference.m4a',
-    startOffset: 14,
+    startOffset: 12.6,
+    isInstrumental: false,
+    vocalCheckKicker: 'mykleanthony · Soul-Pop Lead Vocal Check',
+    vocalFocusNote: 'Rhythmic soul-pop vocal hook from 0:13 — hear how smooth vowel tone stays loud while crisp sibilants (s, ch, t) soften under hearing loss.',
   },
   {
     id: 'gravity',
@@ -43,7 +49,10 @@ export const CONCERT_SONGS = Object.freeze([
     license: 'CC BY 4.0',
     creditUrl: 'https://freemusicarchive.org/music/Josh_Woodward/Dirty_Wings/JoshWoodward-DW-04-Gravity/',
     path: './demo/music/gravity/reference.m4a',
-    startOffset: 18,
+    startOffset: 86.0,
+    isInstrumental: false,
+    vocalCheckKicker: 'Josh Woodward · Indie-Rock Vocal Check',
+    vocalFocusNote: 'Full band & lead voice at 1:26 — notice how guitar pick snap and word endings recede into the bass & drum kit when treble drops.',
   },
   {
     id: 'in-peace',
@@ -53,17 +62,10 @@ export const CONCERT_SONGS = Object.freeze([
     license: 'CC BY 3.0',
     creditUrl: 'https://ccmixter.org/files/snowflake/33628',
     path: './demo/music/in-peace/reference.m4a',
-    startOffset: 12,
-  },
-  {
-    id: 'boogie-party',
-    title: 'Boogie Party',
-    artist: 'Kevin MacLeod',
-    genre: 'Live Blues-Rock Band (Guitar, Piano & Drums)',
-    license: 'CC BY 4.0',
-    creditUrl: 'https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2200002',
-    path: './demo/music/boogie-party/reference.m4a',
-    startOffset: 12,
+    startOffset: 20.2,
+    isInstrumental: false,
+    vocalCheckKicker: 'Madam Snowflake · Female Lead Vocal Check',
+    vocalFocusNote: 'Airy female lead vocal from 0:20 — delicate breath, f, and s consonants sit above 2.5 kHz and vanish first when inner-ear hair cells tire.',
   },
   {
     id: 'its-your-birthday',
@@ -73,22 +75,44 @@ export const CONCERT_SONGS = Object.freeze([
     license: 'CC BY 3.0',
     creditUrl: 'https://freemusicarchive.org/music/Kyla/The_New_Birthday_Song_Contest/Its_Your_Birthday/',
     path: './demo/music/its-your-birthday/reference.m4a',
-    startOffset: 0,
+    startOffset: 0.5,
+    isInstrumental: false,
+    vocalCheckKicker: 'Kyla · Pop Lead Vocal Check',
+    vocalFocusNote: 'Upbeat female vocal from 0:01 — listen for the sharp “t’s” and “th” consonants in the chorus dulling while the party beat stays full.',
+  },
+  {
+    id: 'boogie-party',
+    title: 'Boogie Party',
+    artist: 'Kevin MacLeod',
+    genre: 'Instrumental Blues-Rock Band (Guitar, Piano & Drums)',
+    license: 'CC BY 4.0',
+    creditUrl: 'https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2200002',
+    path: './demo/music/boogie-party/reference.m4a',
+    startOffset: 53.5,
+    isInstrumental: true,
+    vocalCheckKicker: 'Instrumental Track · Center Piano & Snare Lead',
+    vocalFocusNote: 'No vocals on this instrumental blues-rock recording — the center stem carries the rollicking piano body vs sharp snare & horn/guitar attack.',
   },
 ]);
 
-// 5 Telescoping Linear-Phase FIR Bands used with Mid/Side stereo decomposition:
-//   k0: 0–220 Hz        -> Bass & Kick Drum (L, R)
-//   k1: 220–2400 Hz     -> Side = Stereo Rhythm/Keys; Mid = Lead Vocal Body
-//   k2: 2400–4200 Hz    -> Mid = Lead Vocal Consonants; Side = Lead Guitar Presence
-//   k3: 4200–6200 Hz    -> Lead Guitar Bite & Snare Wire Crack (L, R)
-//   k4: 6200 Hz–Nyquist -> Hi-Hats, Cymbals & Air (L, R)
-// Exact identity: Bass + Keys + Vocals + Guitar + Cymbals === Delayed Original Stereo Song!
+export function getSongVocalCheckSpec(songId = 'let-it-in') {
+  return CONCERT_SONGS.find((s) => s.id === songId) ?? CONCERT_SONGS[0];
+}
+
+// 6 Telescoping Linear-Phase FIR Bands paired with Mid/Side stereo decomposition:
+//   b0: 0–220 Hz        -> Bass & Kick Drum (Stereo L, R)
+//   b1: 220–340 Hz      -> Low-Mid Instrument Chest (Stereo L, R -> Keys/Rhythm, keeps muddy snare/bass boom out of Vocals!)
+//   b2: 340–2500 Hz     -> Mid = Vocal Vowel Body; Side = Stereo Rhythm Chords & Keys
+//   b3: 2500–6200 Hz    -> Mid = Vocal Consonants (t, k, p, ch); Side = Wide Guitar Bite & Snare Crack
+//   b4: 6200–7500 Hz    -> Mid = Vocal Sibilant Air (s, sh, f); Side = Upper Cymbal Edge
+//   b5: 7500 Hz–Nyquist -> Hi-Hats, Ride/Crash Cymbals & Hall Air (Stereo L, R)
+// Exact algebraic identity: Bass + Keys + Vocals + Guitar + Cymbals === Delayed Original Stereo Song!
 export const CONCERT_STEM_FIR_BANDS = Object.freeze([
   { id: 'sub_bass', maxHz: 220 },
-  { id: 'warm_body', maxHz: 2400 },
-  { id: 'vocal_cons', maxHz: 4200 },
-  { id: 'guitar_bite', maxHz: 6200 },
+  { id: 'low_chest', maxHz: 340 },
+  { id: 'warm_body', maxHz: 2500 },
+  { id: 'presence_bite', maxHz: 6200 },
+  { id: 'sibilant_edge', maxHz: 7500 },
   { id: 'cymbal_air', maxHz: Infinity },
 ]);
 
@@ -97,7 +121,7 @@ export const CONCERT_INSTRUMENTS = Object.freeze([
     id: 'keys',
     title: 'Rhythm Chords & Keys',
     shortLabel: 'Keys',
-    bandLabel: 'Stereo Side · 220 Hz–2.4 kHz',
+    bandLabel: 'Warm Stereo · 220 Hz–2.5 kHz',
     accent: '#60a5fa',
     earPart: 'cochlea',
   },
@@ -112,8 +136,10 @@ export const CONCERT_INSTRUMENTS = Object.freeze([
   {
     id: 'vocals',
     title: 'Center Lead Vocals',
+    instrumentalTitle: 'Center Lead & Snare',
     shortLabel: 'Vocals',
-    bandLabel: 'Center Mid · 220 Hz–4.2 kHz',
+    instrumentalShortLabel: 'Center Lead',
+    bandLabel: 'Center Mid · 340 Hz–7.5 kHz',
     accent: '#f472b6',
     earPart: 'nerve',
   },
@@ -121,7 +147,7 @@ export const CONCERT_INSTRUMENTS = Object.freeze([
     id: 'guitar',
     title: 'Guitar Bite & Snare',
     shortLabel: 'Guitar',
-    bandLabel: '4 kHz Zone · 2.4–6.2 kHz',
+    bandLabel: '4 kHz Zone · 2.5–6.2 kHz',
     accent: '#f59e0b',
     earPart: 'cochlea',
   },
@@ -140,13 +166,14 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'original',
     label: 'Healthy ears',
     lostHeadline: 'All 5 song stems clear & balanced',
-    summary: 'Every 3D spotlight shines — the real song’s kick drum, stereo rhythm chords, center lead vocals, guitar bite, and hi-hat shimmer sum together intact.',
-    lyricHtml: '“<strong>St</strong>ay <strong>cl</strong>o<strong>s</strong>e <strong>t</strong>ill the hou<strong>s</strong>e ligh<strong>ts</strong> <strong>c</strong>ome up <strong>t</strong>onigh<strong>t</strong>”',
+    summary: 'Every 3D spotlight shines — kick & bass, wide rhythm chords, crisp center lead, biting guitar transients, and hi-hat shimmer blend smoothly.',
+    vowelRetention: 100,
+    consonantRetention: 100,
     lyricClarity: 100,
     stems: {
       bass: { audibility: 100, gain: 1.0, status: 'Full punch', lost: false },
       keys: { audibility: 100, gain: 1.0, status: 'Warm & wide', lost: false },
-      vocals: { audibility: 100, vowelGain: 1.0, consonantGain: 1.0, status: 'Crisp vocals', lost: false },
+      vocals: { audibility: 100, vowelGain: 1.0, consonantGain: 1.0, status: 'Full clarity', lost: false },
       guitar: { audibility: 100, gain: 1.0, status: 'Sharp riff & snare', lost: false },
       cymbals: { audibility: 100, gain: 1.0, status: 'Bright shimmer', lost: false },
     },
@@ -154,14 +181,15 @@ export const CONCERT_CONDITIONS = Object.freeze({
   post_gig: {
     id: 'post_gig',
     label: 'Post-gig muffled',
-    lostHeadline: '2 stems fading · Vocal diction blurring',
-    summary: 'Temporary “hearing hangover”: kick & bass still pound at 98%, while hi-hat shimmer and sharp 2.4–4.2 kHz vocal consonants dim into stage haze.',
-    lyricHtml: '“<span class="lyric-lost">··</span>ay <span class="lyric-lost">·</span>lo<span class="lyric-lost">··</span> <span class="lyric-lost">·</span>ill the hou<span class="lyric-lost">··</span> ligh<span class="lyric-lost">··</span> come up <span class="lyric-lost">·</span>onigh<span class="lyric-lost">·</span>”',
-    lyricClarity: 54,
+    lostHeadline: '2 stems fading · High consonants softened',
+    summary: 'Temporary “hearing hangover”: kick & bass still pound at 98%, while hi-hat shimmer and sharp 2.5–7.5 kHz consonants dim behind stage haze.',
+    vowelRetention: 90,
+    consonantRetention: 22,
+    lyricClarity: 56,
     stems: {
       bass: { audibility: 98, gain: 0.98, status: 'Still booming', lost: false },
       keys: { audibility: 82, gain: 0.82, status: 'Warmth stays', lost: false },
-      vocals: { audibility: 54, vowelGain: 0.9, consonantGain: 0.2, status: 'Consonants dulled', lost: false },
+      vocals: { audibility: 56, vowelGain: 0.9, consonantGain: 0.22, status: 'Consonants dulled', lost: false },
       guitar: { audibility: 34, gain: 0.28, status: 'Bite muffled', lost: true },
       cymbals: { audibility: 18, gain: 0.14, status: 'Sparkle faded', lost: true },
     },
@@ -170,13 +198,14 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'permanent_notch',
     label: '4 kHz noise notch',
     lostHeadline: 'Guitar bite, snare & consonants lost in mix',
-    summary: 'Ear-canal resonance concentrates concert wear near 4 kHz — guitar pick attack, snare crack, and vocal s/t consonants drop out of the song while bass booms untouched.',
-    lyricHtml: '“<span class="lyric-lost">··</span>ay <span class="lyric-lost">··</span>o<span class="lyric-lost">··</span> <span class="lyric-lost">·</span>i<span class="lyric-lost">··</span> the hou<span class="lyric-lost">··</span> <span class="lyric-lost">·</span>igh<span class="lyric-lost">··</span> <span class="lyric-lost">·</span>ome up <span class="lyric-lost">·</span>o<span class="lyric-lost">·</span>igh<span class="lyric-lost">·</span>”',
-    lyricClarity: 42,
+    summary: 'Ear-canal resonance concentrates concert wear near 4 kHz — guitar pick attack, snare crack, and crisp word edges drop out while bass booms untouched.',
+    vowelRetention: 86,
+    consonantRetention: 8,
+    lyricClarity: 44,
     stems: {
       bass: { audibility: 98, gain: 0.98, status: 'Untouched bass', lost: false },
       keys: { audibility: 84, gain: 0.84, status: 'Low chords intact', lost: false },
-      vocals: { audibility: 42, vowelGain: 0.86, consonantGain: 0.06, status: 'Words blur together', lost: true },
+      vocals: { audibility: 44, vowelGain: 0.86, consonantGain: 0.08, status: 'Edges blurred', lost: true },
       guitar: { audibility: 12, gain: 0.06, status: 'Lost in 4 kHz notch', lost: true },
       cymbals: { audibility: 28, gain: 0.24, status: 'Thin distant tick', lost: true },
     },
@@ -185,13 +214,14 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'severe_hf',
     label: 'Strong treble loss',
     lostHeadline: 'Right half of the 3D stage vanishes',
-    summary: 'Cymbals (2%) and guitar bite (5%) go dark in 3D space, and vocals collapse into muffled vowel hum while heavy bass dominates the room.',
-    lyricHtml: '“<span class="lyric-lost">··</span>a<span class="lyric-lost">·</span> <span class="lyric-lost">··</span>o<span class="lyric-lost">··</span> <span class="lyric-lost">·</span>i<span class="lyric-lost">··</span> <span class="lyric-lost">··</span>e <span class="lyric-lost">·</span>ou<span class="lyric-lost">··</span> <span class="lyric-lost">·</span>i<span class="lyric-lost">····</span> <span class="lyric-lost">·</span>o<span class="lyric-lost">·</span>e u<span class="lyric-lost">·</span> <span class="lyric-lost">·</span>o<span class="lyric-lost">·</span>i<span class="lyric-lost">···</span>”',
+    summary: 'Cymbals (2%) and guitar bite (5%) go dark in 3D space, and center vocals lose 98% of consonant crispness while heavy bass dominates the room.',
+    vowelRetention: 56,
+    consonantRetention: 2,
     lyricClarity: 24,
     stems: {
       bass: { audibility: 96, gain: 0.96, status: 'Dominates room', lost: false },
       keys: { audibility: 56, gain: 0.52, status: 'Low hum only', lost: false },
-      vocals: { audibility: 24, vowelGain: 0.56, consonantGain: 0.01, status: 'Mumbled vowels', lost: true },
+      vocals: { audibility: 24, vowelGain: 0.56, consonantGain: 0.015, status: 'Muffled body only', lost: true },
       guitar: { audibility: 5, gain: 0.02, status: 'Vanished', lost: true },
       cymbals: { audibility: 2, gain: 0.006, status: 'Gone completely', lost: true },
     },
@@ -201,12 +231,13 @@ export const CONCERT_CONDITIONS = Object.freeze({
     label: 'Foam earplugs',
     lostHeadline: 'Protected, but treble dumped unevenly',
     summary: 'Dense foam blocks cymbals (14%) and guitar bite (24%) far more than heavy bass (82%), making live songs sound underwater — so gig-goers pull them out.',
-    lyricHtml: '“<span class="lyric-lost">··</span>ay clo<span class="lyric-lost">··</span> <span class="lyric-lost">·</span>ill the hou<span class="lyric-lost">··</span> ligh<span class="lyric-lost">··</span>…”',
+    vowelRetention: 52,
+    consonantRetention: 14,
     lyricClarity: 38,
     stems: {
       bass: { audibility: 82, gain: 0.78, status: 'Bass leaks through', lost: false },
       keys: { audibility: 55, gain: 0.46, status: 'Boxy & woolly', lost: false },
-      vocals: { audibility: 38, vowelGain: 0.48, consonantGain: 0.1, status: 'Underwater vocals', lost: true },
+      vocals: { audibility: 38, vowelGain: 0.52, consonantGain: 0.14, status: 'Underwater mix', lost: true },
       guitar: { audibility: 24, gain: 0.14, status: 'Attack dulled', lost: true },
       cymbals: { audibility: 14, gain: 0.06, status: 'Cymbals killed', lost: true },
     },
@@ -215,8 +246,9 @@ export const CONCERT_CONDITIONS = Object.freeze({
     id: 'musician_plugs',
     label: 'Musicians’ −15 dB',
     lostHeadline: 'Safe −15 dB · All 5 stems stay clear',
-    summary: 'Tuned acoustic filters lower all 5 stems evenly to a comfortable level — keeping 100% of the singer, guitar solo, and cymbal sparkle with zero hangover.',
-    lyricHtml: '“<strong>St</strong>ay <strong>cl</strong>o<strong>s</strong>e <strong>t</strong>ill the hou<strong>s</strong>e ligh<strong>ts</strong> <strong>c</strong>ome up <strong>t</strong>onigh<strong>t</strong>”',
+    summary: 'Tuned acoustic filters lower all 5 stems evenly to a comfortable level — keeping 100% of vocal diction, guitar solo, and cymbal sparkle with zero hangover.',
+    vowelRetention: 100,
+    consonantRetention: 100,
     lyricClarity: 100,
     stems: {
       bass: { audibility: 100, gain: 0.54, status: 'Safe & tight (−15 dB)', lost: false },
@@ -274,19 +306,24 @@ export function getConcertStageSnapshot(conditionKey = 'original', soloInstrumen
     label: cond.label,
     lostHeadline: cond.lostHeadline,
     summary: cond.summary,
-    lyricHtml: cond.lyricHtml,
+    vowelRetention: cond.vowelRetention,
+    consonantRetention: cond.consonantRetention,
     lyricClarity: cond.lyricClarity,
     lostCount,
     instruments,
   };
 }
 
-// Pure mathematical helper used by tests & audio verification:
-// Proves that Mid/Side + telescoping FIR kernels (k0..k4) sum identically to the delayed stereo input!
+// Pure mathematical helper used by audio engine & unit tests:
+// Returns the 6 telescoping FIR kernels (b0..b5) plus pre-combined vocal consonant kernel (b3 + b4).
 export function createConcertStemKernels(sampleRate = 44100) {
   const { center, kernels } = createBandKernels(sampleRate, CONCERT_STEM_FIR_BANDS);
-  const [k0, k1, k2, k3, k4] = kernels;
-  return { center, k0, k1, k2, k3, k4 };
+  const [b0, b1, b2, b3, b4, b5] = kernels;
+  const b34 = new Float32Array(b3.length);
+  for (let i = 0; i < b3.length; i += 1) {
+    b34[i] = b3[i] + b4[i];
+  }
+  return { center, b0, b1, b2, b3, b4, b5, b34 };
 }
 
 function formatClock(sec) {
@@ -324,9 +361,15 @@ export function connectConcertStage({
   const statusEl = sectionEl.querySelector('#concert-status');
 
   const lostBadgeEl = sectionEl.querySelector('#concert-lost-badge');
-  const lyricTextEl = sectionEl.querySelector('#concert-lyric-text');
+  const vocalKickerEl = sectionEl.querySelector('#concert-vocal-kicker');
   const lyricClarityEl = sectionEl.querySelector('#concert-lyric-clarity');
+  const vocalNoteEl = sectionEl.querySelector('#concert-lyric-text');
+  const vowelBarEl = sectionEl.querySelector('#concert-vowel-bar');
+  const vowelPctEl = sectionEl.querySelector('#concert-vowel-pct');
+  const consBarEl = sectionEl.querySelector('#concert-consonant-bar');
+  const consPctEl = sectionEl.querySelector('#concert-consonant-pct');
   const summaryEl = sectionEl.querySelector('#concert-stage-summary');
+
   const conditionBtns = [...sectionEl.querySelectorAll('[data-concert-condition]')];
   const ringingBtn = sectionEl.querySelector('#concert-ringing-btn');
   const warningBannerEl = sectionEl.querySelector('#concert-tinnitus-warning');
@@ -360,11 +403,10 @@ export function connectConcertStage({
         toggleSolo(inst.id);
       });
       pinsLayer.append(btn);
-      pinEls.set(inst.id, { btn, pctSpan });
+      pinEls.set(inst.id, { btn, nameSpan, pctSpan });
     }
   }
 
-  // Populate Song Select if present
   if (songSelectEl && songSelectEl.options.length === 0) {
     for (const s of CONCERT_SONGS) {
       songSelectEl.append(new Option(`${s.title} — ${s.artist} (${s.license})`, s.id));
@@ -385,6 +427,8 @@ export function connectConcertStage({
   };
 
   const stemEnergies = { keys: 0, bass: 0, vocals: 0, guitar: 0, cymbals: 0 };
+  let liveVowelRms = 0;
+  let liveConsonantRms = 0;
 
   let audioCtx = null;
   let masterOut = null;
@@ -395,17 +439,25 @@ export function connectConcertStage({
   let stemNodes = null;
   let activeRun = null;
   let loadToken = 0;
+  let pauseFadeTimer = null;
   const decodedSongs = new Map();
   const loopCache = new Map();
 
   function currentSongMeta() {
-    return CONCERT_SONGS.find((s) => s.id === state.songId) ?? CONCERT_SONGS[0];
+    return getSongVocalCheckSpec(state.songId);
   }
 
   function makeImpulseBuffer(ctx, kernel) {
     const buf = ctx.createBuffer(1, kernel.length, ctx.sampleRate);
     buf.copyToChannel(kernel, 0);
     return buf;
+  }
+
+  function makeAnalyser(ctx) {
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 256;
+    analyser.smoothingTimeConstant = 0.72;
+    return { analyser, timeDomain: new Float32Array(analyser.fftSize) };
   }
 
   function ensureConcertAudioGraph() {
@@ -428,20 +480,16 @@ export function connectConcertStage({
     tinnitusBus.gain.value = 1;
     tinnitusBus.connect(masterOut);
 
-    const { k0, k1, k2, k3, k4 } = createConcertStemKernels(audioCtx.sampleRate);
+    const { b0, b1, b2, b3, b4, b5, b34 } = createConcertStemKernels(audioCtx.sampleRate);
 
     // Stereo input bus + exact Mid/Side decomposition:
-    //   Mid   = 0.5*(L + R)
-    //   SideL = 0.5*(L - R), SideR = 0.5*(R - L)
     const sourceEntry = audioCtx.createGain();
     const splitter = audioCtx.createChannelSplitter(2);
     sourceEntry.connect(splitter);
 
     const midBus = audioCtx.createGain();
-    const lToMid = audioCtx.createGain();
-    lToMid.gain.value = 0.5;
-    const rToMid = audioCtx.createGain();
-    rToMid.gain.value = 0.5;
+    const lToMid = audioCtx.createGain(); lToMid.gain.value = 0.5;
+    const rToMid = audioCtx.createGain(); rToMid.gain.value = 0.5;
     splitter.connect(lToMid, 0);
     splitter.connect(rToMid, 1);
     lToMid.connect(midBus);
@@ -471,10 +519,7 @@ export function connectConcertStage({
     const makeStemChain = () => {
       const condGain = audioCtx.createGain();
       const soloGain = audioCtx.createGain();
-      const analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      analyser.smoothingTimeConstant = 0.68;
-      const timeDomain = new Float32Array(analyser.fftSize);
+      const { analyser, timeDomain } = makeAnalyser(audioCtx);
       condGain.connect(soloGain);
       soloGain.connect(analyser);
       analyser.connect(calibrationStage.input);
@@ -482,49 +527,60 @@ export function connectConcertStage({
     };
 
     // 1. Bass & Kick (Stereo 20–220 Hz)
-    const convBass = makeConv(k0);
+    const convBass = makeConv(b0);
     const bassChain = makeStemChain();
     sourceEntry.connect(convBass);
     convBass.connect(bassChain.condGain);
 
-    // 2. Stereo Rhythm Chords & Keys (Side 220–2400 Hz)
-    const convKeys = makeConv(k1);
+    // 2. Stereo Rhythm Chords & Keys (Stereo 220–340 Hz Chest + Side 340–2500 Hz)
+    const convKeysChest = makeConv(b1);
+    const convKeysSide = makeConv(b2);
     const keysChain = makeStemChain();
-    sideBus.connect(convKeys);
-    convKeys.connect(keysChain.condGain);
+    sourceEntry.connect(convKeysChest);
+    convKeysChest.connect(keysChain.condGain);
+    sideBus.connect(convKeysSide);
+    convKeysSide.connect(keysChain.condGain);
 
-    // 3. Center Lead Vocals (Mid 220–2400 Hz Vowel Body + Mid 2400–4200 Hz Lyric Consonants)
-    const convVocalBody = makeConv(k1);
-    const convVocalCons = makeConv(k2);
+    // 3. Center Lead Vocals (Mid 340–2500 Hz Vowel Body + Mid 2500–7500 Hz Consonants & Sibilants!)
+    const convVocalBody = makeConv(b2);
+    const convVocalCons = makeConv(b34);
     const vocalVowelGain = audioCtx.createGain();
     const vocalConsonantGain = audioCtx.createGain();
+    const vowelMeter = makeAnalyser(audioCtx);
+    const consonantMeter = makeAnalyser(audioCtx);
     const vocalsChain = makeStemChain();
+
     midBus.connect(convVocalBody);
     convVocalBody.connect(vocalVowelGain);
-    vocalVowelGain.connect(vocalsChain.condGain);
+    vocalVowelGain.connect(vowelMeter.analyser);
+    vowelMeter.analyser.connect(vocalsChain.condGain);
+
     midBus.connect(convVocalCons);
     convVocalCons.connect(vocalConsonantGain);
-    vocalConsonantGain.connect(vocalsChain.condGain);
+    vocalConsonantGain.connect(consonantMeter.analyser);
+    consonantMeter.analyser.connect(vocalsChain.condGain);
 
-    // 4. Guitar Bite & Snare Crack (Side 2400–4200 Hz + Stereo 4200–6200 Hz)
-    const convGuitarSide = makeConv(k2);
-    const convGuitarUpper = makeConv(k3);
+    // 4. Guitar Bite & Snare Crack (Side 2500–6200 Hz)
+    const convGuitarSide = makeConv(b3);
     const guitarChain = makeStemChain();
     sideBus.connect(convGuitarSide);
     convGuitarSide.connect(guitarChain.condGain);
-    sourceEntry.connect(convGuitarUpper);
-    convGuitarUpper.connect(guitarChain.condGain);
 
-    // 5. Hi-Hats, Cymbals & Air (Stereo 6200–20000 Hz)
-    const convCymbals = makeConv(k4);
+    // 5. Hi-Hats, Cymbals & Air (Side 6200–7500 Hz + Stereo 7500–20000 Hz)
+    const convCymbalSide = makeConv(b4);
+    const convCymbalAir = makeConv(b5);
     const cymbalsChain = makeStemChain();
-    sourceEntry.connect(convCymbals);
-    convCymbals.connect(cymbalsChain.condGain);
+    sideBus.connect(convCymbalSide);
+    convCymbalSide.connect(cymbalsChain.condGain);
+    sourceEntry.connect(convCymbalAir);
+    convCymbalAir.connect(cymbalsChain.condGain);
 
     stemNodes = {
       sourceEntry,
       vocalVowelGain,
       vocalConsonantGain,
+      vowelMeter,
+      consonantMeter,
       chains: {
         bass: bassChain,
         keys: keysChain,
@@ -538,10 +594,11 @@ export function connectConcertStage({
     return audioCtx;
   }
 
+  // Smooth musical glide (~380 ms) when switching hearing profiles or soloing so transitions flow naturally
   function applyStemGains(immediate = false) {
     if (!audioCtx || !stemNodes) return;
     const now = audioCtx.currentTime;
-    const tau = immediate ? 0.004 : 0.025;
+    const tau = immediate ? 0.008 : 0.135;
     const snap = getConcertStageSnapshot(state.condition, state.soloInstrument, [...state.mutedIds]);
     const condSpec = CONCERT_CONDITIONS[snap.conditionId] ?? CONCERT_CONDITIONS.original;
 
@@ -575,8 +632,8 @@ export function connectConcertStage({
     try {
       const now = audioCtx.currentTime;
       prev.gainNode.gain.cancelScheduledValues(now);
-      prev.gainNode.gain.setTargetAtTime(0.0001, now, 0.02);
-      prev.source.stop(now + 0.07);
+      prev.gainNode.gain.setTargetAtTime(0.0001, now, 0.05);
+      prev.source.stop(now + 0.18);
     } catch {
       try { prev.source.disconnect(); prev.gainNode.disconnect(); } catch { /* ignore */ }
     }
@@ -595,7 +652,7 @@ export function connectConcertStage({
     const targetGain = audibleTinnitusGain(state.tinnitus, samples, -20, getTinnitusCalibrationLinearBoost());
 
     if (liveTinnitus && liveTinnitus.sound === state.tinnitus) {
-      liveTinnitus.gainNode.gain.setTargetAtTime(targetGain, audioCtx.currentTime, 0.03);
+      liveTinnitus.gainNode.gain.setTargetAtTime(targetGain, audioCtx.currentTime, 0.08);
       return;
     }
 
@@ -607,7 +664,7 @@ export function connectConcertStage({
       const gainNode = audioCtx.createGain();
       const now = audioCtx.currentTime;
       gainNode.gain.setValueAtTime(0.0001, now);
-      gainNode.gain.linearRampToValueAtTime(targetGain, now + 0.06);
+      gainNode.gain.linearRampToValueAtTime(targetGain, now + 0.22);
       src.buffer = buf;
       src.loop = true;
       src.connect(gainNode);
@@ -632,16 +689,28 @@ export function connectConcertStage({
     return (activeRun.offset + elapsed) % activeRun.buffer.duration;
   }
 
-  function releaseActiveSource() {
-    if (!activeRun) return;
-    const prev = activeRun;
-    activeRun = null;
+  // Smooth equal-feel crossfade out of any outgoing song/seek source instead of an abrupt cut!
+  function crossfadeOutRun(runToStop, fadeSec = 0.22) {
+    if (!runToStop) return;
+    if (!audioCtx || fadeSec <= 0.01) {
+      try { runToStop.source.stop(); } catch { /* ignore */ }
+      try { runToStop.source.disconnect(); runToStop.fadeGain?.disconnect(); } catch { /* ignore */ }
+      return;
+    }
     try {
-      prev.source.stop();
-    } catch { /* ignore */ }
-    try {
-      prev.source.disconnect();
-    } catch { /* ignore */ }
+      const now = audioCtx.currentTime;
+      if (runToStop.fadeGain) {
+        runToStop.fadeGain.gain.cancelScheduledValues(now);
+        runToStop.fadeGain.gain.setValueAtTime(Math.max(0.0001, runToStop.fadeGain.gain.value), now);
+        runToStop.fadeGain.gain.linearRampToValueAtTime(0.0001, now + fadeSec);
+      }
+      runToStop.source.onended = () => {
+        try { runToStop.source.disconnect(); runToStop.fadeGain?.disconnect(); } catch { /* ignore */ }
+      };
+      runToStop.source.stop(now + fadeSec + 0.02);
+    } catch {
+      try { runToStop.source.disconnect(); runToStop.fadeGain?.disconnect(); } catch { /* ignore */ }
+    }
   }
 
   async function loadSongBuffer(songMeta, ctx) {
@@ -654,7 +723,6 @@ export function connectConcertStage({
     const arrayBuf = await res.arrayBuffer();
     const rawDecoded = await ctx.decodeAudioData(arrayBuf.slice(0));
 
-    // Ensure 2-channel stereo buffer so Mid/Side stem decomposition is always balanced
     let stereoBuf = rawDecoded;
     if (rawDecoded.numberOfChannels < 2) {
       stereoBuf = ctx.createBuffer(2, rawDecoded.length, rawDecoded.sampleRate);
@@ -667,17 +735,27 @@ export function connectConcertStage({
     return stereoBuf;
   }
 
-  function startBufferAt(buffer, requestedOffset) {
+  function startBufferAt(buffer, requestedOffset, { fadeSec = 0.24 } = {}) {
     if (!audioCtx || !stemNodes) return;
-    releaseActiveSource();
+    clearTimeout(pauseFadeTimer);
+    const prevRun = activeRun;
+    activeRun = null;
+    if (prevRun) crossfadeOutRun(prevRun, fadeSec);
+
     const safeOffset = Math.max(0, Math.min(buffer.duration - 0.05, Number(requestedOffset) || 0));
     const src = audioCtx.createBufferSource();
+    const fadeGain = audioCtx.createGain();
+    const now = audioCtx.currentTime;
+    fadeGain.gain.setValueAtTime(0.0001, now);
+    fadeGain.gain.linearRampToValueAtTime(1.0, now + Math.max(0.04, fadeSec));
+
     src.buffer = buffer;
     src.loop = true;
-    src.connect(stemNodes.sourceEntry);
-    const startedAt = audioCtx.currentTime;
-    src.start(startedAt, safeOffset);
-    activeRun = { source: src, buffer, offset: safeOffset, startedAt };
+    src.connect(fadeGain);
+    fadeGain.connect(stemNodes.sourceEntry);
+    src.start(now, safeOffset);
+
+    activeRun = { source: src, fadeGain, buffer, offset: safeOffset, startedAt: now };
     state.duration = buffer.duration;
     state.pausedOffset = safeOffset;
     if (seekInput) {
@@ -708,8 +786,8 @@ export function connectConcertStage({
       const startAt = customOffset !== null
         ? customOffset
         : (state.pausedOffset < buffer.duration ? state.pausedOffset : songMeta.startOffset);
-      startBufferAt(buffer, startAt);
-      applyStemGains(true);
+      startBufferAt(buffer, startAt, { fadeSec: 0.26 });
+      applyStemGains(false);
       syncUi();
       onStateChange({
         type: 'select',
@@ -726,17 +804,18 @@ export function connectConcertStage({
     }
   }
 
-  function stopConcert({ notify = true } = {}) {
+  function stopConcert({ notify = true, immediate = false } = {}) {
     loadToken += 1;
     if (activeRun) {
       state.pausedOffset = currentPlaybackPosition();
+      const outgoing = activeRun;
+      activeRun = null;
+      crossfadeOutRun(outgoing, immediate ? 0 : 0.2);
     }
-    releaseActiveSource();
     stopTinnitusAudio();
     const wasPlaying = state.playing || state.loading;
     state.playing = false;
     state.loading = false;
-    for (const k of Object.keys(stemEnergies)) stemEnergies[k] = 0;
     syncUi();
     if (notify && wasPlaying) {
       onStateChange({ type: 'energy', playing: false, bassEnergy: 0.24, trebleEnergy: 0.26 });
@@ -769,6 +848,8 @@ export function connectConcertStage({
   function syncUi() {
     const snap = getConcertStageSnapshot(state.condition, state.soloInstrument, [...state.mutedIds]);
     const songMeta = currentSongMeta();
+    const isInst = Boolean(songMeta.isInstrumental);
+
     sectionEl.dataset.concertCondition = snap.conditionId;
     sectionEl.dataset.concertPlaying = String(state.playing);
     sectionEl.dataset.concertRinging = String(state.tinnitus === 'ringing');
@@ -794,12 +875,32 @@ export function connectConcertStage({
       lostBadgeEl.textContent = snap.lostHeadline;
       lostBadgeEl.dataset.severity = snap.lostCount >= 3 ? 'high' : (snap.lostCount >= 1 ? 'medium' : 'healthy');
     }
-    if (lyricTextEl) {
-      lyricTextEl.innerHTML = snap.lyricHtml;
+
+    // Song-accurate, truthful Center Lead Vocal / Presence Check
+    if (vocalKickerEl) {
+      vocalKickerEl.textContent = songMeta.vocalCheckKicker;
     }
     if (lyricClarityEl) {
-      lyricClarityEl.textContent = `Vocal diction: ${snap.lyricClarity}%`;
+      lyricClarityEl.textContent = isInst
+        ? `Center attack clarity: ${snap.consonantRetention}%`
+        : `Consonant crispness: ${snap.consonantRetention}%`;
     }
+    if (vocalNoteEl) {
+      vocalNoteEl.textContent = songMeta.vocalFocusNote;
+    }
+    if (vowelBarEl && !state.playing) {
+      vowelBarEl.style.width = `${snap.vowelRetention}%`;
+    }
+    if (vowelPctEl) {
+      vowelPctEl.textContent = `${snap.vowelRetention}%`;
+    }
+    if (consBarEl && !state.playing) {
+      consBarEl.style.width = `${snap.consonantRetention}%`;
+    }
+    if (consPctEl) {
+      consPctEl.textContent = `${snap.consonantRetention}%`;
+    }
+
     if (summaryEl) {
       summaryEl.textContent = snap.summary;
     }
@@ -817,8 +918,12 @@ export function connectConcertStage({
     }
 
     for (const item of snap.instruments) {
+      const displayTitle = item.id === 'vocals' && isInst ? item.instrumentalTitle : item.title;
+      const displayShort = item.id === 'vocals' && isInst ? item.instrumentalShortLabel : item.shortLabel;
+
       const pinObj = pinEls.get(item.id);
       if (pinObj) {
+        pinObj.nameSpan.textContent = displayShort;
         pinObj.btn.dataset.ghosted = String(item.isGhosted);
         pinObj.btn.setAttribute('aria-pressed', String(item.isSoloed));
         const compactPin = typeof window !== 'undefined' && window.innerWidth <= 560;
@@ -829,6 +934,8 @@ export function connectConcertStage({
 
       const cardEl = cardEls.get(item.id);
       if (cardEl) {
+        const h3 = cardEl.querySelector('h3');
+        if (h3) h3.textContent = displayTitle;
         cardEl.dataset.ghosted = String(item.isGhosted);
         cardEl.dataset.soloed = String(item.isSoloed);
         cardEl.dataset.muted = String(!item.activeInMix);
@@ -861,9 +968,11 @@ export function connectConcertStage({
   });
 
   songSelectEl?.addEventListener('change', () => {
-    const nextSong = CONCERT_SONGS.find((s) => s.id === songSelectEl.value) ?? CONCERT_SONGS[0];
+    const nextSong = getSongVocalCheckSpec(songSelectEl.value);
     state.songId = nextSong.id;
     state.pausedOffset = nextSong.startOffset;
+    if (seekInput) seekInput.value = String(nextSong.startOffset);
+    if (timeEl) timeEl.textContent = `${formatClock(nextSong.startOffset)} / –:––`;
     syncUi();
     if (state.playing) {
       void startConcert({ customOffset: nextSong.startOffset });
@@ -877,7 +986,7 @@ export function connectConcertStage({
       timeEl.textContent = `${formatClock(targetSec)} / ${formatClock(state.duration)}`;
     }
     if (state.playing && activeRun?.buffer) {
-      startBufferAt(activeRun.buffer, targetSec);
+      startBufferAt(activeRun.buffer, targetSec, { fadeSec: 0.08 });
     }
   });
 
@@ -1047,7 +1156,6 @@ export function connectConcertStage({
           focusCamera3D('overview');
         });
 
-        // 3D Touch Orbit, Pinch Zoom & Raycast Tap-to-Solo!
         const raycaster = new THREE.Raycaster();
         const pointerNdc = new THREE.Vector2();
         const activePointers = new Map();
@@ -1109,9 +1217,11 @@ export function connectConcertStage({
           if (hoverTooltip) {
             if (stemId) {
               const meta = CONCERT_INSTRUMENTS.find((i) => i.id === stemId);
+              const songMeta = currentSongMeta();
+              const label = stemId === 'vocals' && songMeta.isInstrumental ? meta.instrumentalTitle : meta?.title;
               const rect = canvasWrap.getBoundingClientRect();
               hoverTooltip.hidden = false;
-              hoverTooltip.textContent = `${meta?.title || stemId} — Click to solo`;
+              hoverTooltip.textContent = `${label || stemId} — Click to solo`;
               hoverTooltip.style.left = `${Math.min(rect.width - 180, Math.max(12, e.clientX - rect.left + 12))}px`;
               hoverTooltip.style.top = `${Math.max(12, e.clientY - rect.top - 30)}px`;
             } else {
@@ -1152,7 +1262,6 @@ export function connectConcertStage({
           viewH = Math.max(220, r.height || 380);
           renderer.setSize(viewW, viewH, false);
           const aspect = viewW / viewH;
-          // Widen vertical FOV on narrow mobile portrait screens so all 5 3D musicians fit comfortably!
           camera.fov = aspect < 1.35
             ? Math.min(66, Math.round(40 / Math.pow(Math.max(0.55, aspect / 1.35), 0.56)))
             : 40;
@@ -1163,7 +1272,6 @@ export function connectConcertStage({
         const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(resize) : null;
         ro?.observe(canvasWrap);
 
-        // Pause WebGL rendering when scrolled completely out of the viewport for battery/mobile smoothness
         let inViewport = true;
         const io = typeof IntersectionObserver === 'function'
           ? new IntersectionObserver((entries) => {
@@ -1171,6 +1279,14 @@ export function connectConcertStage({
             }, { rootMargin: '160px' })
           : null;
         io?.observe(sectionEl);
+
+        const readRms = (meterObj, gainScale = 7.2) => {
+          meterObj.analyser.getFloatTimeDomainData(meterObj.timeDomain);
+          let sum = 0;
+          const arr = meterObj.timeDomain;
+          for (let i = 0; i < arr.length; i += 2) sum += arr[i] * arr[i];
+          return Math.min(1, Math.sqrt(sum / (arr.length / 2)) * gainScale);
+        };
 
         const clock = new THREE.Clock();
         const projVec = new THREE.Vector3();
@@ -1184,24 +1300,36 @@ export function connectConcertStage({
           const t = clock.getElapsedTime();
           const snap = getConcertStageSnapshot(state.condition, state.soloInstrument, [...state.mutedIds]);
 
-          // Measure real-time RMS energy per separated stem of the playing royalty-free song!
           if (state.playing && stemNodes) {
             let bassOut = 0;
             let trebleOut = 0;
             for (const inst of CONCERT_INSTRUMENTS) {
               const ch = stemNodes.chains[inst.id];
               if (!ch) continue;
-              ch.analyser.getFloatTimeDomainData(ch.timeDomain);
-              let sumSq = 0;
-              for (let i = 0; i < ch.timeDomain.length; i += 2) {
-                const v = ch.timeDomain[i];
-                sumSq += v * v;
-              }
-              const rms = Math.sqrt(sumSq / (ch.timeDomain.length / 2));
-              const normEnergy = Math.min(1, rms * 6.8);
-              stemEnergies[inst.id] = stemEnergies[inst.id] * 0.62 + normEnergy * 0.38;
+              const normEnergy = readRms(ch, 6.8);
+              stemEnergies[inst.id] = stemEnergies[inst.id] * 0.7 + normEnergy * 0.3;
               if (inst.id === 'bass' || inst.id === 'keys') bassOut = Math.max(bassOut, stemEnergies[inst.id]);
               else trebleOut = Math.max(trebleOut, stemEnergies[inst.id]);
+            }
+
+            // Live real-audio Vowel Body vs Consonant/Sibilant meters!
+            const rawVow = readRms(stemNodes.vowelMeter, 9.5);
+            const rawCons = readRms(stemNodes.consonantMeter, 14.0);
+            liveVowelRms = liveVowelRms * 0.72 + rawVow * 0.28;
+            liveConsonantRms = liveConsonantRms * 0.72 + rawCons * 0.28;
+
+            const vocalActive = snap.instruments.find((i) => i.id === 'vocals')?.activeInMix ?? true;
+            if (vowelBarEl) {
+              const vWidth = vocalActive
+                ? Math.min(100, Math.round(snap.vowelRetention * (0.38 + liveVowelRms * 0.78)))
+                : 0;
+              vowelBarEl.style.width = `${vWidth}%`;
+            }
+            if (consBarEl) {
+              const cWidth = vocalActive
+                ? Math.min(100, Math.round(snap.consonantRetention * (0.35 + liveConsonantRms * 0.85)))
+                : 0;
+              consBarEl.style.width = `${cWidth}%`;
             }
 
             const posSec = currentPlaybackPosition();
@@ -1214,15 +1342,16 @@ export function connectConcertStage({
 
             onStateChange({ type: 'energy', playing: true, bassEnergy: bassOut, trebleEnergy: trebleOut });
           } else {
-            for (const k of Object.keys(stemEnergies)) stemEnergies[k] *= 0.88;
+            for (const k of Object.keys(stemEnergies)) stemEnergies[k] *= 0.9;
+            liveVowelRms *= 0.88;
+            liveConsonantRms *= 0.88;
           }
 
-          // Camera smooth orbit & gentle concert-hall sway
-          currentTarget.lerp(desiredTarget, 0.09);
-          currentRadius += (desiredRadius - currentRadius) * 0.09;
-          const idleSway = activePointers.size === 0 && !state.soloInstrument ? Math.sin(t * 0.35) * 0.045 : 0;
-          currentTheta += ((desiredTheta + idleSway) - currentTheta) * 0.08;
-          currentPhi += (desiredPhi - currentPhi) * 0.08;
+          currentTarget.lerp(desiredTarget, 0.075);
+          currentRadius += (desiredRadius - currentRadius) * 0.075;
+          const idleSway = activePointers.size === 0 && !state.soloInstrument ? Math.sin(t * 0.32) * 0.045 : 0;
+          currentTheta += ((desiredTheta + idleSway) - currentTheta) * 0.07;
+          currentPhi += (desiredPhi - currentPhi) * 0.07;
 
           const sinPhi = Math.sin(currentPhi);
           camera.position.set(
@@ -1233,7 +1362,6 @@ export function connectConcertStage({
           camera.lookAt(currentTarget);
           camera.updateMatrixWorld();
 
-          // Update 3D Performers, Volumetric Spotlights, Instruments & Ghosting!
           for (const [stemIdx, item] of snap.instruments.entries()) {
             const st = arena.stations[item.id];
             if (!st) continue;
@@ -1241,22 +1369,19 @@ export function connectConcertStage({
             const audFrac = item.effectiveAudibility / 100;
             const hovered = state.hoveredStem === item.id;
 
-            // Dim volumetric 3D spotlight cone & turn vanished musicians translucent/ghosted!
             const targetConeOp = item.activeInMix
               ? (0.03 + audFrac * 0.24 + e * 0.16 + (hovered || item.isSoloed ? 0.1 : 0))
               : 0.015;
-            st.spotConeMat.opacity += (targetConeOp - st.spotConeMat.opacity) * 0.14;
-            st.floorRingMat.opacity = Math.min(1, 0.12 + audFrac * 0.65 + e * 0.35);
+            st.spotConeMat.opacity += (targetConeOp - st.spotConeMat.opacity) * 0.09;
+            st.floorRingMat.opacity += (Math.min(1, 0.12 + audFrac * 0.65 + e * 0.35) - st.floorRingMat.opacity) * 0.12;
             st.floorRing.scale.setScalar(1 + e * 0.16);
 
             const bodyOpacity = !item.activeInMix ? 0.22 : Math.max(0.18, 0.2 + audFrac * 0.8);
-            st.mats.bodyMat.opacity += (bodyOpacity - st.mats.bodyMat.opacity) * 0.14;
-            st.mats.instMat.opacity += (bodyOpacity - st.mats.instMat.opacity) * 0.14;
-            st.mats.instMat.emissiveIntensity = hovered || item.isSoloed
-              ? 0.72
-              : (0.08 + audFrac * 0.35 + e * 0.55);
+            st.mats.bodyMat.opacity += (bodyOpacity - st.mats.bodyMat.opacity) * 0.09;
+            st.mats.instMat.opacity += (bodyOpacity - st.mats.instMat.opacity) * 0.09;
+            const targetEmissive = hovered || item.isSoloed ? 0.72 : (0.08 + audFrac * 0.35 + e * 0.55);
+            st.mats.instMat.emissiveIntensity += (targetEmissive - st.mats.instMat.emissiveIntensity) * 0.12;
 
-            // Live 3D musical groove animation scaled by actual audibility!
             st.figure.position.y = e * 0.09;
             st.figure.rotation.z = Math.sin(t * 4.5 + st.stationGroup.position.x) * 0.05 * audFrac * (state.playing ? 1 : 0.2);
 
@@ -1266,11 +1391,13 @@ export function connectConcertStage({
             if (st.animatedParts.vowelRing && st.animatedParts.consonantRing) {
               st.animatedParts.vowelRing.lookAt(camera.position);
               st.animatedParts.consonantRing.lookAt(camera.position);
-              st.animatedParts.vowelRing.scale.setScalar(0.9 + e * 0.45);
-              st.animatedParts.vowelRing.material.opacity = item.activeInMix ? Math.min(0.9, 0.2 + e * 0.8) : 0.05;
-              const consClarity = snap.lyricClarity / 100;
-              st.animatedParts.consonantRing.scale.setScalar(0.95 + e * 0.55 * consClarity);
-              st.animatedParts.consonantRing.material.opacity = item.activeInMix ? consClarity * (0.25 + e * 0.75) : 0.02;
+              const vScale = 0.9 + (state.playing ? liveVowelRms : e) * 0.48;
+              const consFrac = snap.consonantRetention / 100;
+              const cScale = 0.94 + (state.playing ? liveConsonantRms : e) * 0.6 * consFrac;
+              st.animatedParts.vowelRing.scale.setScalar(vScale);
+              st.animatedParts.vowelRing.material.opacity = item.activeInMix ? Math.min(0.92, 0.22 + liveVowelRms * 0.78) : 0.05;
+              st.animatedParts.consonantRing.scale.setScalar(cScale);
+              st.animatedParts.consonantRing.material.opacity = item.activeInMix ? consFrac * (0.24 + liveConsonantRms * 0.76) : 0.02;
             }
             if (st.animatedParts.snareDrum) {
               st.animatedParts.snareDrum.scale.set(1 + e * 0.12, 1, 1 + e * 0.12);
@@ -1281,7 +1408,6 @@ export function connectConcertStage({
               st.animatedParts.hiHatTop.position.y = 1.06 + e * 0.05;
             }
 
-            // Project 3D Floating Label Pin cleanly above each 3D musician (staggered on mobile & clearing camera bar)
             const pinObj = pinEls.get(item.id);
             if (pinObj) {
               projVec.copy(st.labelAnchor).project(camera);
@@ -1295,16 +1421,14 @@ export function connectConcertStage({
             }
           }
 
-          // Crowd front-row bounce driven by live bass energy
           const bassBeat = stemEnergies.bass || 0;
           for (const person of arena.crowdSilhouettes) {
             person.position.y = person.userData.baseY + Math.abs(Math.sin(t * 3.6 + person.userData.phase)) * bassBeat * 0.12;
           }
 
-          // 3.4 kHz Tinnitus Halo Ring
           const showRing = state.tinnitus === 'ringing';
           const targetRingOp = showRing ? 0.65 + 0.2 * Math.sin(t * 8) : 0;
-          arena.ringingHaloMat.opacity += (targetRingOp - arena.ringingHaloMat.opacity) * 0.15;
+          arena.ringingHaloMat.opacity += (targetRingOp - arena.ringingHaloMat.opacity) * 0.1;
           if (showRing) {
             arena.ringingHalo.scale.setScalar(1 + 0.03 * Math.sin(t * 6));
           }
