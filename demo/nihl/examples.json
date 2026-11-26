@@ -1,0 +1,253 @@
+{
+  "frequenciesHz": [
+    250,
+    500,
+    1000,
+    2000,
+    3000,
+    4000,
+    6000,
+    8000
+  ],
+  "reference": "reference.wav",
+  "durationSeconds": 10.579591836734695,
+  "source": {
+    "title": "It's Your Birthday",
+    "artist": "Kyla",
+    "sourceUrl": "https://freemusicarchive.org/music/Kyla/The_New_Birthday_Song_Contest/Its_Your_Birthday/",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+  },
+  "cases": [
+    {
+      "id": "normal",
+      "label": "Reference hearing thresholds",
+      "leftDbHl": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "rightDbHl": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "leftRenderDbHl": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "rightRenderDbHl": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "audio": "reference.wav",
+      "manifest": null
+    },
+    {
+      "id": "nihl_typical",
+      "label": "Typical 4 kHz notch",
+      "leftDbHl": [
+        10,
+        5,
+        10,
+        20,
+        40,
+        50,
+        35,
+        25
+      ],
+      "rightDbHl": [
+        5,
+        10,
+        10,
+        20,
+        40,
+        55,
+        40,
+        25
+      ],
+      "leftRenderDbHl": [
+        10,
+        5,
+        10,
+        20,
+        40,
+        50,
+        35,
+        25
+      ],
+      "rightRenderDbHl": [
+        5,
+        10,
+        10,
+        20,
+        40,
+        55,
+        40,
+        25
+      ],
+      "audio": "nihl_typical.wav",
+      "manifest": "nihl_typical.manifest.json"
+    },
+    {
+      "id": "nihl_mild_to_severe",
+      "label": "Mild-to-severe NIHL",
+      "leftDbHl": [
+        30,
+        25,
+        25,
+        40,
+        60,
+        75,
+        65,
+        50
+      ],
+      "rightDbHl": [
+        30,
+        30,
+        30,
+        45,
+        70,
+        80,
+        70,
+        45
+      ],
+      "leftRenderDbHl": [
+        30,
+        25,
+        25,
+        40,
+        60,
+        75,
+        65,
+        50
+      ],
+      "rightRenderDbHl": [
+        30,
+        30,
+        30,
+        45,
+        70,
+        80,
+        70,
+        45
+      ],
+      "audio": "nihl_mild_to_severe.wav",
+      "manifest": "nihl_mild_to_severe.manifest.json"
+    },
+    {
+      "id": "nihl_moderate_to_severe",
+      "label": "Moderate-to-severe NIHL",
+      "leftDbHl": [
+        35,
+        40,
+        45,
+        50,
+        75,
+        95,
+        85,
+        70
+      ],
+      "rightDbHl": [
+        40,
+        35,
+        45,
+        55,
+        75,
+        90,
+        80,
+        70
+      ],
+      "leftRenderDbHl": [
+        35,
+        40,
+        45,
+        50,
+        75,
+        80.0,
+        80.0,
+        70
+      ],
+      "rightRenderDbHl": [
+        40,
+        35,
+        45,
+        55,
+        75,
+        80.0,
+        80,
+        70
+      ],
+      "audio": "nihl_moderate_to_severe.wav",
+      "manifest": "nihl_moderate_to_severe.manifest.json"
+    },
+    {
+      "id": "age_related",
+      "label": "Age-related hearing loss",
+      "leftDbHl": [
+        10,
+        5,
+        10,
+        20,
+        40,
+        60,
+        75,
+        90
+      ],
+      "rightDbHl": [
+        5,
+        10,
+        10,
+        25,
+        40,
+        55,
+        70,
+        85
+      ],
+      "leftRenderDbHl": [
+        10,
+        5,
+        10,
+        20,
+        40,
+        60,
+        75,
+        80.0
+      ],
+      "rightRenderDbHl": [
+        5,
+        10,
+        10,
+        25,
+        40,
+        55,
+        70,
+        80.0
+      ],
+      "audio": "age_related.wav",
+      "manifest": "age_related.manifest.json"
+    }
+  ]
+}

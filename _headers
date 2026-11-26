@@ -1,0 +1,8 @@
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://esm.run https://cdn.jsdelivr.net; worker-src 'self' blob:; style-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; connect-src 'self' https://esm.run https://cdn.jsdelivr.net https://huggingface.co https://*.hf.co https://*.xethub.hf.co https://*.huggingface.co https://raw.githubusercontent.com; media-src 'self' blob:; img-src 'self' data: blob:
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff
+  Permissions-Policy: camera=(), microphone=(self), geolocation=()
+
+/demo/*
+  Cache-Control: public, max-age=3600

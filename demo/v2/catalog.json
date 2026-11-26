@@ -1,0 +1,58 @@
+{
+  "duration_seconds": 12,
+  "marker_seconds": 4,
+  "quiet_seconds": 10.75,
+  "reference": "reference.wav",
+  "waveform": "waveform.json",
+  "profiles": [
+    {
+      "id": "post_gig_muffled_v1",
+      "version": 1,
+      "label": "Muffled hearing after a loud gig (example)",
+      "review_status": "engineering",
+      "simulated": "post_gig_muffled_v1.wav",
+      "bundle": "post_gig_muffled_v1.zip",
+      "manifest": "post_gig_muffled_v1.manifest.json"
+    },
+    {
+      "id": "nihl_demo_v1",
+      "version": 1,
+      "label": "Mild noise-induced hearing loss (example)",
+      "review_status": "engineering",
+      "simulated": "nihl_demo_v1.wav",
+      "bundle": "nihl_demo_v1.zip",
+      "manifest": "nihl_demo_v1.manifest.json"
+    },
+    {
+      "id": "high_frequency_demo_v1",
+      "version": 1,
+      "label": "High-frequency loss example",
+      "review_status": "engineering",
+      "simulated": "high_frequency_demo_v1.wav",
+      "bundle": "high_frequency_demo_v1.zip",
+      "manifest": "high_frequency_demo_v1.manifest.json"
+    },
+    {
+      "id": "broadband_demo_v1",
+      "version": 1,
+      "label": "Broadband loss example",
+      "review_status": "engineering",
+      "simulated": "broadband_demo_v1.wav",
+      "bundle": "broadband_demo_v1.zip",
+      "manifest": "broadband_demo_v1.manifest.json"
+    },
+    {
+      "id": "asymmetric_demo_v1",
+      "version": 1,
+      "label": "Asymmetric loss example (right stronger)",
+      "review_status": "engineering",
+      "simulated": "asymmetric_demo_v1.wav",
+      "bundle": "asymmetric_demo_v1.zip",
+      "manifest": "asymmetric_demo_v1.manifest.json"
+    }
+  ],
+  "tinnitus": {
+    "ringing": "tinnitus-ringing.wav",
+    "hiss": "tinnitus-hiss.wav"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "tracks": [
+    {
+      "id": "synthetic",
+      "title": "Original synthetic demo",
+      "artist": "RNID Audio Tool",
+      "catalog": "../v2/catalog.json"
+    },
+    {
+      "id": "happy-birthday",
+      "title": "Happy Birthday to You",
+      "artist": "Traditional (arr. Pracchia-78)",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Happy_Birthday_to_You.ogg",
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "genre": "Traditional celebration (Public Domain)",
+      "catalog": "happy-birthday/catalog.json"
+    },
+    {
+      "id": "its-your-birthday",
+      "title": "It's Your Birthday (Vocal — FMA)",
+      "artist": "Kyla",
+      "credit_url": "https://freemusicarchive.org/music/Kyla/The_New_Birthday_Song_Contest/Its_Your_Birthday/",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "genre": "Birthday pop (female vocals)",
+      "catalog": "its-your-birthday/catalog.json"
+    },
+    {
+      "id": "in-peace",
+      "title": "In Peace (Vocal — ccMixter)",
+      "artist": "Madam Snowflake",
+      "credit_url": "https://ccmixter.org/files/snowflake/33628",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "genre": "Pop / electronic (female vocals)",
+      "catalog": "in-peace/catalog.json"
+    },
+    {
+      "id": "gravity",
+      "title": "Gravity (Vocal — FMA)",
+      "artist": "Josh Woodward",
+      "credit_url": "https://freemusicarchive.org/music/Josh_Woodward/Dirty_Wings/JoshWoodward-DW-04-Gravity/",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "genre": "Indie folk-rock (vocals)",
+      "catalog": "gravity/catalog.json"
+    },
+    {
+      "id": "i-just-wanna",
+      "title": "I Just Wanna (Vocal — ccMixter)",
+      "artist": "mykleanthony",
+      "credit_url": "https://ccmixter.org/files/mykleanthony/71247",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "genre": "Soul-pop remix (vocals)",
+      "catalog": "i-just-wanna/catalog.json"
+    },
+    {
+      "id": "let-it-in",
+      "title": "Let It In (Vocal — FMA)",
+      "artist": "Josh Woodward",
+      "credit_url": "https://freemusicarchive.org/music/Josh_Woodward/Ashes/JoshWoodward-Ashes-01-LetItIn/",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "genre": "Upbeat folk-rock (vocals)",
+      "catalog": "let-it-in/catalog.json"
+    },
+    {
+      "id": "she-dreams-in-blue",
+      "title": "She Dreams In Blue (Vocal — FMA)",
+      "artist": "Josh Woodward",
+      "credit_url": "https://freemusicarchive.org/music/Josh_Woodward/Only_Whispering/JoshWoodward-NQC-03-SheDreamsInBlue_1500/",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "genre": "Indie acoustic pop (vocals)",
+      "catalog": "she-dreams-in-blue/catalog.json"
+    },
+    {
+      "id": "boogie-party",
+      "title": "Boogie Party",
+      "artist": "Kevin MacLeod",
+      "credit_url": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2200002",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "genre": "Blues rock",
+      "catalog": "boogie-party/catalog.json"
+    },
+    {
+      "id": "big-mojo",
+      "title": "Big Mojo",
+      "artist": "Kevin MacLeod",
+      "credit_url": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100306",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "genre": "Cinematic percussion",
+      "catalog": "big-mojo/catalog.json"
+    },
+    {
+      "id": "evening",
+      "title": "Evening",
+      "artist": "Kevin MacLeod",
+      "credit_url": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2300002",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "genre": "Acoustic chamber music",
+      "catalog": "evening/catalog.json"
+    },
+    {
+      "id": "inspired",
+      "title": "Inspired",
+      "artist": "Kevin MacLeod",
+      "credit_url": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1600022",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "genre": "Electronica",
+      "catalog": "inspired/catalog.json"
+    }
+  ]
+}

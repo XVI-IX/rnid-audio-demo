@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "audio": {
+    "sample_rate_hz": 44100,
+    "channels": 2,
+    "frames": 10657454,
+    "duration_seconds": 241.66562358276644,
+    "reference": "reference.m4a",
+    "simulated": "asymmetric_demo_v1.m4a"
+  },
+  "profile": {
+    "id": "asymmetric_demo_v1",
+    "version": 1,
+    "label": "Asymmetric loss example (right stronger)",
+    "review_status": "engineering",
+    "digest": "sha256:d05418f2721737b51a1b2cbadb01f3c24050294f9a5877fc58be5e4070e8444c",
+    "provenance": "Synthetic left and right thresholds chosen to illustrate a stronger effect in the right channel of the demonstration source. Engineering listening fixture pending audiology review."
+  },
+  "engine": {
+    "name": "Cambridge MSBG",
+    "rnid": "0.3.1",
+    "pyclarity": "0.9.0",
+    "python": "3.14.2",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "runtime": "python 3.14.2 (emscripten)",
+    "decoder": "macOS AudioToolbox afconvert"
+  },
+  "model": {
+    "calibration": {
+      "src_pos": "ff",
+      "equiv_0db_spl": 80.0,
+      "ahr": 20.0
+    },
+    "input_rms_dbfs": {
+      "left": -19.44747676667825,
+      "right": -18.90725947358274
+    },
+    "offset_samples": {
+      "left": 1078,
+      "right": 1263
+    },
+    "bypassed_silent": {
+      "left": false,
+      "right": false
+    },
+    "guard_samples": {
+      "before": 4410,
+      "after": 4410
+    },
+    "severity": {
+      "left": "NOTHING",
+      "right": "MODERATE"
+    },
+    "level_convention": "msbg_0.9.0_overall_rms_guarded_v2",
+    "path_compensation": "msbg_filterbank_path_eq_v1",
+    "active_rms_dbfs": {
+      "left": -18.800446933992397,
+      "right": -18.491070977745892
+    },
+    "model_input_level_db_spl": {
+      "left": 80.55252323332175,
+      "right": 81.09274052641726
+    },
+    "model_rescale_db": {
+      "left": -0.6470298326858526,
+      "right": -0.4161884958368489
+    }
+  },
+  "warnings": [
+    "PROFILE_UNREVIEWED"
+  ],
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 9143296,
+    "selected_seconds": 207.33097505668934,
+    "candidates": [
+      {
+        "sample": 9143296,
+        "seconds": 207.33097505668934,
+        "score": 18.32203
+      },
+      {
+        "sample": 394240,
+        "seconds": 8.93968253968254,
+        "score": 4.385801
+      },
+      {
+        "sample": 3180544,
+        "seconds": 72.12117913832199,
+        "score": 3.312013
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "level": {
+    "true_peak_ceiling_dbtp": -1.0,
+    "true_peak_meter": "4x polyphase oversampling (scipy.signal.resample_poly)",
+    "pre_gain_true_peak_dbtp": {
+      "reference": -5.53333776708603,
+      "simulated": -1.655223904488678
+    },
+    "export_true_peak_dbtp": {
+      "reference": -5.53333776708603,
+      "simulated": -1.6552242892293938
+    },
+    "common_gain_db": 0.0,
+    "common_gain_linear": 1.0
+  },
+  "source": {
+    "title": "Let It In (Vocal \u2014 FMA)",
+    "artist": "Josh Woodward",
+    "source_url": "https://freemusicarchive.org/music/Josh_Woodward/Ashes/JoshWoodward-Ashes-01-LetItIn/",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Let It In by Josh Woodward (freemusicarchive.org / joshwoodward.com), licensed under CC BY 4.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

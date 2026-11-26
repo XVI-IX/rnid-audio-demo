@@ -1,0 +1,183 @@
+.nihl-examples {
+  margin-bottom: 1.35rem;
+  padding: clamp(1rem, 2.4vw, 1.65rem);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--paper);
+}
+
+.nihl-examples-header { margin-bottom: .9rem; }
+
+.nihl-examples-header p {
+  max-width: 70ch;
+  margin-top: .35rem;
+  color: var(--soft-ink);
+}
+
+.nihl-actions,
+.nihl-audition-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: .45rem;
+}
+
+.nihl-actions { margin-bottom: .85rem; }
+
+.nihl-actions .button,
+.nihl-audition-options .button {
+  min-height: 2.75rem;
+  padding: .48rem .72rem;
+  border-color: var(--control-border);
+  background: var(--paper);
+  color: var(--action);
+  font-size: .88rem;
+}
+
+.nihl-actions .button { flex: 1 1 8.4rem; }
+
+.nihl-actions .button:hover,
+.nihl-audition-options .button:hover { background: var(--tint); }
+
+.nihl-actions .button[aria-pressed="true"],
+.nihl-audition-options .button[aria-pressed="true"] {
+  border-color: var(--action);
+  background: var(--action);
+  color: #fff;
+}
+
+.nihl-chart-stage {
+  min-width: 0;
+  padding: clamp(.48rem, 1.7vw, 1rem);
+  border: 1px solid var(--line);
+  border-radius: .8rem;
+  background: var(--page);
+}
+
+.nihl-chart-controls,
+.nihl-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem .95rem;
+}
+
+.nihl-chart-controls {
+  justify-content: space-between;
+  margin: 0 .2rem .4rem;
+}
+
+.nihl-chart-controls label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  gap: .45rem;
+  color: var(--action);
+  cursor: pointer;
+  font-size: .86rem;
+  font-weight: 650;
+}
+
+[data-nihl-overlay] {
+  inline-size: 1.1rem;
+  block-size: 1.1rem;
+  margin: 0;
+  accent-color: var(--action);
+}
+
+.nihl-chart-legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--soft-ink);
+  font-size: .8rem;
+}
+
+.nihl-chart-legend :is(span, li) {
+  display: inline-flex;
+  align-items: center;
+  gap: .26rem;
+}
+
+.nihl-chart-legend li:first-child span { color: #2254a3; }
+.nihl-chart-legend li:last-child span { color: #a32235; }
+.nihl-chart-legend span { font-size: 1.25rem; line-height: 1; }
+
+[data-nihl-chart] {
+  display: block;
+  width: 100%;
+  height: clamp(20rem, 42vw, 32rem);
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  background: var(--paper);
+}
+
+#nihl-chart-summary { margin: .6rem .2rem 0; }
+
+.nihl-thresholds {
+  margin: .55rem .2rem 0;
+  font-size: .85rem;
+}
+
+.nihl-thresholds summary {
+  padding: .35rem 0;
+  color: var(--action);
+  cursor: pointer;
+  font-weight: 680;
+}
+
+.nihl-thresholds table {
+  width: 100%;
+  margin-top: .4rem;
+  border-collapse: collapse;
+  background: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+
+.nihl-thresholds :is(th, td) {
+  padding: .28rem .55rem;
+  border: 1px solid var(--line);
+  text-align: right;
+}
+
+.nihl-thresholds thead th { background: var(--tint); }
+
+.nihl-range-note {
+  margin-top: .45rem;
+  color: var(--soft-ink);
+}
+
+.nihl-audition {
+  display: grid;
+  gap: .65rem;
+  margin-top: .85rem;
+  padding: clamp(.7rem, 1.8vw, 1rem);
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+  background: var(--page);
+}
+
+#nihl-audio {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.nihl-export { justify-self: start; }
+
+.nihl-listening-limit {
+  padding: .55rem .72rem;
+  border-inline-start: 3px solid #926618;
+  border-radius: .3rem;
+  background: #fdf4e2;
+  color: #68470e;
+}
+
+.nihl-example-note { margin-top: .75rem; }
+
+@media (max-width: 32rem) {
+  .nihl-examples { padding: .65rem; }
+  .nihl-actions .button { flex-basis: calc(50% - .45rem); }
+  .nihl-chart-controls { justify-content: start; }
+  .nihl-thresholds :is(th, td) { padding-inline: .36rem; }
+}

@@ -1,0 +1,329 @@
+.freq-band-sim {
+  margin-bottom: 1.35rem;
+  padding: clamp(1.05rem, 2.5vw, 1.7rem);
+  border: 1px solid var(--stage);
+  border-radius: 1rem;
+  background: var(--paper);
+}
+
+.freq-band-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: .75rem 1.25rem;
+  margin-bottom: .9rem;
+}
+
+.freq-band-header h2 {
+  font-size: clamp(1.22rem, 2.2vw, 1.6rem);
+}
+
+.freq-band-header p {
+  margin-top: .25rem;
+  max-width: 58ch;
+  color: var(--soft-ink);
+  font-size: .9rem;
+}
+
+.freq-band-transport {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .45rem .85rem;
+  margin-bottom: .85rem;
+  padding: .5rem .65rem;
+  border: 1px solid var(--line);
+  border-radius: .7rem;
+  background: var(--page);
+}
+
+#freq-band-play { min-width: 7.5rem; }
+
+#freq-band-seek {
+  width: 100%;
+  min-width: 0;
+  height: 2.75rem;
+  margin: 0;
+  accent-color: var(--action);
+}
+
+#freq-band-seek:enabled { cursor: pointer; }
+
+.freq-band-time {
+  color: var(--soft-ink);
+  font: 600 .8rem ui-monospace, SFMono-Regular, Consolas, monospace;
+  white-space: nowrap;
+}
+
+@media (max-width: 30rem) {
+  .freq-band-transport { grid-template-columns: auto minmax(0, 1fr); }
+  #freq-band-seek { grid-area: 2 / 1 / 3 / 3; }
+  .freq-band-time { justify-self: end; }
+}
+
+#freq-band-play::before {
+  width: .58rem;
+  height: .68rem;
+  flex: none;
+  content: "";
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+#freq-band-play[aria-pressed="true"]::before {
+  clip-path: polygon(0 0, 37% 0, 37% 100%, 0 100%, 0 0, 63% 0, 100% 0, 100% 100%, 63% 100%, 63% 0);
+}
+
+.freq-band-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: .85rem;
+}
+
+.freq-band-presets .button {
+  padding: .36rem .74rem;
+  border-color: var(--control-border);
+  background: var(--paper);
+  color: var(--action);
+  font-size: .85rem;
+  font-weight: 690;
+}
+
+.freq-band-presets .button:hover,
+.freq-mode-btn.button:hover {
+  background: var(--tint);
+}
+
+.freq-band-presets .button[aria-pressed="true"],
+.freq-mode-btn.button[aria-pressed="true"] {
+  border-color: var(--action);
+  background: var(--action);
+  color: #fff;
+}
+
+.freq-band-presets .button[aria-pressed="true"]:hover,
+.freq-mode-btn.button[aria-pressed="true"]:hover {
+  background: var(--action-hover);
+}
+
+.freq-band-stage {
+  padding: clamp(.7rem, 2vw, 1rem);
+  border-radius: .8rem;
+  background: var(--stage);
+  color: #f8f8ff;
+}
+
+.freq-band-stage-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem 1.05rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .4rem;
+}
+
+.freq-band-audition {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .16rem;
+  padding: .15rem;
+  border: 1px solid #64688d;
+  border-radius: .58rem;
+  background: #242842;
+}
+
+.freq-band-audition .button {
+  padding: .32rem .78rem;
+  border-radius: .42rem;
+  color: #efefff;
+  font-size: .85rem;
+}
+
+.freq-band-audition .button:hover { background: #34395a; }
+
+.freq-band-audition .button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--stage);
+}
+
+.freq-band-stage :focus-visible { outline-color: var(--accent); }
+
+.freq-band-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem .85rem;
+  color: #d1d3eb;
+  font-size: .8rem;
+}
+
+#freq-band-meter-label {
+  color: #f8f8ff;
+  font-weight: 680;
+}
+
+.freq-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: .38rem;
+}
+
+.freq-swatch {
+  width: .85rem;
+  height: .65rem;
+  border-radius: .18rem;
+  display: inline-block;
+}
+
+.freq-swatch.ghost {
+  border: 1.5px dashed #a3a8c9;
+  background: #a7add638;
+}
+
+.freq-swatch.filled {
+  background: var(--accent);
+}
+
+#freq-band-canvas {
+  display: block;
+  width: 100%;
+  height: clamp(9.5rem, 20vw, 13rem);
+}
+
+.freq-band-caption {
+  margin-top: .55rem;
+  padding: .55rem .7rem;
+  border: 1px solid #4e5275;
+  border-radius: .52rem;
+  background: #242842;
+  color: #efefff;
+  font-size: .84rem;
+  line-height: 1.42;
+}
+
+.freq-band-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .7rem;
+  margin-top: .85rem;
+}
+
+.freq-band-card {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  min-width: 0;
+  padding: .8rem;
+  border: 1px solid var(--line);
+  border-radius: .68rem;
+  background: var(--page);
+}
+
+.freq-band-card[data-state="silenced"] {
+  background: var(--paper);
+}
+
+.freq-band-card[data-state="solo"] {
+  border-color: var(--action);
+  box-shadow: inset 0 0 0 1px var(--action);
+}
+
+.freq-band-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .2rem .35rem;
+}
+
+.freq-band-card-head h3 {
+  margin: 0;
+  font-size: .98rem;
+  font-weight: 740;
+  line-height: 1.2;
+}
+
+.freq-band-hz {
+  display: block;
+  margin-top: .08rem;
+  color: var(--soft-ink);
+  font: 600 .76rem ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+
+.freq-band-badge {
+  padding: .18rem .44rem;
+  border-radius: .32rem;
+  background: var(--tint);
+  color: var(--action);
+  font: 700 .76rem ui-monospace, "SFMono-Regular", Consolas, monospace;
+  white-space: nowrap;
+}
+
+.freq-band-card[data-state="silenced"] .freq-band-badge {
+  background: #f3dfda;
+  color: var(--error);
+}
+
+.freq-band-modes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .16rem;
+  padding: .14rem;
+  border: 1px solid var(--control-border);
+  border-radius: .46rem;
+  background: var(--paper);
+}
+
+.freq-mode-btn.button {
+  padding: .22rem .28rem;
+  border-radius: .34rem;
+  color: var(--action);
+  font-size: .84rem;
+  font-weight: 700;
+}
+
+.freq-mode-btn.button[data-band-mode="muted"][aria-pressed="true"] {
+  border-color: var(--error);
+  background: var(--error);
+  color: #fff;
+}
+
+.freq-band-slider-row input[type="range"] {
+  width: 100%;
+  min-height: 2.75rem;
+  margin: 0;
+  accent-color: var(--action);
+  cursor: pointer;
+}
+
+.freq-band-cues {
+  margin-top: auto;
+  color: var(--soft-ink);
+  font-size: .8rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 49rem) {
+  .freq-band-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 35rem) {
+  .freq-band-controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (forced-colors: active) {
+  .freq-band-sim :is(.freq-band-presets, .freq-band-audition, .freq-band-modes, .freq-band-transport) .button[aria-pressed="true"] {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .freq-band-stage :focus-visible { outline-color: Highlight; }
+}

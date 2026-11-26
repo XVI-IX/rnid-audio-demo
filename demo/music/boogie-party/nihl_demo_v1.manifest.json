@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "audio": {
+    "sample_rate_hz": 44100,
+    "channels": 2,
+    "frames": 11981326,
+    "duration_seconds": 271.6853968253968,
+    "reference": "reference.m4a",
+    "simulated": "nihl_demo_v1.m4a"
+  },
+  "profile": {
+    "id": "nihl_demo_v1",
+    "version": 1,
+    "label": "Mild noise-induced hearing loss (example)",
+    "review_status": "engineering",
+    "digest": "sha256:951e51a0d942877618f63ff90ff8a681fb8046f50c653b16a91960ca8fa3819d",
+    "provenance": "Illustrative permanent mild noise-induced hearing loss, the same in both ears: normal hearing to 1 kHz, a noise notch of 30-35 dB HL from 3 to 6 kHz with the peak at 4 kHz, and partial recovery to 15 dB HL at 8 kHz. It meets the Coles, Lutman and Buffin (2000) notch criteria (3-6 kHz at least 10 dB worse than 1-2 kHz and than 8 kHz), and every threshold is within the BSA mild range (40 dB HL or better). The notch is 10 dB deeper than post_gig_muffled_v1 so the permanent example is audibly stronger than the temporary one. Symmetric ears are an assumption of this example. Calibration matches the other demo presets. Filter workstream example; not audiology-reviewed."
+  },
+  "engine": {
+    "name": "Cambridge MSBG",
+    "rnid": "0.3.1",
+    "pyclarity": "0.9.0",
+    "python": "3.14.2",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "runtime": "python 3.14.2 (emscripten)",
+    "decoder": "macOS AudioToolbox afconvert"
+  },
+  "model": {
+    "calibration": {
+      "src_pos": "ff",
+      "equiv_0db_spl": 80.0,
+      "ahr": 20.0
+    },
+    "input_rms_dbfs": {
+      "left": -20.585814307748443,
+      "right": -20.56420783688498
+    },
+    "offset_samples": {
+      "left": 1270,
+      "right": 1270
+    },
+    "bypassed_silent": {
+      "left": false,
+      "right": false
+    },
+    "guard_samples": {
+      "before": 4410,
+      "after": 4410
+    },
+    "severity": {
+      "left": "MILD",
+      "right": "MILD"
+    },
+    "level_convention": "msbg_0.9.0_overall_rms_guarded_v2",
+    "path_compensation": "msbg_filterbank_path_eq_v1",
+    "active_rms_dbfs": {
+      "left": -20.413167026009198,
+      "right": -20.391868357699067
+    },
+    "model_input_level_db_spl": {
+      "left": 79.41418569225155,
+      "right": 79.43579216311502
+    },
+    "model_rescale_db": {
+      "left": -0.17264728173924482,
+      "right": -0.17233947918591142
+    }
+  },
+  "warnings": [
+    "PROFILE_UNREVIEWED"
+  ],
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 98816,
+    "selected_seconds": 2.2407256235827666,
+    "candidates": [
+      {
+        "sample": 98816,
+        "seconds": 2.2407256235827666,
+        "score": 6.261912
+      },
+      {
+        "sample": 9959424,
+        "seconds": 225.83727891156462,
+        "score": 1.417156
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "level": {
+    "true_peak_ceiling_dbtp": -1.0,
+    "true_peak_meter": "4x polyphase oversampling (scipy.signal.resample_poly)",
+    "pre_gain_true_peak_dbtp": {
+      "reference": -5.954214448451182,
+      "simulated": -5.4738414352515825
+    },
+    "export_true_peak_dbtp": {
+      "reference": -5.954214448451182,
+      "simulated": -5.473841604804682
+    },
+    "common_gain_db": 0.0,
+    "common_gain_linear": 1.0
+  },
+  "source": {
+    "title": "Boogie Party",
+    "artist": "Kevin MacLeod",
+    "source_url": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2200002",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Boogie Party by Kevin MacLeod (incompetech.com), licensed under CC BY 4.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "duration_seconds": 235.99020408163264,
+  "reference": "reference.m4a",
+  "waveform": "waveform.json",
+  "profiles": [
+    {
+      "id": "post_gig_muffled_v1",
+      "version": 1,
+      "label": "Muffled hearing after a loud gig (example)",
+      "review_status": "engineering",
+      "simulated": "post_gig_muffled_v1.m4a",
+      "manifest": "post_gig_muffled_v1.manifest.json"
+    },
+    {
+      "id": "nihl_demo_v1",
+      "version": 1,
+      "label": "Mild noise-induced hearing loss (example)",
+      "review_status": "engineering",
+      "simulated": "nihl_demo_v1.m4a",
+      "manifest": "nihl_demo_v1.manifest.json"
+    },
+    {
+      "id": "high_frequency_demo_v1",
+      "version": 1,
+      "label": "High-frequency loss example",
+      "review_status": "engineering",
+      "simulated": "high_frequency_demo_v1.m4a",
+      "manifest": "high_frequency_demo_v1.manifest.json"
+    },
+    {
+      "id": "broadband_demo_v1",
+      "version": 1,
+      "label": "Broadband loss example",
+      "review_status": "engineering",
+      "simulated": "broadband_demo_v1.m4a",
+      "manifest": "broadband_demo_v1.manifest.json"
+    },
+    {
+      "id": "asymmetric_demo_v1",
+      "version": 1,
+      "label": "Asymmetric loss example (right stronger)",
+      "review_status": "engineering",
+      "simulated": "asymmetric_demo_v1.m4a",
+      "manifest": "asymmetric_demo_v1.manifest.json"
+    }
+  ],
+  "tinnitus": {
+    "ringing": "../../v2/tinnitus-ringing.wav",
+    "hiss": "../../v2/tinnitus-hiss.wav"
+  },
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 7351808,
+    "selected_seconds": 166.70766439909298,
+    "candidates": [
+      {
+        "sample": 7351808,
+        "seconds": 166.70766439909298,
+        "score": 5.888394
+      },
+      {
+        "sample": 90624,
+        "seconds": 2.0549659863945577,
+        "score": 5.679836
+      },
+      {
+        "sample": 5176320,
+        "seconds": 117.37687074829932,
+        "score": 2.551273
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "source": {
+    "title": "In Peace (Vocal \u2014 ccMixter)",
+    "artist": "Madam Snowflake",
+    "source_url": "https://ccmixter.org/files/snowflake/33628",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0/",
+    "attribution": "In Peace by Madam Snowflake (ccmixter.org/files/snowflake/33628), licensed under CC BY 3.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "profile": {
+    "id": "broadband_demo_v1",
+    "version": 1,
+    "label": "Broadband loss example",
+    "review_status": "engineering",
+    "digest": "sha256:63d767c491fc22f9550fa6fd390529f1ef77303dfe140daa7551f32afed9bdbf",
+    "provenance": "Synthetic bilateral thresholds chosen to illustrate loss across bass, midrange and treble in the demonstration source. Engineering listening fixture pending audiology review.",
+    "calibration": {
+      "src_pos": "ff",
+      "equiv_0db_spl": 80.0,
+      "ahr": 20.0
+    }
+  },
+  "filter": {
+    "file": "broadband_demo_v1-ir.wav",
+    "method": "pink_probe_min_phase_v1",
+    "taps": 8192,
+    "sample_rate_hz": 44100,
+    "channels": {
+      "left": "left ear",
+      "right": "right ear"
+    },
+    "phase": "minimum",
+    "probe": {
+      "signal": "pink noise",
+      "seconds": 8,
+      "seed": 0
+    },
+    "probe_level_dbfs": {
+      "left": -20.0,
+      "right": -20.0
+    },
+    "smoothing": "1/6 octave",
+    "gain_table": [
+      {
+        "frequency_hz": 25,
+        "left_db": -20.08,
+        "right_db": -20.08
+      },
+      {
+        "frequency_hz": 31.5,
+        "left_db": -19.78,
+        "right_db": -19.78
+      },
+      {
+        "frequency_hz": 40,
+        "left_db": -19.8,
+        "right_db": -19.8
+      },
+      {
+        "frequency_hz": 50,
+        "left_db": -19.71,
+        "right_db": -19.71
+      },
+      {
+        "frequency_hz": 63,
+        "left_db": -19.64,
+        "right_db": -19.64
+      },
+      {
+        "frequency_hz": 80,
+        "left_db": -19.61,
+        "right_db": -19.61
+      },
+      {
+        "frequency_hz": 100,
+        "left_db": -19.52,
+        "right_db": -19.52
+      },
+      {
+        "frequency_hz": 125,
+        "left_db": -19.23,
+        "right_db": -19.23
+      },
+      {
+        "frequency_hz": 160,
+        "left_db": -19.03,
+        "right_db": -19.03
+      },
+      {
+        "frequency_hz": 200,
+        "left_db": -18.63,
+        "right_db": -18.63
+      },
+      {
+        "frequency_hz": 250,
+        "left_db": -18.17,
+        "right_db": -18.17
+      },
+      {
+        "frequency_hz": 315,
+        "left_db": -18.05,
+        "right_db": -18.05
+      },
+      {
+        "frequency_hz": 400,
+        "left_db": -18.02,
+        "right_db": -18.02
+      },
+      {
+        "frequency_hz": 500,
+        "left_db": -18.07,
+        "right_db": -18.07
+      },
+      {
+        "frequency_hz": 630,
+        "left_db": -18.12,
+        "right_db": -18.12
+      },
+      {
+        "frequency_hz": 800,
+        "left_db": -18.37,
+        "right_db": -18.37
+      },
+      {
+        "frequency_hz": 1000,
+        "left_db": -18.95,
+        "right_db": -18.95
+      },
+      {
+        "frequency_hz": 1250,
+        "left_db": -20.09,
+        "right_db": -20.09
+      },
+      {
+        "frequency_hz": 1600,
+        "left_db": -21.68,
+        "right_db": -21.68
+      },
+      {
+        "frequency_hz": 2000,
+        "left_db": -22.68,
+        "right_db": -22.68
+      },
+      {
+        "frequency_hz": 2500,
+        "left_db": -22.93,
+        "right_db": -22.93
+      },
+      {
+        "frequency_hz": 3150,
+        "left_db": -23.89,
+        "right_db": -23.89
+      },
+      {
+        "frequency_hz": 4000,
+        "left_db": -26.81,
+        "right_db": -26.81
+      },
+      {
+        "frequency_hz": 5000,
+        "left_db": -29.09,
+        "right_db": -29.09
+      },
+      {
+        "frequency_hz": 6300,
+        "left_db": -30.92,
+        "right_db": -30.92
+      },
+      {
+        "frequency_hz": 8000,
+        "left_db": -36.58,
+        "right_db": -36.58
+      },
+      {
+        "frequency_hz": 10000,
+        "left_db": -41.49,
+        "right_db": -41.49
+      },
+      {
+        "frequency_hz": 12500,
+        "left_db": -45.59,
+        "right_db": -45.59
+      },
+      {
+        "frequency_hz": 16000,
+        "left_db": -37.66,
+        "right_db": -37.66
+      }
+    ],
+    "note": "Approximates the average tonal change of this hearing profile at the stated input level. It omits the loudness-dependent and time-smearing parts of the model. Above 8 kHz the match is unreliable. Apply the left channel to the left ear and the right channel to the right ear, at unity gain, with any IR normalisation turned off."
+  },
+  "engine": {
+    "name": "Cambridge MSBG",
+    "rnid": "0.3.1",
+    "pyclarity": "0.9.0"
+  }
+}

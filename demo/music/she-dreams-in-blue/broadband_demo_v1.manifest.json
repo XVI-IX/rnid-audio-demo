@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "audio": {
+    "sample_rate_hz": 44100,
+    "channels": 2,
+    "frames": 13992383,
+    "duration_seconds": 317.2875963718821,
+    "reference": "reference.m4a",
+    "simulated": "broadband_demo_v1.m4a"
+  },
+  "profile": {
+    "id": "broadband_demo_v1",
+    "version": 1,
+    "label": "Broadband loss example",
+    "review_status": "engineering",
+    "digest": "sha256:63d767c491fc22f9550fa6fd390529f1ef77303dfe140daa7551f32afed9bdbf",
+    "provenance": "Synthetic bilateral thresholds chosen to illustrate loss across bass, midrange and treble in the demonstration source. Engineering listening fixture pending audiology review."
+  },
+  "engine": {
+    "name": "Cambridge MSBG",
+    "rnid": "0.3.1",
+    "pyclarity": "0.9.0",
+    "python": "3.14.2",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "runtime": "python 3.14.2 (emscripten)",
+    "decoder": "macOS AudioToolbox afconvert"
+  },
+  "model": {
+    "calibration": {
+      "src_pos": "ff",
+      "equiv_0db_spl": 80.0,
+      "ahr": 20.0
+    },
+    "input_rms_dbfs": {
+      "left": -20.527602479304914,
+      "right": -21.453321620432316
+    },
+    "offset_samples": {
+      "left": 1264,
+      "right": 1264
+    },
+    "bypassed_silent": {
+      "left": false,
+      "right": false
+    },
+    "guard_samples": {
+      "before": 4410,
+      "after": 4410
+    },
+    "severity": {
+      "left": "MODERATE",
+      "right": "MODERATE"
+    },
+    "level_convention": "msbg_0.9.0_overall_rms_guarded_v2",
+    "path_compensation": "msbg_filterbank_path_eq_v1",
+    "active_rms_dbfs": {
+      "left": -20.324045981235916,
+      "right": -21.248731854528046
+    },
+    "model_input_level_db_spl": {
+      "left": 79.47239752069508,
+      "right": 78.54667837956768
+    },
+    "model_rescale_db": {
+      "left": -0.20355649806899834,
+      "right": -0.20458976590427014
+    }
+  },
+  "warnings": [
+    "PROFILE_UNREVIEWED"
+  ],
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 6557696,
+    "selected_seconds": 148.700589569161,
+    "candidates": [
+      {
+        "sample": 6557696,
+        "seconds": 148.700589569161,
+        "score": 4.124902
+      },
+      {
+        "sample": 912896,
+        "seconds": 20.700589569160996,
+        "score": 2.720357
+      },
+      {
+        "sample": 3294720,
+        "seconds": 74.71020408163265,
+        "score": 2.703997
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "level": {
+    "true_peak_ceiling_dbtp": -1.0,
+    "true_peak_meter": "4x polyphase oversampling (scipy.signal.resample_poly)",
+    "pre_gain_true_peak_dbtp": {
+      "reference": -5.6285913242746215,
+      "simulated": -16.952828771465825
+    },
+    "export_true_peak_dbtp": {
+      "reference": -5.6285913242746215,
+      "simulated": -16.952829265664427
+    },
+    "common_gain_db": 0.0,
+    "common_gain_linear": 1.0
+  },
+  "source": {
+    "title": "She Dreams In Blue (Vocal \u2014 FMA)",
+    "artist": "Josh Woodward",
+    "source_url": "https://freemusicarchive.org/music/Josh_Woodward/Only_Whispering/JoshWoodward-NQC-03-SheDreamsInBlue_1500/",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "She Dreams In Blue by Josh Woodward (freemusicarchive.org / joshwoodward.com), licensed under CC BY 4.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

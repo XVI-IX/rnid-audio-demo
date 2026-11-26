@@ -1,0 +1,85 @@
+{
+  "duration_seconds": 241.66562358276644,
+  "reference": "reference.m4a",
+  "waveform": "waveform.json",
+  "profiles": [
+    {
+      "id": "post_gig_muffled_v1",
+      "version": 1,
+      "label": "Muffled hearing after a loud gig (example)",
+      "review_status": "engineering",
+      "simulated": "post_gig_muffled_v1.m4a",
+      "manifest": "post_gig_muffled_v1.manifest.json"
+    },
+    {
+      "id": "nihl_demo_v1",
+      "version": 1,
+      "label": "Mild noise-induced hearing loss (example)",
+      "review_status": "engineering",
+      "simulated": "nihl_demo_v1.m4a",
+      "manifest": "nihl_demo_v1.manifest.json"
+    },
+    {
+      "id": "high_frequency_demo_v1",
+      "version": 1,
+      "label": "High-frequency loss example",
+      "review_status": "engineering",
+      "simulated": "high_frequency_demo_v1.m4a",
+      "manifest": "high_frequency_demo_v1.manifest.json"
+    },
+    {
+      "id": "broadband_demo_v1",
+      "version": 1,
+      "label": "Broadband loss example",
+      "review_status": "engineering",
+      "simulated": "broadband_demo_v1.m4a",
+      "manifest": "broadband_demo_v1.manifest.json"
+    },
+    {
+      "id": "asymmetric_demo_v1",
+      "version": 1,
+      "label": "Asymmetric loss example (right stronger)",
+      "review_status": "engineering",
+      "simulated": "asymmetric_demo_v1.m4a",
+      "manifest": "asymmetric_demo_v1.manifest.json"
+    }
+  ],
+  "tinnitus": {
+    "ringing": "../../v2/tinnitus-ringing.wav",
+    "hiss": "../../v2/tinnitus-hiss.wav"
+  },
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 9143296,
+    "selected_seconds": 207.33097505668934,
+    "candidates": [
+      {
+        "sample": 9143296,
+        "seconds": 207.33097505668934,
+        "score": 18.32203
+      },
+      {
+        "sample": 394240,
+        "seconds": 8.93968253968254,
+        "score": 4.385801
+      },
+      {
+        "sample": 3180544,
+        "seconds": 72.12117913832199,
+        "score": 3.312013
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "source": {
+    "title": "Let It In (Vocal \u2014 FMA)",
+    "artist": "Josh Woodward",
+    "source_url": "https://freemusicarchive.org/music/Josh_Woodward/Ashes/JoshWoodward-Ashes-01-LetItIn/",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Let It In by Josh Woodward (freemusicarchive.org / joshwoodward.com), licensed under CC BY 4.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

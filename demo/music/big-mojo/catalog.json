@@ -1,0 +1,85 @@
+{
+  "duration_seconds": 157.19290249433107,
+  "reference": "reference.m4a",
+  "waveform": "waveform.json",
+  "profiles": [
+    {
+      "id": "post_gig_muffled_v1",
+      "version": 1,
+      "label": "Muffled hearing after a loud gig (example)",
+      "review_status": "engineering",
+      "simulated": "post_gig_muffled_v1.m4a",
+      "manifest": "post_gig_muffled_v1.manifest.json"
+    },
+    {
+      "id": "nihl_demo_v1",
+      "version": 1,
+      "label": "Mild noise-induced hearing loss (example)",
+      "review_status": "engineering",
+      "simulated": "nihl_demo_v1.m4a",
+      "manifest": "nihl_demo_v1.manifest.json"
+    },
+    {
+      "id": "high_frequency_demo_v1",
+      "version": 1,
+      "label": "High-frequency loss example",
+      "review_status": "engineering",
+      "simulated": "high_frequency_demo_v1.m4a",
+      "manifest": "high_frequency_demo_v1.manifest.json"
+    },
+    {
+      "id": "broadband_demo_v1",
+      "version": 1,
+      "label": "Broadband loss example",
+      "review_status": "engineering",
+      "simulated": "broadband_demo_v1.m4a",
+      "manifest": "broadband_demo_v1.manifest.json"
+    },
+    {
+      "id": "asymmetric_demo_v1",
+      "version": 1,
+      "label": "Asymmetric loss example (right stronger)",
+      "review_status": "engineering",
+      "simulated": "asymmetric_demo_v1.m4a",
+      "manifest": "asymmetric_demo_v1.manifest.json"
+    }
+  ],
+  "tinnitus": {
+    "ringing": "../../v2/tinnitus-ringing.wav",
+    "hiss": "../../v2/tinnitus-hiss.wav"
+  },
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 1456640,
+    "selected_seconds": 33.03038548752834,
+    "candidates": [
+      {
+        "sample": 1456640,
+        "seconds": 33.03038548752834,
+        "score": 6.689569
+      },
+      {
+        "sample": 3712512,
+        "seconds": 84.18394557823129,
+        "score": 3.022062
+      },
+      {
+        "sample": 6726144,
+        "seconds": 152.52027210884353,
+        "score": 2.565524
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "source": {
+    "title": "Big Mojo",
+    "artist": "Kevin MacLeod",
+    "source_url": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100306",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Big Mojo by Kevin MacLeod (incompetech.com), licensed under CC BY 4.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

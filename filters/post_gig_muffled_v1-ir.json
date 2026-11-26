@@ -1,0 +1,189 @@
+{
+  "profile": {
+    "id": "post_gig_muffled_v1",
+    "version": 1,
+    "label": "Muffled hearing after a loud gig (example)",
+    "review_status": "engineering",
+    "digest": "sha256:11160a92102f1cac4a72ea258510748e88279a7597ff2797c0e565ba81a0b788",
+    "provenance": "Illustrative temporary threshold shift after loud music, added to normal hearing in both ears: 20-25 dB from 3 to 6 kHz with the peak at 4 kHz, little change below 2 kHz. This is about one standard deviation above the 12.5 dB mean 3-6 kHz shift measured about 9 minutes after concerts in 51 young adults (Murray et al. 2025, doi:10.3389/fauot.2025.1635615), and consistent with concert shifts concentrated around 4 kHz. Calibration matches the other demo presets. Filter workstream example; not audiology-reviewed.",
+    "calibration": {
+      "src_pos": "ff",
+      "equiv_0db_spl": 80.0,
+      "ahr": 20.0
+    }
+  },
+  "filter": {
+    "file": "post_gig_muffled_v1-ir.wav",
+    "method": "pink_probe_min_phase_v1",
+    "taps": 8192,
+    "sample_rate_hz": 44100,
+    "channels": {
+      "left": "left ear",
+      "right": "right ear"
+    },
+    "phase": "minimum",
+    "probe": {
+      "signal": "pink noise",
+      "seconds": 8,
+      "seed": 0
+    },
+    "probe_level_dbfs": {
+      "left": -20.0,
+      "right": -20.0
+    },
+    "smoothing": "1/6 octave",
+    "gain_table": [
+      {
+        "frequency_hz": 25,
+        "left_db": -1.46,
+        "right_db": -1.46
+      },
+      {
+        "frequency_hz": 31.5,
+        "left_db": -1.18,
+        "right_db": -1.18
+      },
+      {
+        "frequency_hz": 40,
+        "left_db": -1.25,
+        "right_db": -1.25
+      },
+      {
+        "frequency_hz": 50,
+        "left_db": -1.22,
+        "right_db": -1.22
+      },
+      {
+        "frequency_hz": 63,
+        "left_db": -1.21,
+        "right_db": -1.21
+      },
+      {
+        "frequency_hz": 80,
+        "left_db": -1.16,
+        "right_db": -1.16
+      },
+      {
+        "frequency_hz": 100,
+        "left_db": -1.12,
+        "right_db": -1.12
+      },
+      {
+        "frequency_hz": 125,
+        "left_db": -1.1,
+        "right_db": -1.1
+      },
+      {
+        "frequency_hz": 160,
+        "left_db": -1.06,
+        "right_db": -1.06
+      },
+      {
+        "frequency_hz": 200,
+        "left_db": -1.05,
+        "right_db": -1.05
+      },
+      {
+        "frequency_hz": 250,
+        "left_db": -0.98,
+        "right_db": -0.98
+      },
+      {
+        "frequency_hz": 315,
+        "left_db": -0.88,
+        "right_db": -0.88
+      },
+      {
+        "frequency_hz": 400,
+        "left_db": -0.67,
+        "right_db": -0.67
+      },
+      {
+        "frequency_hz": 500,
+        "left_db": -0.58,
+        "right_db": -0.58
+      },
+      {
+        "frequency_hz": 630,
+        "left_db": -0.84,
+        "right_db": -0.84
+      },
+      {
+        "frequency_hz": 800,
+        "left_db": -1.46,
+        "right_db": -1.46
+      },
+      {
+        "frequency_hz": 1000,
+        "left_db": -2.09,
+        "right_db": -2.09
+      },
+      {
+        "frequency_hz": 1250,
+        "left_db": -2.84,
+        "right_db": -2.84
+      },
+      {
+        "frequency_hz": 1600,
+        "left_db": -3.75,
+        "right_db": -3.75
+      },
+      {
+        "frequency_hz": 2000,
+        "left_db": -4.69,
+        "right_db": -4.69
+      },
+      {
+        "frequency_hz": 2500,
+        "left_db": -6.61,
+        "right_db": -6.61
+      },
+      {
+        "frequency_hz": 3150,
+        "left_db": -9.11,
+        "right_db": -9.11
+      },
+      {
+        "frequency_hz": 4000,
+        "left_db": -11.08,
+        "right_db": -11.08
+      },
+      {
+        "frequency_hz": 5000,
+        "left_db": -10.86,
+        "right_db": -10.86
+      },
+      {
+        "frequency_hz": 6300,
+        "left_db": -9.34,
+        "right_db": -9.34
+      },
+      {
+        "frequency_hz": 8000,
+        "left_db": -8.34,
+        "right_db": -8.34
+      },
+      {
+        "frequency_hz": 10000,
+        "left_db": -9.36,
+        "right_db": -9.36
+      },
+      {
+        "frequency_hz": 12500,
+        "left_db": -9.71,
+        "right_db": -9.71
+      },
+      {
+        "frequency_hz": 16000,
+        "left_db": -4.84,
+        "right_db": -4.84
+      }
+    ],
+    "note": "Approximates the average tonal change of this hearing profile at the stated input level. It omits the loudness-dependent and time-smearing parts of the model. Above 8 kHz the match is unreliable. Apply the left channel to the left ear and the right channel to the right ear, at unity gain, with any IR normalisation turned off."
+  },
+  "engine": {
+    "name": "Cambridge MSBG",
+    "rnid": "0.3.1",
+    "pyclarity": "0.9.0"
+  }
+}

@@ -1,0 +1,64 @@
+.filter-response {
+  --filter-left: #5043aa;
+  --filter-right: #187278;
+  --filter-reference: #595c70;
+  --filter-label: #414562;
+  --filter-grid: #d6d9eb;
+  margin-top: 1rem;
+  padding: clamp(.9rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--paper);
+}
+
+.filter-response-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .6rem 1rem;
+}
+
+.filter-response-heading h2 { font-size: clamp(1.18rem, 3vw, 1.55rem); }
+.filter-response-profile { margin-top: .18rem; color: var(--action); font-size: .95rem; font-weight: 720; }
+#filter-response-mode { margin-top: .5rem; }
+.filter-response-figure {
+  margin: .7rem 0 .55rem;
+  padding: .55rem .45rem;
+  border: 1px solid #d9dced;
+  border-radius: .65rem;
+  background: #f4f5fc;
+}
+.filter-response-figure figcaption, .filter-response-axis {
+  color: var(--filter-label);
+  font-size: .75rem;
+  font-weight: 700;
+}
+.filter-response-figure figcaption { padding-left: .3rem; }
+.filter-response-axis { text-align: center; }
+#filter-response-canvas { display: block; width: 100%; height: clamp(8.75rem, 22vw, 12.5rem); }
+.filter-response-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .22rem .85rem;
+  margin: .48rem 0 0;
+  padding: 0;
+  color: var(--filter-label);
+  font-size: .78rem;
+  list-style: none;
+}
+.filter-response-legend li { display: flex; gap: .32rem; align-items: center; }
+.filter-response-key { width: 1.12rem; border-top: 3px solid; }
+.filter-response-key.left { border-color: var(--filter-left); }
+.filter-response-key.right { border-top: 3px dashed var(--filter-right); }
+.filter-response-key.reference { border-top: 2px dotted var(--filter-reference); }
+.filter-response-values { margin-top: .65rem; border-top: 1px solid var(--line); padding-top: .55rem; }
+.filter-response-values summary { color: var(--action); font-size: .87rem; font-weight: 720; }
+.filter-response-values table { width: 100%; margin-top: .4rem; border-collapse: collapse; font-size: .85rem; font-variant-numeric: tabular-nums; }
+.filter-response-values :is(th, td) { padding: .3rem; border-bottom: 1px solid var(--line); text-align: right; }
+.filter-response-values tr > :first-child { text-align: left; }
+
+@media (forced-colors: active) {
+  .filter-response-key { forced-color-adjust: none; }
+}

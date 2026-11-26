@@ -1,0 +1,27 @@
+.ear-settings {
+  min-width: 0;
+  margin-top: .8rem;
+  border: 1px solid var(--ear-rule, var(--line));
+  border-radius: .55rem;
+}
+
+#player .ear-settings {
+  --ear-rule: var(--deck-line);
+  --ear-accent: var(--accent);
+  --ear-readout: var(--deck-text);
+}
+
+.ear-settings > summary {
+  min-height: 2.75rem;
+  padding: .65rem .75rem;
+  font-size: .875rem;
+  font-weight: 720;
+}
+
+.ear-settings[open] > summary { border-bottom: 1px solid var(--ear-rule, var(--line)); }
+.ear-levels { display: grid; gap: .55rem; padding: .65rem .75rem; }
+.ear-level { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .1rem .5rem; }
+.ear-level label { font-size: .875rem; font-weight: 680; }
+.ear-level output { color: var(--ear-readout, var(--action)); font: .8rem ui-monospace, Consolas, monospace; }
+.ear-level input[type="range"] { grid-column: 1 / -1; width: 100%; min-width: 0; min-height: 2rem; margin: 0; accent-color: var(--ear-accent, var(--action)); }
+.ear-levels [data-ear-reset] { justify-self: start; }

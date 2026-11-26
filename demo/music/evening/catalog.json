@@ -1,0 +1,85 @@
+{
+  "duration_seconds": 109.85904761904762,
+  "reference": "reference.m4a",
+  "waveform": "waveform.json",
+  "profiles": [
+    {
+      "id": "post_gig_muffled_v1",
+      "version": 1,
+      "label": "Muffled hearing after a loud gig (example)",
+      "review_status": "engineering",
+      "simulated": "post_gig_muffled_v1.m4a",
+      "manifest": "post_gig_muffled_v1.manifest.json"
+    },
+    {
+      "id": "nihl_demo_v1",
+      "version": 1,
+      "label": "Mild noise-induced hearing loss (example)",
+      "review_status": "engineering",
+      "simulated": "nihl_demo_v1.m4a",
+      "manifest": "nihl_demo_v1.manifest.json"
+    },
+    {
+      "id": "high_frequency_demo_v1",
+      "version": 1,
+      "label": "High-frequency loss example",
+      "review_status": "engineering",
+      "simulated": "high_frequency_demo_v1.m4a",
+      "manifest": "high_frequency_demo_v1.manifest.json"
+    },
+    {
+      "id": "broadband_demo_v1",
+      "version": 1,
+      "label": "Broadband loss example",
+      "review_status": "engineering",
+      "simulated": "broadband_demo_v1.m4a",
+      "manifest": "broadband_demo_v1.manifest.json"
+    },
+    {
+      "id": "asymmetric_demo_v1",
+      "version": 1,
+      "label": "Asymmetric loss example (right stronger)",
+      "review_status": "engineering",
+      "simulated": "asymmetric_demo_v1.m4a",
+      "manifest": "asymmetric_demo_v1.manifest.json"
+    }
+  ],
+  "tinnitus": {
+    "ringing": "../../v2/tinnitus-ringing.wav",
+    "hiss": "../../v2/tinnitus-hiss.wav"
+  },
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 3423744,
+    "selected_seconds": 77.63591836734693,
+    "candidates": [
+      {
+        "sample": 3423744,
+        "seconds": 77.63591836734693,
+        "score": 5.345631
+      },
+      {
+        "sample": 90624,
+        "seconds": 2.0549659863945577,
+        "score": 4.169959
+      },
+      {
+        "sample": 2917888,
+        "seconds": 66.16526077097505,
+        "score": 3.196019
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "source": {
+    "title": "Evening",
+    "artist": "Kevin MacLeod",
+    "source_url": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2300002",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Evening by Kevin MacLeod (incompetech.com), licensed under CC BY 4.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

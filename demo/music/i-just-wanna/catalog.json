@@ -1,0 +1,85 @@
+{
+  "duration_seconds": 253.85795918367347,
+  "reference": "reference.m4a",
+  "waveform": "waveform.json",
+  "profiles": [
+    {
+      "id": "post_gig_muffled_v1",
+      "version": 1,
+      "label": "Muffled hearing after a loud gig (example)",
+      "review_status": "engineering",
+      "simulated": "post_gig_muffled_v1.m4a",
+      "manifest": "post_gig_muffled_v1.manifest.json"
+    },
+    {
+      "id": "nihl_demo_v1",
+      "version": 1,
+      "label": "Mild noise-induced hearing loss (example)",
+      "review_status": "engineering",
+      "simulated": "nihl_demo_v1.m4a",
+      "manifest": "nihl_demo_v1.manifest.json"
+    },
+    {
+      "id": "high_frequency_demo_v1",
+      "version": 1,
+      "label": "High-frequency loss example",
+      "review_status": "engineering",
+      "simulated": "high_frequency_demo_v1.m4a",
+      "manifest": "high_frequency_demo_v1.manifest.json"
+    },
+    {
+      "id": "broadband_demo_v1",
+      "version": 1,
+      "label": "Broadband loss example",
+      "review_status": "engineering",
+      "simulated": "broadband_demo_v1.m4a",
+      "manifest": "broadband_demo_v1.manifest.json"
+    },
+    {
+      "id": "asymmetric_demo_v1",
+      "version": 1,
+      "label": "Asymmetric loss example (right stronger)",
+      "review_status": "engineering",
+      "simulated": "asymmetric_demo_v1.m4a",
+      "manifest": "asymmetric_demo_v1.manifest.json"
+    }
+  ],
+  "tinnitus": {
+    "ringing": "../../v2/tinnitus-ringing.wav",
+    "hiss": "../../v2/tinnitus-hiss.wav"
+  },
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 7130112,
+    "selected_seconds": 161.68054421768707,
+    "candidates": [
+      {
+        "sample": 7130112,
+        "seconds": 161.68054421768707,
+        "score": 5.136105
+      },
+      {
+        "sample": 557056,
+        "seconds": 12.631655328798185,
+        "score": 4.690496
+      },
+      {
+        "sample": 96768,
+        "seconds": 2.1942857142857144,
+        "score": 4.120827
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "source": {
+    "title": "I Just Wanna (Vocal \u2014 ccMixter)",
+    "artist": "mykleanthony",
+    "source_url": "https://ccmixter.org/files/mykleanthony/71247",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0/",
+    "attribution": "I Just Wanna by mykleanthony (ccmixter.org/files/mykleanthony/71247), licensed under CC BY 3.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

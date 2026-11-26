@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "audio": {
+    "sample_rate_hz": 44100,
+    "channels": 2,
+    "frames": 466560,
+    "duration_seconds": 10.579591836734695,
+    "reference": "reference.m4a",
+    "simulated": "asymmetric_demo_v1.m4a"
+  },
+  "profile": {
+    "id": "asymmetric_demo_v1",
+    "version": 1,
+    "label": "Asymmetric loss example (right stronger)",
+    "review_status": "engineering",
+    "digest": "sha256:d05418f2721737b51a1b2cbadb01f3c24050294f9a5877fc58be5e4070e8444c",
+    "provenance": "Synthetic left and right thresholds chosen to illustrate a stronger effect in the right channel of the demonstration source. Engineering listening fixture pending audiology review."
+  },
+  "engine": {
+    "name": "Cambridge MSBG",
+    "rnid": "0.3.1",
+    "pyclarity": "0.9.0",
+    "python": "3.14.2",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "runtime": "python 3.14.2 (emscripten)",
+    "decoder": "macOS AudioToolbox afconvert"
+  },
+  "model": {
+    "calibration": {
+      "src_pos": "ff",
+      "equiv_0db_spl": 80.0,
+      "ahr": 20.0
+    },
+    "input_rms_dbfs": {
+      "left": -25.081445790887493,
+      "right": -25.081445790887493
+    },
+    "offset_samples": {
+      "left": 1078,
+      "right": 1263
+    },
+    "bypassed_silent": {
+      "left": false,
+      "right": false
+    },
+    "guard_samples": {
+      "before": 4410,
+      "after": 4410
+    },
+    "severity": {
+      "left": "NOTHING",
+      "right": "MODERATE"
+    },
+    "level_convention": "msbg_0.9.0_overall_rms_guarded_v2",
+    "path_compensation": "msbg_filterbank_path_eq_v1",
+    "active_rms_dbfs": {
+      "left": -22.293696510143533,
+      "right": -22.293696510143533
+    },
+    "model_input_level_db_spl": {
+      "left": 74.9185542091125,
+      "right": 74.9185542091125
+    },
+    "model_rescale_db": {
+      "left": -2.7877492807439594,
+      "right": -2.7877492807439594
+    }
+  },
+  "warnings": [
+    "PROFILE_UNREVIEWED"
+  ],
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 96256,
+    "selected_seconds": 2.182675736961451,
+    "candidates": [
+      {
+        "sample": 96256,
+        "seconds": 2.182675736961451,
+        "score": 3.282397
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "level": {
+    "true_peak_ceiling_dbtp": -1.0,
+    "true_peak_meter": "4x polyphase oversampling (scipy.signal.resample_poly)",
+    "pre_gain_true_peak_dbtp": {
+      "reference": -7.806303054210652,
+      "simulated": -8.191468697289219
+    },
+    "export_true_peak_dbtp": {
+      "reference": -7.806303054210652,
+      "simulated": -8.191468709759556
+    },
+    "common_gain_db": 0.0,
+    "common_gain_linear": 1.0
+  },
+  "source": {
+    "title": "It's Your Birthday (Vocal \u2014 FMA)",
+    "artist": "Kyla",
+    "source_url": "https://freemusicarchive.org/music/Kyla/The_New_Birthday_Song_Contest/Its_Your_Birthday/",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0/",
+    "attribution": "It's Your Birthday by Kyla (freemusicarchive.org), licensed under CC BY 3.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

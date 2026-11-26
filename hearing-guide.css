@@ -1,0 +1,272 @@
+/* Live educational context, MSBG cochlear mechanisms, and RNID harm-reduction cards */
+
+.home-hearing-guide {
+  margin-top: .85rem;
+  padding: .68rem .78rem;
+  border: 1px solid #c2cdbc;
+  border-radius: .6rem;
+  background: #f7f8f1;
+  color: var(--ink);
+  font-size: .835rem;
+  line-height: 1.42;
+}
+
+.home-hearing-guide-title {
+  margin: 0 0 .22rem;
+  color: var(--action);
+  font-size: .84rem;
+  font-weight: 740;
+}
+
+.home-hearing-guide p + p {
+  margin-top: .32rem;
+}
+
+.home-hearing-guide-everyday {
+  color: var(--soft-ink);
+}
+
+.home-hearing-guide-tinnitus {
+  margin-top: .4rem;
+  padding-top: .38rem;
+  border-top: 1px dashed #c4cfc0;
+  color: #2c4a3c;
+  font-weight: 560;
+}
+
+.listen-education-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.education-card {
+  min-width: 0;
+  padding: clamp(1.05rem, 2.3vw, 1.55rem);
+  border: 1px solid var(--line);
+  border-radius: .95rem;
+  background: var(--paper);
+}
+
+.education-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .35rem .75rem;
+  margin-bottom: .6rem;
+}
+
+.education-card h2 {
+  font-size: clamp(1.08rem, 1.9vw, 1.32rem);
+}
+
+.education-kicker {
+  display: inline-block;
+  padding: .14rem .5rem;
+  border-radius: 999px;
+  background: #e4ede2;
+  color: var(--action);
+  font-size: .74rem;
+  font-weight: 720;
+  letter-spacing: .01em;
+}
+
+.education-intro {
+  color: var(--soft-ink);
+  font-size: .9rem;
+  margin-bottom: .8rem;
+}
+
+.mechanism-list,
+.protect-list {
+  display: grid;
+  gap: .62rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mechanism-list li,
+.protect-list li {
+  padding: .58rem .72rem;
+  border: 1px solid #dce3d6;
+  border-radius: .6rem;
+  background: #f8f9f3;
+  font-size: .86rem;
+  line-height: 1.42;
+}
+
+.mechanism-list strong,
+.protect-list strong {
+  display: block;
+  margin-bottom: .14rem;
+  color: var(--action);
+  font-size: .88rem;
+}
+
+.protect-card {
+  border-color: #c5d4c2;
+  background: #eef3ea;
+}
+
+.protect-card .protect-list li {
+  border-color: #cbd9c8;
+  background: #fbfcf8;
+}
+
+.protect-card-footer {
+  margin-top: .75rem;
+  font-size: .83rem;
+  color: var(--soft-ink);
+}
+
+/* Studio live "What you're hearing" panel inside #studio-mix */
+.studio-hearing-guide {
+  margin-top: .85rem;
+  padding: .75rem .82rem;
+  border: 1px solid var(--deck-line, #3a4a3e);
+  border-radius: .58rem;
+  background: #142019;
+  color: var(--deck-text, #f6faeb);
+}
+
+.studio-guide-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .3rem .55rem;
+  margin-bottom: .52rem;
+}
+
+.studio-guide-top h3 {
+  margin: 0;
+  font-size: .86rem;
+  font-weight: 730;
+  color: #f6faeb;
+}
+
+.studio-guide-badge {
+  padding: .1rem .45rem;
+  border: 1px solid #486150;
+  border-radius: 999px;
+  background: #213328;
+  color: #dcf184;
+  font-size: .71rem;
+  font-weight: 680;
+}
+
+.studio-guide-points {
+  display: grid;
+  gap: .45rem;
+  margin: 0;
+}
+
+.studio-guide-points div {
+  font-size: .78rem;
+  line-height: 1.4;
+}
+
+.studio-guide-points dt {
+  display: inline;
+  color: #dcf184;
+  font-weight: 720;
+}
+
+.studio-guide-points dt::after {
+  content: ": ";
+}
+
+.studio-guide-points dd {
+  display: inline;
+  margin: 0;
+  color: #d6e2d5;
+}
+
+.studio-guide-tinnitus {
+  margin-top: .5rem;
+  padding-top: .45rem;
+  border-top: 1px dashed #3d5243;
+  color: #e6f2cf;
+  font-size: .76rem;
+  line-height: 1.38;
+}
+
+.studio-mechanisms-disclosure {
+  margin-top: .6rem;
+  border-top: 1px solid var(--deck-line, #3a4a3e);
+  padding-top: .5rem;
+}
+
+.studio-mechanisms-disclosure summary {
+  color: #d3e5bc;
+  font-size: .77rem;
+  font-weight: 680;
+}
+
+.studio-mechanisms-disclosure ul {
+  margin: .45rem 0 0;
+  padding-left: 1.05rem;
+  color: #c8d6c8;
+  font-size: .76rem;
+  line-height: 1.4;
+  display: grid;
+  gap: .3rem;
+}
+
+.studio-mechanisms-disclosure strong {
+  color: #f6faeb;
+}
+
+/* Acoustic & Speech Landmarks inside #studio-filter-response */
+.filter-response-landmarks {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .45rem;
+  margin: .65rem 0 .45rem;
+  padding: 0;
+  list-style: none;
+}
+
+.filter-response-landmarks li {
+  padding: .45rem .55rem;
+  border: 1px solid #d7e1d5;
+  border-radius: .48rem;
+  background: #f6f8f3;
+  font-size: .76rem;
+  line-height: 1.35;
+}
+
+.filter-response-landmarks .landmark-hz {
+  display: block;
+  color: var(--action);
+  font: 700 .72rem ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+
+.filter-response-landmarks strong {
+  display: block;
+  margin: .08rem 0 .1rem;
+  color: var(--ink);
+  font-size: .8rem;
+}
+
+.filter-response-landmarks span:last-child {
+  color: var(--soft-ink);
+}
+
+@media (max-width: 54rem) {
+  .listen-education-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .filter-response-landmarks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 30rem) {
+  .filter-response-landmarks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "duration_seconds": 317.2875963718821,
+  "reference": "reference.m4a",
+  "waveform": "waveform.json",
+  "profiles": [
+    {
+      "id": "post_gig_muffled_v1",
+      "version": 1,
+      "label": "Muffled hearing after a loud gig (example)",
+      "review_status": "engineering",
+      "simulated": "post_gig_muffled_v1.m4a",
+      "manifest": "post_gig_muffled_v1.manifest.json"
+    },
+    {
+      "id": "nihl_demo_v1",
+      "version": 1,
+      "label": "Mild noise-induced hearing loss (example)",
+      "review_status": "engineering",
+      "simulated": "nihl_demo_v1.m4a",
+      "manifest": "nihl_demo_v1.manifest.json"
+    },
+    {
+      "id": "high_frequency_demo_v1",
+      "version": 1,
+      "label": "High-frequency loss example",
+      "review_status": "engineering",
+      "simulated": "high_frequency_demo_v1.m4a",
+      "manifest": "high_frequency_demo_v1.manifest.json"
+    },
+    {
+      "id": "broadband_demo_v1",
+      "version": 1,
+      "label": "Broadband loss example",
+      "review_status": "engineering",
+      "simulated": "broadband_demo_v1.m4a",
+      "manifest": "broadband_demo_v1.manifest.json"
+    },
+    {
+      "id": "asymmetric_demo_v1",
+      "version": 1,
+      "label": "Asymmetric loss example (right stronger)",
+      "review_status": "engineering",
+      "simulated": "asymmetric_demo_v1.m4a",
+      "manifest": "asymmetric_demo_v1.manifest.json"
+    }
+  ],
+  "tinnitus": {
+    "ringing": "../../v2/tinnitus-ringing.wav",
+    "hiss": "../../v2/tinnitus-hiss.wav"
+  },
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 6557696,
+    "selected_seconds": 148.700589569161,
+    "candidates": [
+      {
+        "sample": 6557696,
+        "seconds": 148.700589569161,
+        "score": 4.124902
+      },
+      {
+        "sample": 912896,
+        "seconds": 20.700589569160996,
+        "score": 2.720357
+      },
+      {
+        "sample": 3294720,
+        "seconds": 74.71020408163265,
+        "score": 2.703997
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "source": {
+    "title": "She Dreams In Blue (Vocal \u2014 FMA)",
+    "artist": "Josh Woodward",
+    "source_url": "https://freemusicarchive.org/music/Josh_Woodward/Only_Whispering/JoshWoodward-NQC-03-SheDreamsInBlue_1500/",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "She Dreams In Blue by Josh Woodward (freemusicarchive.org / joshwoodward.com), licensed under CC BY 4.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

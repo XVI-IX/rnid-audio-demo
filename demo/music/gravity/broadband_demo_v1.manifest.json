@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "audio": {
+    "sample_rate_hz": 44100,
+    "channels": 2,
+    "frames": 10384644,
+    "duration_seconds": 235.47945578231293,
+    "reference": "reference.m4a",
+    "simulated": "broadband_demo_v1.m4a"
+  },
+  "profile": {
+    "id": "broadband_demo_v1",
+    "version": 1,
+    "label": "Broadband loss example",
+    "review_status": "engineering",
+    "digest": "sha256:63d767c491fc22f9550fa6fd390529f1ef77303dfe140daa7551f32afed9bdbf",
+    "provenance": "Synthetic bilateral thresholds chosen to illustrate loss across bass, midrange and treble in the demonstration source. Engineering listening fixture pending audiology review."
+  },
+  "engine": {
+    "name": "Cambridge MSBG",
+    "rnid": "0.3.1",
+    "pyclarity": "0.9.0",
+    "python": "3.14.2",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "runtime": "python 3.14.2 (emscripten)",
+    "decoder": "macOS AudioToolbox afconvert"
+  },
+  "model": {
+    "calibration": {
+      "src_pos": "ff",
+      "equiv_0db_spl": 80.0,
+      "ahr": 20.0
+    },
+    "input_rms_dbfs": {
+      "left": -21.208491144123244,
+      "right": -21.63358428432582
+    },
+    "offset_samples": {
+      "left": 1264,
+      "right": 1264
+    },
+    "bypassed_silent": {
+      "left": false,
+      "right": false
+    },
+    "guard_samples": {
+      "before": 4410,
+      "after": 4410
+    },
+    "severity": {
+      "left": "MODERATE",
+      "right": "MODERATE"
+    },
+    "level_convention": "msbg_0.9.0_overall_rms_guarded_v2",
+    "path_compensation": "msbg_filterbank_path_eq_v1",
+    "active_rms_dbfs": {
+      "left": -20.955608730715426,
+      "right": -21.38409315773696
+    },
+    "model_input_level_db_spl": {
+      "left": 78.79150885587676,
+      "right": 78.36641571567418
+    },
+    "model_rescale_db": {
+      "left": -0.2528824134078178,
+      "right": -0.24949112658886108
+    }
+  },
+  "warnings": [
+    "PROFILE_UNREVIEWED"
+  ],
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 5864960,
+    "selected_seconds": 132.9922902494331,
+    "candidates": [
+      {
+        "sample": 5864960,
+        "seconds": 132.9922902494331,
+        "score": 3.80137
+      },
+      {
+        "sample": 7786496,
+        "seconds": 176.5645351473923,
+        "score": 3.196653
+      },
+      {
+        "sample": 855040,
+        "seconds": 19.388662131519276,
+        "score": 2.831369
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "level": {
+    "true_peak_ceiling_dbtp": -1.0,
+    "true_peak_meter": "4x polyphase oversampling (scipy.signal.resample_poly)",
+    "pre_gain_true_peak_dbtp": {
+      "reference": -5.551251465413141,
+      "simulated": -16.33041152493933
+    },
+    "export_true_peak_dbtp": {
+      "reference": -5.551251465413141,
+      "simulated": -16.33041125617864
+    },
+    "common_gain_db": 0.0,
+    "common_gain_linear": 1.0
+  },
+  "source": {
+    "title": "Gravity (Vocal \u2014 FMA)",
+    "artist": "Josh Woodward",
+    "source_url": "https://freemusicarchive.org/music/Josh_Woodward/Dirty_Wings/JoshWoodward-DW-04-Gravity/",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Gravity by Josh Woodward (freemusicarchive.org / joshwoodward.com), licensed under CC BY 4.0.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

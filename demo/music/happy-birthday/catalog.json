@@ -1,0 +1,85 @@
+{
+  "duration_seconds": 86.47256235827665,
+  "reference": "reference.m4a",
+  "waveform": "waveform.json",
+  "profiles": [
+    {
+      "id": "post_gig_muffled_v1",
+      "version": 1,
+      "label": "Muffled hearing after a loud gig (example)",
+      "review_status": "engineering",
+      "simulated": "post_gig_muffled_v1.m4a",
+      "manifest": "post_gig_muffled_v1.manifest.json"
+    },
+    {
+      "id": "nihl_demo_v1",
+      "version": 1,
+      "label": "Mild noise-induced hearing loss (example)",
+      "review_status": "engineering",
+      "simulated": "nihl_demo_v1.m4a",
+      "manifest": "nihl_demo_v1.manifest.json"
+    },
+    {
+      "id": "high_frequency_demo_v1",
+      "version": 1,
+      "label": "High-frequency loss example",
+      "review_status": "engineering",
+      "simulated": "high_frequency_demo_v1.m4a",
+      "manifest": "high_frequency_demo_v1.manifest.json"
+    },
+    {
+      "id": "broadband_demo_v1",
+      "version": 1,
+      "label": "Broadband loss example",
+      "review_status": "engineering",
+      "simulated": "broadband_demo_v1.m4a",
+      "manifest": "broadband_demo_v1.manifest.json"
+    },
+    {
+      "id": "asymmetric_demo_v1",
+      "version": 1,
+      "label": "Asymmetric loss example (right stronger)",
+      "review_status": "engineering",
+      "simulated": "asymmetric_demo_v1.m4a",
+      "manifest": "asymmetric_demo_v1.manifest.json"
+    }
+  ],
+  "tinnitus": {
+    "ringing": "../../v2/tinnitus-ringing.wav",
+    "hiss": "../../v2/tinnitus-hiss.wav"
+  },
+  "climax": {
+    "status": "ok",
+    "selected_by": "automatic",
+    "selected_sample": 144384,
+    "selected_seconds": 3.274013605442177,
+    "candidates": [
+      {
+        "sample": 144384,
+        "seconds": 3.274013605442177,
+        "score": 20.155137
+      },
+      {
+        "sample": 1026560,
+        "seconds": 23.278004535147392,
+        "score": 1.575416
+      },
+      {
+        "sample": 1390080,
+        "seconds": 31.52108843537415,
+        "score": 1.491115
+      }
+    ],
+    "detector_version": "1.1.0"
+  },
+  "source": {
+    "title": "Happy Birthday to You",
+    "artist": "Traditional (arr. Pracchia-78)",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Happy_Birthday_to_You.ogg",
+    "license": "Public Domain",
+    "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "attribution": "Happy Birthday to You (Traditional; arrangement by Pracchia-78 via Wikimedia Commons), Public Domain.",
+    "whole_track": true,
+    "changes": "Full track with gentle loop-seam fades and headroom trim. Simulated audio applies Cambridge MSBG."
+  }
+}

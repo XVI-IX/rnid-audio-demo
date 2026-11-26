@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "method": "pink_probe_min_phase_v1",
+  "sample_rate_hz": 44100,
+  "taps": 8192,
+  "channels": [
+    "left ear",
+    "right ear"
+  ],
+  "levels_dbfs": [
+    -40.0,
+    -35.0,
+    -30.0,
+    -25.0,
+    -20.0,
+    -15.0,
+    -10.0,
+    -5.0
+  ],
+  "silent_below_dbfs": -100.0,
+  "blend": "Per ear, measure the clip channel's RMS in dBFS (a silent channel uses the other channel's level), clamp it to levels_dbfs, and mix the two nearest designs linearly.",
+  "playback": "Convolve with normalisation off, unity gain, and keep the clip's length.",
+  "note": "Approximates the average tonal change of this hearing profile at the stated input level. It omits the loudness-dependent and time-smearing parts of the model. Above 8 kHz the match is unreliable. Apply the left channel to the left ear and the right channel to the right ear, at unity gain, with any IR normalisation turned off.",
+  "profiles": [
+    {
+      "id": "asymmetric_demo_v1",
+      "version": 1,
+      "label": "Asymmetric loss example (right stronger)",
+      "review_status": "engineering",
+      "digest": "sha256:d05418f2721737b51a1b2cbadb01f3c24050294f9a5877fc58be5e4070e8444c",
+      "files": {
+        "-40": "asymmetric_demo_v1/ir_m40dbfs.wav",
+        "-35": "asymmetric_demo_v1/ir_m35dbfs.wav",
+        "-30": "asymmetric_demo_v1/ir_m30dbfs.wav",
+        "-25": "asymmetric_demo_v1/ir_m25dbfs.wav",
+        "-20": "asymmetric_demo_v1/ir_m20dbfs.wav",
+        "-15": "asymmetric_demo_v1/ir_m15dbfs.wav",
+        "-10": "asymmetric_demo_v1/ir_m10dbfs.wav",
+        "-5": "asymmetric_demo_v1/ir_m5dbfs.wav"
+      }
+    },
+    {
+      "id": "broadband_demo_v1",
+      "version": 1,
+      "label": "Broadband loss example",
+      "review_status": "engineering",
+      "digest": "sha256:63d767c491fc22f9550fa6fd390529f1ef77303dfe140daa7551f32afed9bdbf",
+      "files": {
+        "-40": "broadband_demo_v1/ir_m40dbfs.wav",
+        "-35": "broadband_demo_v1/ir_m35dbfs.wav",
+        "-30": "broadband_demo_v1/ir_m30dbfs.wav",
+        "-25": "broadband_demo_v1/ir_m25dbfs.wav",
+        "-20": "broadband_demo_v1/ir_m20dbfs.wav",
+        "-15": "broadband_demo_v1/ir_m15dbfs.wav",
+        "-10": "broadband_demo_v1/ir_m10dbfs.wav",
+        "-5": "broadband_demo_v1/ir_m5dbfs.wav"
+      }
+    },
+    {
+      "id": "engineering_v1",
+      "version": 1,
+      "label": "Asymmetric engineering fixture",
+      "review_status": "engineering",
+      "digest": "sha256:6b57df169bb30b0e1893e601a511c952d8391de7f277f06e6e69400fdbfbb8d8",
+      "files": {
+        "-40": "engineering_v1/ir_m40dbfs.wav",
+        "-35": "engineering_v1/ir_m35dbfs.wav",
+        "-30": "engineering_v1/ir_m30dbfs.wav",
+        "-25": "engineering_v1/ir_m25dbfs.wav",
+        "-20": "engineering_v1/ir_m20dbfs.wav",
+        "-15": "engineering_v1/ir_m15dbfs.wav",
+        "-10": "engineering_v1/ir_m10dbfs.wav",
+        "-5": "engineering_v1/ir_m5dbfs.wav"
+      }
+    },
+    {
+      "id": "high_frequency_demo_v1",
+      "version": 1,
+      "label": "High-frequency loss example",
+      "review_status": "engineering",
+      "digest": "sha256:7ef9442ff37144d093d808fa28f517ee75750b9ed995f99a9a3ee4d272ca7a4b",
+      "files": {
+        "-40": "high_frequency_demo_v1/ir_m40dbfs.wav",
+        "-35": "high_frequency_demo_v1/ir_m35dbfs.wav",
+        "-30": "high_frequency_demo_v1/ir_m30dbfs.wav",
+        "-25": "high_frequency_demo_v1/ir_m25dbfs.wav",
+        "-20": "high_frequency_demo_v1/ir_m20dbfs.wav",
+        "-15": "high_frequency_demo_v1/ir_m15dbfs.wav",
+        "-10": "high_frequency_demo_v1/ir_m10dbfs.wav",
+        "-5": "high_frequency_demo_v1/ir_m5dbfs.wav"
+      }
+    },
+    {
+      "id": "nihl_demo_v1",
+      "version": 1,
+      "label": "Mild noise-induced hearing loss (example)",
+      "review_status": "engineering",
+      "digest": "sha256:951e51a0d942877618f63ff90ff8a681fb8046f50c653b16a91960ca8fa3819d",
+      "files": {
+        "-40": "nihl_demo_v1/ir_m40dbfs.wav",
+        "-35": "nihl_demo_v1/ir_m35dbfs.wav",
+        "-30": "nihl_demo_v1/ir_m30dbfs.wav",
+        "-25": "nihl_demo_v1/ir_m25dbfs.wav",
+        "-20": "nihl_demo_v1/ir_m20dbfs.wav",
+        "-15": "nihl_demo_v1/ir_m15dbfs.wav",
+        "-10": "nihl_demo_v1/ir_m10dbfs.wav",
+        "-5": "nihl_demo_v1/ir_m5dbfs.wav"
+      }
+    },
+    {
+      "id": "post_gig_muffled_v1",
+      "version": 1,
+      "label": "Muffled hearing after a loud gig (example)",
+      "review_status": "engineering",
+      "digest": "sha256:11160a92102f1cac4a72ea258510748e88279a7597ff2797c0e565ba81a0b788",
+      "files": {
+        "-40": "post_gig_muffled_v1/ir_m40dbfs.wav",
+        "-35": "post_gig_muffled_v1/ir_m35dbfs.wav",
+        "-30": "post_gig_muffled_v1/ir_m30dbfs.wav",
+        "-25": "post_gig_muffled_v1/ir_m25dbfs.wav",
+        "-20": "post_gig_muffled_v1/ir_m20dbfs.wav",
+        "-15": "post_gig_muffled_v1/ir_m15dbfs.wav",
+        "-10": "post_gig_muffled_v1/ir_m10dbfs.wav",
+        "-5": "post_gig_muffled_v1/ir_m5dbfs.wav"
+      }
+    }
+  ]
+}

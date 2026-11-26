@@ -1,0 +1,324 @@
+/* Live Microphone Workshop Mode, Safe-Listening Guardrails, Campaign Video Bar & RNID Support Card */
+
+/* Band explorer source + pub-chatter toolbar */
+.freq-band-context-bar {
+  display: grid;
+  grid-template-columns: minmax(13rem, 1.25fr) minmax(12rem, 1fr) auto;
+  align-items: end;
+  gap: .65rem .9rem;
+  margin-bottom: .85rem;
+  padding: .62rem .75rem;
+  border: 1px solid var(--line);
+  border-radius: .7rem;
+  background: var(--page);
+}
+
+.freq-band-context-field {
+  min-width: 0;
+}
+
+.freq-band-context-field label {
+  display: flex;
+  justify-content: space-between;
+  gap: .4rem;
+  margin-bottom: .22rem;
+  color: var(--soft-ink);
+  font-size: .8rem;
+  font-weight: 710;
+}
+
+.freq-band-context-field output {
+  color: var(--action);
+  font: 700 .78rem ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.freq-band-context-field select {
+  width: 100%;
+  min-height: 2.45rem;
+  padding: .34rem 1.8rem .34rem .58rem;
+  border: 1px solid var(--control-border);
+  border-radius: .48rem;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-size: .84rem;
+  font-weight: 630;
+}
+
+.freq-band-context-field input[type="range"] {
+  width: 100%;
+  height: 2.45rem;
+  margin: 0;
+  accent-color: var(--action);
+}
+
+.freq-band-pub-btn.button {
+  min-height: 2.45rem;
+  padding: .38rem .75rem;
+  font-size: .83rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 52rem) {
+  .freq-band-context-bar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Live Microphone Workshop Panel */
+.live-mic-panel {
+  margin-bottom: 1.35rem;
+  padding: clamp(1rem, 2.3vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--paper);
+}
+
+.live-mic-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .4rem .8rem;
+  margin-bottom: .45rem;
+}
+
+.live-mic-header h2 {
+  margin: 0;
+  font-size: clamp(1.12rem, 2vw, 1.38rem);
+}
+
+.live-mic-badge {
+  padding: .16rem .55rem;
+  border: 1px solid #c5d4c2;
+  border-radius: 999px;
+  background: #eef3ea;
+  color: var(--action);
+  font-size: .74rem;
+  font-weight: 720;
+}
+
+.live-mic-intro {
+  margin: 0 0 .8rem;
+  max-width: 66ch;
+  color: var(--soft-ink);
+  font-size: .89rem;
+  line-height: 1.45;
+}
+
+.live-mic-gate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .65rem 1rem;
+  padding: .68rem .8rem;
+  border: 1px solid #d5dccf;
+  border-radius: .68rem;
+  background: var(--page);
+  margin-bottom: .8rem;
+}
+
+.live-mic-check {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .86rem;
+  font-weight: 660;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.live-mic-check input {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--action);
+}
+
+#live-mic-toggle[aria-pressed="true"] {
+  border-color: var(--error);
+  background: var(--error);
+  color: #fff;
+}
+
+.live-mic-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .38rem;
+  margin-bottom: .75rem;
+}
+
+.live-mic-presets .button {
+  padding: .34rem .7rem;
+  border-color: var(--control-border);
+  background: var(--paper);
+  color: var(--action);
+  font-size: .83rem;
+  font-weight: 680;
+}
+
+.live-mic-presets .button[aria-pressed="true"] {
+  border-color: var(--action);
+  background: var(--action);
+  color: #fff;
+}
+
+.live-mic-controls-row {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) minmax(10rem, 1fr);
+  gap: .75rem 1rem;
+  align-items: center;
+  margin-bottom: .6rem;
+}
+
+.live-mic-meter-wrap {
+  display: grid;
+  gap: .24rem;
+}
+
+.live-mic-meter-label {
+  color: var(--soft-ink);
+  font-size: .78rem;
+  font-weight: 680;
+}
+
+.live-mic-meter-track {
+  height: .66rem;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--page);
+}
+
+.live-mic-meter-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--action);
+  transition: width .07s linear;
+}
+
+.live-mic-note {
+  margin: .35rem 0 0;
+  padding: .52rem .68rem;
+  border-radius: .52rem;
+  background: var(--page);
+  color: var(--ink);
+  font-size: .84rem;
+  line-height: 1.42;
+}
+
+@media (max-width: 42rem) {
+  .live-mic-controls-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Safe-listening volume boost guardrail banner */
+.safe-volume-nudge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem .75rem;
+  margin-top: .55rem;
+  padding: .58rem .74rem;
+  border: 1px solid #dec387;
+  border-radius: .56rem;
+  background: #fdf8ea;
+  color: #4f3b0b;
+  font-size: .82rem;
+  line-height: 1.42;
+}
+
+.safe-volume-nudge p {
+  margin: 0;
+  flex: 1 1 20rem;
+}
+
+.safe-volume-actions {
+  display: flex;
+  gap: .38rem;
+}
+
+.safe-volume-nudge .button {
+  min-height: 2.05rem;
+  padding: .24rem .58rem;
+  font-size: .78rem;
+}
+
+/* Reactive-tinnitus care note */
+.tinnitus-care-note {
+  margin: .38rem 0 0;
+  color: var(--soft-ink);
+  font-size: .79rem;
+  line-height: 1.38;
+}
+
+/* Actionable RNID Hearing Check & Tinnitus Support Bridge Card */
+.rnid-support-card {
+  margin: 1.2rem 0;
+  padding: clamp(1rem, 2.2vw, 1.4rem);
+  border: 1px solid #c3d2c0;
+  border-radius: .95rem;
+  background: #edf3ea;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem 1.25rem;
+}
+
+.rnid-support-copy {
+  flex: 1 1 22rem;
+  min-width: 0;
+}
+
+.rnid-support-copy h2 {
+  margin: 0 0 .25rem;
+  font-size: clamp(1.05rem, 1.8vw, 1.26rem);
+}
+
+.rnid-support-copy p {
+  margin: 0;
+  color: var(--soft-ink);
+  font-size: .88rem;
+  line-height: 1.44;
+}
+
+.rnid-support-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .48rem;
+}
+
+/* Campaign video aspect selector inside Your audio Export */
+.campaign-export-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: .55rem .7rem;
+  margin-top: .55rem;
+}
+
+.campaign-aspect-field {
+  flex: 1 1 13rem;
+  min-width: 0;
+}
+
+.campaign-aspect-field label {
+  display: block;
+  margin-bottom: .2rem;
+  color: var(--soft-ink);
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+#render .campaign-aspect-field select {
+  width: 100%;
+  min-height: 2.4rem;
+  padding: .32rem 1.8rem .32rem .55rem;
+  border: 1px solid var(--control-border);
+  border-radius: .48rem;
+  background-color: var(--paper);
+  font-size: .83rem;
+}

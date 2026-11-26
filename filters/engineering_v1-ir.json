@@ -1,0 +1,189 @@
+{
+  "profile": {
+    "id": "engineering_v1",
+    "version": 1,
+    "label": "Asymmetric engineering fixture",
+    "review_status": "engineering",
+    "digest": "sha256:6b57df169bb30b0e1893e601a511c952d8391de7f277f06e6e69400fdbfbb8d8",
+    "provenance": "Synthetic thresholds selected for pipeline and left/right routing tests.",
+    "calibration": {
+      "src_pos": "ff",
+      "equiv_0db_spl": 100.0,
+      "ahr": 20.0
+    }
+  },
+  "filter": {
+    "file": "engineering_v1-ir.wav",
+    "method": "pink_probe_min_phase_v1",
+    "taps": 8192,
+    "sample_rate_hz": 44100,
+    "channels": {
+      "left": "left ear",
+      "right": "right ear"
+    },
+    "phase": "minimum",
+    "probe": {
+      "signal": "pink noise",
+      "seconds": 8,
+      "seed": 0
+    },
+    "probe_level_dbfs": {
+      "left": -20.0,
+      "right": -20.0
+    },
+    "smoothing": "1/6 octave",
+    "gain_table": [
+      {
+        "frequency_hz": 25,
+        "left_db": -0.26,
+        "right_db": -5.88
+      },
+      {
+        "frequency_hz": 31.5,
+        "left_db": 0.0,
+        "right_db": -5.68
+      },
+      {
+        "frequency_hz": 40,
+        "left_db": -0.07,
+        "right_db": -5.71
+      },
+      {
+        "frequency_hz": 50,
+        "left_db": -0.04,
+        "right_db": -5.64
+      },
+      {
+        "frequency_hz": 63,
+        "left_db": -0.04,
+        "right_db": -5.62
+      },
+      {
+        "frequency_hz": 80,
+        "left_db": 0.0,
+        "right_db": -5.57
+      },
+      {
+        "frequency_hz": 100,
+        "left_db": 0.02,
+        "right_db": -5.5
+      },
+      {
+        "frequency_hz": 125,
+        "left_db": 0.02,
+        "right_db": -5.35
+      },
+      {
+        "frequency_hz": 160,
+        "left_db": -0.0,
+        "right_db": -5.22
+      },
+      {
+        "frequency_hz": 200,
+        "left_db": -0.05,
+        "right_db": -4.98
+      },
+      {
+        "frequency_hz": 250,
+        "left_db": -0.13,
+        "right_db": -4.72
+      },
+      {
+        "frequency_hz": 315,
+        "left_db": -0.34,
+        "right_db": -4.66
+      },
+      {
+        "frequency_hz": 400,
+        "left_db": -0.65,
+        "right_db": -4.68
+      },
+      {
+        "frequency_hz": 500,
+        "left_db": -1.01,
+        "right_db": -4.77
+      },
+      {
+        "frequency_hz": 630,
+        "left_db": -1.14,
+        "right_db": -4.85
+      },
+      {
+        "frequency_hz": 800,
+        "left_db": -1.19,
+        "right_db": -5.1
+      },
+      {
+        "frequency_hz": 1000,
+        "left_db": -1.22,
+        "right_db": -5.52
+      },
+      {
+        "frequency_hz": 1250,
+        "left_db": -1.6,
+        "right_db": -6.25
+      },
+      {
+        "frequency_hz": 1600,
+        "left_db": -1.94,
+        "right_db": -7.47
+      },
+      {
+        "frequency_hz": 2000,
+        "left_db": -2.16,
+        "right_db": -8.7
+      },
+      {
+        "frequency_hz": 2500,
+        "left_db": -2.46,
+        "right_db": -10.38
+      },
+      {
+        "frequency_hz": 3150,
+        "left_db": -3.27,
+        "right_db": -13.35
+      },
+      {
+        "frequency_hz": 4000,
+        "left_db": -4.94,
+        "right_db": -16.76
+      },
+      {
+        "frequency_hz": 5000,
+        "left_db": -5.16,
+        "right_db": -17.23
+      },
+      {
+        "frequency_hz": 6300,
+        "left_db": -4.53,
+        "right_db": -15.25
+      },
+      {
+        "frequency_hz": 8000,
+        "left_db": -3.94,
+        "right_db": -15.75
+      },
+      {
+        "frequency_hz": 10000,
+        "left_db": -3.84,
+        "right_db": -18.92
+      },
+      {
+        "frequency_hz": 12500,
+        "left_db": -3.94,
+        "right_db": -22.42
+      },
+      {
+        "frequency_hz": 16000,
+        "left_db": -5.02,
+        "right_db": -13.73
+      }
+    ],
+    "note": "Approximates the average tonal change of this hearing profile at the stated input level. It omits the loudness-dependent and time-smearing parts of the model. Above 8 kHz the match is unreliable. Apply the left channel to the left ear and the right channel to the right ear, at unity gain, with any IR normalisation turned off."
+  },
+  "engine": {
+    "name": "Cambridge MSBG",
+    "rnid": "0.3.1",
+    "pyclarity": "0.9.0"
+  }
+}
