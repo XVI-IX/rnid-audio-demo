@@ -10,8 +10,8 @@ import {
   buildSafeMedicalResponse,
   cleanExplanationText,
   isMedicalAdviceQuery,
-} from './audio-explainer.mjs?v=8660164ccc';
-import { ANATOMY_PART_BY_ID, normalisePartId } from './ear-anatomy-geometry.mjs?v=8660164ccc';
+} from './audio-explainer.mjs?v=c84af3279a';
+import { ANATOMY_PART_BY_ID, normalisePartId } from './ear-anatomy-geometry.mjs?v=c84af3279a';
 
 const TECHNICAL_JARGON_REGEX = /\b(?:\d+(?:\.\d+)?\s*(?:k?Hz|hertz|dB|decibels?)|kHz|decibels?|hertz|filterbank|dBFS)\b/i;
 

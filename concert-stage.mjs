@@ -3,16 +3,16 @@
 // + complementary linear-phase FIR convolution kernels (exact bit-accurate sum at 0 dB!),
 // driving a Three.js 3D concert stage with raycast soloing and mobile-first controls.
 
-import { buildConcert3DScene } from './concert-3d-scene.mjs?v=8660164ccc';
-import { createBandKernels } from './freq-band-audio.mjs?v=8660164ccc';
+import { buildConcert3DScene } from './concert-3d-scene.mjs?v=c84af3279a';
+import { createBandKernels } from './freq-band-audio.mjs?v=c84af3279a';
 import {
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=8660164ccc';
-import { getTheme, onThemeChange } from './theme.mjs?v=8660164ccc';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=8660164ccc';
-import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=8660164ccc';
+} from './output-calibration.mjs?v=c84af3279a';
+import { getTheme, onThemeChange } from './theme.mjs?v=c84af3279a';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=c84af3279a';
+import { audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=c84af3279a';
 
 export const CONCERT_SONGS = Object.freeze([
   {
@@ -821,9 +821,10 @@ export function connectConcertStage({
       if (pinObj) {
         pinObj.btn.dataset.ghosted = String(item.isGhosted);
         pinObj.btn.setAttribute('aria-pressed', String(item.isSoloed));
+        const compactPin = typeof window !== 'undefined' && window.innerWidth <= 560;
         pinObj.pctSpan.textContent = !item.activeInMix
-          ? 'Muted'
-          : (item.audibility <= 15 ? `${item.audibility}% · Lost` : `${item.audibility}%`);
+          ? 'Off'
+          : (!compactPin && item.audibility <= 15 ? `${item.audibility}% · Lost` : `${item.audibility}%`);
       }
 
       const cardEl = cardEls.get(item.id);
@@ -1233,7 +1234,7 @@ export function connectConcertStage({
           camera.updateMatrixWorld();
 
           // Update 3D Performers, Volumetric Spotlights, Instruments & Ghosting!
-          for (const item of snap.instruments) {
+          for (const [stemIdx, item] of snap.instruments.entries()) {
             const st = arena.stations[item.id];
             if (!st) continue;
             const e = stemEnergies[item.id] || 0;
@@ -1280,13 +1281,15 @@ export function connectConcertStage({
               st.animatedParts.hiHatTop.position.y = 1.06 + e * 0.05;
             }
 
-            // Project 3D Floating Label Pin cleanly above each 3D musician
+            // Project 3D Floating Label Pin cleanly above each 3D musician (staggered on mobile & clearing camera bar)
             const pinObj = pinEls.get(item.id);
             if (pinObj) {
               projVec.copy(st.labelAnchor).project(camera);
               const inFront = projVec.z > -1 && projVec.z < 1;
-              const px = Math.max(36, Math.min(viewW - 36, (projVec.x * 0.5 + 0.5) * viewW));
-              const py = Math.max(24, Math.min(viewH - 28, (-projVec.y * 0.5 + 0.5) * viewH));
+              const px = Math.max(32, Math.min(viewW - 32, (projVec.x * 0.5 + 0.5) * viewW));
+              const mobileStaggerY = viewW < 640 ? (stemIdx % 2 === 1 ? -19 : 5) : 0;
+              const minTopY = px > viewW - 155 ? 48 : 22;
+              const py = Math.max(minTopY, Math.min(viewH - 34, (-projVec.y * 0.5 + 0.5) * viewH + mobileStaggerY));
               pinObj.btn.style.opacity = inFront ? '1' : '0';
               pinObj.btn.style.transform = `translate(${px.toFixed(1)}px, ${py.toFixed(1)}px) translate(-50%, -50%)`;
             }
