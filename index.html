@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Listen to examples of hearing changes after loud music and tinnitus, explore a 3D inner ear, or compare your own clip in the RNID listening studio.">
   <title>RNID Audio Tool</title>
-  <link rel="stylesheet" href="./styles.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./home-video-effects.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./home-story.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./hearing-guide.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./nihl-examples.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./freq-band-sim.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./studio-filter-response.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./studio-layout.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./upload-layout.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./ear-levels.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./audio-explainer.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./live-mic.css?v=6ae70402b9">
-  <link rel="stylesheet" href="./experience-upgrade.css?v=6ae70402b9">
-  <script type="module" src="./app.mjs?v=6ae70402b9"></script>
+  <link rel="stylesheet" href="./styles.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./home-video-effects.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./home-story.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./hearing-guide.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./nihl-examples.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./freq-band-sim.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./studio-filter-response.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./studio-layout.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./upload-layout.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./ear-levels.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./audio-explainer.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./live-mic.css?v=7ab8954de0">
+  <link rel="stylesheet" href="./experience-upgrade.css?v=7ab8954de0">
+  <script type="module" src="./app.mjs?v=7ab8954de0"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -47,6 +47,7 @@
         </details>
         <nav aria-label="Main navigation">
           <a href="#listen" data-view-link="listen" aria-current="page">Listen</a>
+          <a href="#explore" data-view-link="explore">Explore</a>
           <a href="#demo" data-view-link="studio">Studio</a>
           <a href="#render" data-view-link="your-audio">Your audio</a>
         </nav>
@@ -361,10 +362,25 @@
         </div>
       </section>
 
-      <div class="section-flow-bridge" aria-hidden="true">
-        <span class="section-flow-line"></span>
-        <span class="section-flow-pill">02 · Follow one night out — from the venue to a quiet room</span>
-      </div>
+      <nav class="listen-onward-bar" aria-label="Continue to sound labs, studio, or your audio">
+        <span class="listen-onward-kicker">Keep exploring</span>
+        <div class="listen-onward-links">
+          <a class="listen-onward-link listen-onward-primary" href="#explore">Explore sound labs &amp; audiograms →</a>
+          <a class="listen-onward-link" href="#demo">Open Listening Studio →</a>
+          <a class="listen-onward-link" href="#render">Try your own audio →</a>
+        </div>
+      </nav>
+      <p class="footnote">Engineering illustrations — not clinical advice.</p>
+    </section>
+
+    <section class="view workspace explore-view" id="explore" data-view="explore" aria-labelledby="explore-title" hidden>
+      <header class="view-heading explore-heading">
+        <div>
+          <span class="section-eyebrow">Interactive Sound Labs &amp; Audiograms</span>
+          <h1 id="explore-title" tabindex="-1">Explore <em>further.</em></h1>
+        </div>
+        <p>Follow a night out from gig to busy bar, inspect clinical audiogram curves, test the 6-band frequency explorer, or try live microphone earplug filters.</p>
+      </header>
 
       <nav class="story-journey" id="story-journey-bar" data-flow-section aria-label="Follow one night out">
         <div class="story-journey-top">

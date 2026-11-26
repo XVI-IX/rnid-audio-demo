@@ -1,4 +1,4 @@
-import { getTheme, onThemeChange } from './theme.mjs?v=6ae70402b9';
+import { getTheme, onThemeChange } from './theme.mjs?v=7ab8954de0';
 
 const frequencyTicks = [125, 250, 500, 1000, 2000, 4000, 8000];
 const minimumLevel = -10;

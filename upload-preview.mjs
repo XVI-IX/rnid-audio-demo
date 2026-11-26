@@ -1,18 +1,18 @@
-import { connectAudioExplainer } from './audio-explainer.mjs?v=6ae70402b9';
-import { CAMPAIGN_ASPECTS, recordCampaignAudioVideo, resolveCampaignTimeline } from './campaign-video.mjs?v=6ae70402b9';
-import { CUE_SAMPLE_RATE, cueSample, cueSeconds } from './cue.mjs?v=6ae70402b9';
-import { connectEarLevels, connectStereoEarOutput, unityEarGains } from './ear-levels.mjs?v=6ae70402b9';
-import { encodeWav, loadFilterIndex, renderPreview } from './filter-preview.mjs?v=6ae70402b9';
-import { attachSectionDrag, computePeaks } from './marker-scrubber.mjs?v=6ae70402b9';
-import { createDefaultStorySegments, mixMultiSectionBuffer, normaliseMultiSegments } from './multi-section.mjs?v=6ae70402b9';
-import { createCalibrationStage, getEffectTheme, getTinnitusCalibrationLinearBoost, onCalibrationChange } from './output-calibration.mjs?v=6ae70402b9';
-import { connectVolumeGuardrail } from './safe-listening.mjs?v=6ae70402b9';
-import { displayProfileName } from './studio-filters.mjs?v=6ae70402b9';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=6ae70402b9';
-import { mixSection, normaliseSection, scheduleSection, sectionLabel } from './upload-section.mjs?v=6ae70402b9';
-import { activeRmsDb, attenuatedMixScale, audibleTinnitusGain, mixScale, mixTinnitus, tinnitusLoop } from './upload-tinnitus.mjs?v=6ae70402b9';
-import { recordVideo, recordingFormat } from './video-export.mjs?v=6ae70402b9';
-import { connectVideoPreview, isVideoFile } from './video-preview.mjs?v=6ae70402b9';
+import { connectAudioExplainer } from './audio-explainer.mjs?v=7ab8954de0';
+import { CAMPAIGN_ASPECTS, recordCampaignAudioVideo, resolveCampaignTimeline } from './campaign-video.mjs?v=7ab8954de0';
+import { CUE_SAMPLE_RATE, cueSample, cueSeconds } from './cue.mjs?v=7ab8954de0';
+import { connectEarLevels, connectStereoEarOutput, unityEarGains } from './ear-levels.mjs?v=7ab8954de0';
+import { encodeWav, loadFilterIndex, renderPreview } from './filter-preview.mjs?v=7ab8954de0';
+import { attachSectionDrag, computePeaks } from './marker-scrubber.mjs?v=7ab8954de0';
+import { createDefaultStorySegments, mixMultiSectionBuffer, normaliseMultiSegments } from './multi-section.mjs?v=7ab8954de0';
+import { createCalibrationStage, getEffectTheme, getTinnitusCalibrationLinearBoost, onCalibrationChange } from './output-calibration.mjs?v=7ab8954de0';
+import { connectVolumeGuardrail } from './safe-listening.mjs?v=7ab8954de0';
+import { displayProfileName } from './studio-filters.mjs?v=7ab8954de0';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=7ab8954de0';
+import { mixSection, normaliseSection, scheduleSection, sectionLabel } from './upload-section.mjs?v=7ab8954de0';
+import { activeRmsDb, attenuatedMixScale, audibleTinnitusGain, mixScale, mixTinnitus, tinnitusLoop } from './upload-tinnitus.mjs?v=7ab8954de0';
+import { recordVideo, recordingFormat } from './video-export.mjs?v=7ab8954de0';
+import { connectVideoPreview, isVideoFile } from './video-preview.mjs?v=7ab8954de0';
 
 export { isVideoFile };
 

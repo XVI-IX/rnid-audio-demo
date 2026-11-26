@@ -1,37 +1,37 @@
-import { getSharedWebLlmClient } from './audio-explainer.mjs?v=6ae70402b9';
-import { connectAudiologistSandbox } from './audiologist-sandbox.mjs?v=6ae70402b9';
-import { assembleComparisonZip } from './bundle.mjs?v=6ae70402b9';
-import { connectConcertStage } from './concert-stage.mjs?v=6ae70402b9';
-import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs?v=6ae70402b9';
-import { connectEar3DStage } from './ear-3d-stage.mjs?v=6ae70402b9';
-import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs?v=6ae70402b9';
-import { connectFreqBandSim } from './freq-band-sim.mjs?v=6ae70402b9';
-import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs?v=6ae70402b9';
-import { connectHomeVideo } from './home-video.mjs?v=6ae70402b9';
-import { connectHomeVideoEffects } from './home-video-effects.mjs?v=6ae70402b9';
-import { connectListeningPreviews } from './listening-previews.mjs?v=6ae70402b9';
-import { connectLiveMic } from './live-mic.mjs?v=6ae70402b9';
-import { attachMarkerDrag } from './marker-scrubber.mjs?v=6ae70402b9';
-import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs?v=6ae70402b9';
-import { connectNIHLExamples } from './nihl-examples.mjs?v=6ae70402b9';
+import { getSharedWebLlmClient } from './audio-explainer.mjs?v=7ab8954de0';
+import { connectAudiologistSandbox } from './audiologist-sandbox.mjs?v=7ab8954de0';
+import { assembleComparisonZip } from './bundle.mjs?v=7ab8954de0';
+import { connectConcertStage } from './concert-stage.mjs?v=7ab8954de0';
+import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs?v=7ab8954de0';
+import { connectEar3DStage } from './ear-3d-stage.mjs?v=7ab8954de0';
+import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs?v=7ab8954de0';
+import { connectFreqBandSim } from './freq-band-sim.mjs?v=7ab8954de0';
+import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs?v=7ab8954de0';
+import { connectHomeVideo } from './home-video.mjs?v=7ab8954de0';
+import { connectHomeVideoEffects } from './home-video-effects.mjs?v=7ab8954de0';
+import { connectListeningPreviews } from './listening-previews.mjs?v=7ab8954de0';
+import { connectLiveMic } from './live-mic.mjs?v=7ab8954de0';
+import { attachMarkerDrag } from './marker-scrubber.mjs?v=7ab8954de0';
+import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs?v=7ab8954de0';
+import { connectNIHLExamples } from './nihl-examples.mjs?v=7ab8954de0';
 import {
   connectCalibrationControls,
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs?v=6ae70402b9';
-import { connectVolumeGuardrail } from './safe-listening.mjs?v=6ae70402b9';
-import { connectListeningShare, readListeningLink } from './share.mjs?v=6ae70402b9';
-import { connectSpectrogram } from './spectrogram.mjs?v=6ae70402b9';
-import { connectStoryJourney } from './story-journey.mjs?v=6ae70402b9';
-import { connectStudioExplainer } from './studio-explainer.mjs?v=6ae70402b9';
-import { connectStudioFilterResponse } from './studio-filter-response.mjs?v=6ae70402b9';
-import { displayProfileName, updateStudioFilter } from './studio-filters.mjs?v=6ae70402b9';
-import { connectThemeToggle, onThemeChange } from './theme.mjs?v=6ae70402b9';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=6ae70402b9';
-import { connectUploadPreview, isVideoFile } from './upload-preview.mjs?v=6ae70402b9';
-import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=6ae70402b9';
-import { connectViewNavigation } from './views.mjs?v=6ae70402b9';
+} from './output-calibration.mjs?v=7ab8954de0';
+import { connectVolumeGuardrail } from './safe-listening.mjs?v=7ab8954de0';
+import { connectListeningShare, readListeningLink } from './share.mjs?v=7ab8954de0';
+import { connectSpectrogram } from './spectrogram.mjs?v=7ab8954de0';
+import { connectStoryJourney } from './story-journey.mjs?v=7ab8954de0';
+import { connectStudioExplainer } from './studio-explainer.mjs?v=7ab8954de0';
+import { connectStudioFilterResponse } from './studio-filter-response.mjs?v=7ab8954de0';
+import { displayProfileName, updateStudioFilter } from './studio-filters.mjs?v=7ab8954de0';
+import { connectThemeToggle, onThemeChange } from './theme.mjs?v=7ab8954de0';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=7ab8954de0';
+import { connectUploadPreview, isVideoFile } from './upload-preview.mjs?v=7ab8954de0';
+import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=7ab8954de0';
+import { connectViewNavigation } from './views.mjs?v=7ab8954de0';
 
 const demo = new URL('./demo/', import.meta.url);
 const collection = new URL('music/collection.json', demo);
@@ -296,7 +296,11 @@ connectHomeVideoEffects();
 
 const storyJourney = connectStoryJourney({
   onNavigateView: (targetView) => {
-    const hash = targetView === 'studio' ? '#demo' : (targetView === 'your-audio' ? '#render' : '#listen');
+    const hash = targetView === 'studio'
+      ? '#demo'
+      : (targetView === 'your-audio'
+          ? '#render'
+          : (targetView === 'explore' ? '#explore' : '#listen'));
     if (window.location.hash !== hash) window.location.hash = hash;
   },
   onUpdateEar3D: (patch) => ear3D.setState(patch),
@@ -1571,6 +1575,8 @@ connectViewNavigation((next, previous) => {
   activeView = next;
   if (previous === 'listen') {
     stopConcertStage();
+  }
+  if (previous === 'explore') {
     stopListeningPreviews();
     stopHomeVideo();
     stopFreqBandSim();
@@ -1586,6 +1592,17 @@ connectViewNavigation((next, previous) => {
   if (next === 'your-audio') {
     uploadPreview?.resize();
     storyJourney.setActiveChapter('remix');
+  }
+  if (next === 'explore') {
+    storyJourney.setActiveChapter('bar');
+    requestAnimationFrame(() => {
+      const vh = window.innerHeight || 800;
+      for (const el of document.querySelectorAll('#explore [data-flow-section]')) {
+        if (el.getBoundingClientRect().top < vh * 0.95) {
+          el.classList.add('is-visible');
+        }
+      }
+    });
   }
   if (next === 'listen') {
     storyJourney.setActiveChapter('gig');

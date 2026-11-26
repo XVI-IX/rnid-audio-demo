@@ -21,7 +21,7 @@ export const STORY_CHAPTERS = Object.freeze([
     step: '02 · 12:15 am',
     title: 'Busy bar chatter',
     blurb: 'Add background crowd noise with post-gig muffling to hear why speech blurs.',
-    targetView: 'listen',
+    targetView: 'explore',
     scrollSelector: '#freq-band-sim',
     earEffect: 'post_gig',
     earPart: 'cochlea',

@@ -1,15 +1,37 @@
-const fragmentViews = new Map([
+export const FRAGMENT_VIEWS = new Map([
   ['#listen', 'listen'],
-  ['#nihl-examples', 'listen'],
-  ['#freq-band-sim', 'listen'],
-  ['#hearing-hangover', 'listen'],
-  ['#tinnitus-panel', 'listen'],
+  ['#ear-3d-stage', 'listen'],
+  ['#concert-stage', 'listen'],
+  ['#explore', 'explore'],
+  ['#story-journey-bar', 'explore'],
+  ['#home-video-example', 'explore'],
+  ['#nihl-examples', 'explore'],
+  ['#freq-band-sim', 'explore'],
+  ['#live-mic-panel', 'explore'],
+  ['#rnid-support-card', 'explore'],
+  ['#more-listening-examples', 'explore'],
+  ['#hearing-hangover', 'explore'],
+  ['#tinnitus-panel', 'explore'],
   ['#demo', 'studio'],
   ['#studio-filter-response', 'studio'],
   ['#audiologist-sandbox', 'studio'],
   ['#render', 'your-audio'],
 ]);
-const sectionAnchors = new Set(['#nihl-examples', '#freq-band-sim', '#hearing-hangover', '#tinnitus-panel', '#studio-filter-response', '#audiologist-sandbox']);
+const sectionAnchors = new Set([
+  '#ear-3d-stage',
+  '#concert-stage',
+  '#story-journey-bar',
+  '#home-video-example',
+  '#nihl-examples',
+  '#freq-band-sim',
+  '#live-mic-panel',
+  '#rnid-support-card',
+  '#more-listening-examples',
+  '#hearing-hangover',
+  '#tinnitus-panel',
+  '#studio-filter-response',
+  '#audiologist-sandbox',
+]);
 
 export function connectViewNavigation(onChange) {
   const sections = document.querySelectorAll('[data-view]');
@@ -24,7 +46,7 @@ export function connectViewNavigation(onChange) {
     previousLocation = location;
 
     const defaultView = new URLSearchParams(search).has('song') ? 'studio' : 'listen';
-    const nextView = fragmentViews.get(hash) ?? (hash && currentView ? currentView : defaultView);
+    const nextView = FRAGMENT_VIEWS.get(hash) ?? (hash && currentView ? currentView : defaultView);
     const previousView = currentView;
     if (nextView !== previousView) {
       currentView = nextView;
