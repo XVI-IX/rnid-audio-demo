@@ -4,6 +4,25 @@
    ========================================================================== */
 
 /* --- 1. Sticky Calibration Pill & Live Presentation Exaggeration Banner --- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100 !important;
+  background: var(--page, #f6f7fc);
+  background: color-mix(in srgb, var(--page, #f6f7fc) 94%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.skip-link {
+  z-index: 120 !important;
+}
+
+.presentation-banner {
+  position: relative;
+  z-index: 90;
+}
+
 .header-controls {
   display: flex;
   align-items: center;
@@ -222,6 +241,8 @@
 /* --- 3. Un-Caged Full-Bleed 3D Human Ear Sculpture & Floating Field Note --- */
 .ear-3d-stage {
   position: relative;
+  isolation: isolate;
+  z-index: 1;
   width: 100vw;
   margin-inline: calc(50% - 50vw);
   margin-bottom: 1.5rem;
@@ -231,6 +252,12 @@
     radial-gradient(ellipse 62% 58% at 42% 48%, #ffffff 0%, #f2f4fc 56%, #eaedf9 100%);
   color: var(--ink, #22233c);
   overflow: hidden;
+}
+
+.home-story {
+  position: relative;
+  isolation: isolate;
+  z-index: 1;
 }
 
 .ear-3d-canvas-wrap {
@@ -1802,7 +1829,6 @@ button[data-effect-color][aria-pressed="true"] {
   color: #c5c0ff;
 }
 
-html,
 body {
   overflow-x: clip;
 }
