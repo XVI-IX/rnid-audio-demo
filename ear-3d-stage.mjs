@@ -6,7 +6,7 @@ import {
   generateEarPartAiResponse,
   getInstantEarPartExplanation,
   getPartStarterQuestions,
-} from './ear-anatomy-ai.mjs?v=37802be8c5';
+} from './ear-anatomy-ai.mjs?v=3bfa62ebf4';
 import {
   ANATOMY_PARTS,
   ANATOMY_PART_BY_ID,
@@ -15,10 +15,10 @@ import {
   buildSpatialLabFloor,
   createStudioEnvironmentTexture,
   normalisePartId,
-} from './ear-anatomy-geometry.mjs?v=37802be8c5';
-import { getEffectTheme } from './output-calibration.mjs?v=37802be8c5';
-import { getTheme, onThemeChange } from './theme.mjs?v=37802be8c5';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=37802be8c5';
+} from './ear-anatomy-geometry.mjs?v=3bfa62ebf4';
+import { getEffectTheme } from './output-calibration.mjs?v=3bfa62ebf4';
+import { getTheme, onThemeChange } from './theme.mjs?v=3bfa62ebf4';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=3bfa62ebf4';
 
 export const ANATOMY_IMPACT_GUIDES = Object.freeze({
   original: {

@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Listen to examples of hearing changes after loud music and tinnitus, explore a 3D inner ear, or compare your own clip in the RNID listening studio.">
   <title>RNID Audio Tool</title>
-  <link rel="stylesheet" href="./styles.css?v=37802be8c5">
-  <link rel="stylesheet" href="./home-video-effects.css?v=37802be8c5">
-  <link rel="stylesheet" href="./home-story.css?v=37802be8c5">
-  <link rel="stylesheet" href="./hearing-guide.css?v=37802be8c5">
-  <link rel="stylesheet" href="./nihl-examples.css?v=37802be8c5">
-  <link rel="stylesheet" href="./freq-band-sim.css?v=37802be8c5">
-  <link rel="stylesheet" href="./studio-filter-response.css?v=37802be8c5">
-  <link rel="stylesheet" href="./studio-layout.css?v=37802be8c5">
-  <link rel="stylesheet" href="./upload-layout.css?v=37802be8c5">
-  <link rel="stylesheet" href="./ear-levels.css?v=37802be8c5">
-  <link rel="stylesheet" href="./audio-explainer.css?v=37802be8c5">
-  <link rel="stylesheet" href="./live-mic.css?v=37802be8c5">
-  <link rel="stylesheet" href="./experience-upgrade.css?v=37802be8c5">
-  <script type="module" src="./app.mjs?v=37802be8c5"></script>
+  <link rel="stylesheet" href="./styles.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./home-video-effects.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./home-story.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./hearing-guide.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./nihl-examples.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./freq-band-sim.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./studio-filter-response.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./studio-layout.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./upload-layout.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./ear-levels.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./audio-explainer.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./live-mic.css?v=3bfa62ebf4">
+  <link rel="stylesheet" href="./experience-upgrade.css?v=3bfa62ebf4">
+  <script type="module" src="./app.mjs?v=3bfa62ebf4"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -182,6 +182,219 @@
               </div>
             </div>
           </aside>
+        </div>
+      </section>
+
+      <section class="concert-stage-section" id="concert-stage" data-concert-condition="original" data-concert-playing="false" aria-labelledby="concert-stage-title">
+        <div class="concert-stage-top">
+          <div class="concert-stage-copy">
+            <div class="concert-kicker-row">
+              <span class="concert-eyebrow">Live Concert Mix · 5-Piece Stage</span>
+              <span class="concert-lost-badge" id="concert-lost-badge" data-severity="healthy" aria-live="polite">All 5 instruments clear &amp; balanced</span>
+            </div>
+            <h2 id="concert-stage-title">What vanishes from a <em>live concert?</em></h2>
+            <p class="concert-sub">Start the live band and switch hearing states — watch and hear high-pitched cymbals, guitar solos, and vocal consonants fade out while heavy bass keeps pounding.</p>
+          </div>
+          <div class="concert-transport-actions">
+            <button class="button primary concert-play-btn" id="concert-play-btn" type="button" aria-pressed="false">Play live concert</button>
+            <button class="button secondary concert-fullband-btn" id="concert-fullband-btn" type="button" hidden>Hear all 5 instruments</button>
+          </div>
+        </div>
+
+        <div class="concert-condition-bar" id="concert-condition-bar" role="group" aria-label="Concert hearing condition and earplugs">
+          <button class="concert-cond-pill" type="button" data-concert-condition="original" data-effect-color="emerald" aria-pressed="true">Healthy ears</button>
+          <button class="concert-cond-pill" type="button" data-concert-condition="post_gig" data-effect-color="amber" aria-pressed="false">Post-gig muffled</button>
+          <button class="concert-cond-pill" type="button" data-concert-condition="permanent_notch" data-effect-color="coral" aria-pressed="false">4 kHz notch</button>
+          <button class="concert-cond-pill" type="button" data-concert-condition="severe_hf" data-effect-color="violet" aria-pressed="false">Strong treble loss</button>
+          <button class="concert-cond-pill" type="button" data-concert-condition="foam_plugs" data-effect-color="ochre" aria-pressed="false">Foam plug</button>
+          <button class="concert-cond-pill" type="button" data-concert-condition="musician_plugs" data-effect-color="mint" aria-pressed="false">Musicians’ −15 dB</button>
+          <button class="concert-cond-pill" id="concert-ringing-btn" type="button" data-effect-color="gold" aria-pressed="false">+ Ringing</button>
+        </div>
+
+        <div class="tinnitus-warning-banner concert-tinnitus-warning" id="concert-tinnitus-warning" role="status" hidden>
+          <span><strong>Sound warning:</strong> High-pitched 3.4 kHz ringing is layered over the live stage — lower volume or stop anytime.</span>
+          <button class="button secondary tinnitus-stop-btn" id="concert-tinnitus-stop" type="button">Turn off ringing</button>
+        </div>
+
+        <div class="concert-proscenium" id="concert-proscenium" role="group" aria-label="Interactive concert stage — tap any musician to solo">
+          <div class="concert-truss" aria-hidden="true"></div>
+          <div class="concert-ringing-laser" aria-hidden="true"><span>3.4 kHz phantom ringing</span></div>
+
+          <div class="concert-spotlights" aria-hidden="true">
+            <div class="concert-spot" data-concert-spot="keys" style="--spot-color: #60a5fa;"></div>
+            <div class="concert-spot" data-concert-spot="bass" style="--spot-color: #10b981;"></div>
+            <div class="concert-spot" data-concert-spot="vocals" style="--spot-color: #f472b6;"></div>
+            <div class="concert-spot" data-concert-spot="guitar" style="--spot-color: #f59e0b;"></div>
+            <div class="concert-spot" data-concert-spot="cymbals" style="--spot-color: #a78bfa;"></div>
+          </div>
+
+          <div class="concert-performers-row">
+            <button class="concert-performer" type="button" data-concert-performer="keys" style="--inst-accent: #60a5fa;" aria-pressed="false" title="Tap to solo Warm Keys & Chords">
+              <span class="concert-lost-tag" aria-hidden="true">Fading</span>
+              <svg class="concert-performer-svg" viewBox="0 0 80 88" aria-hidden="true">
+                <circle cx="38" cy="20" r="8.5"/>
+                <path d="M25 50c1-13 8-20 13-20s12 7 14 20"/>
+                <rect x="14" y="48" width="52" height="8" rx="3"/>
+                <path d="M22 56l-6 24M58 56l6 24M32 56v24M46 56v24" stroke-width="3.5" stroke="currentColor" fill="none" stroke-linecap="round"/>
+              </svg>
+              <span class="concert-performer-name">Keys</span>
+              <span class="concert-performer-pct" data-performer-pct>100%</span>
+            </button>
+
+            <button class="concert-performer" type="button" data-concert-performer="bass" style="--inst-accent: #10b981;" aria-pressed="false" title="Tap to solo Sub-Bass & Kick Drum">
+              <span class="concert-lost-tag" aria-hidden="true">Fading</span>
+              <svg class="concert-performer-svg" viewBox="0 0 80 88" aria-hidden="true">
+                <circle cx="30" cy="18" r="8"/>
+                <path d="M19 48c1-13 6-20 11-20s10 7 11 20l-4 32H23z"/>
+                <path d="M14 42l38-14" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+                <circle class="concert-kick-head" cx="56" cy="62" r="15" fill="none" stroke="currentColor" stroke-width="4"/>
+                <circle cx="56" cy="62" r="6"/>
+              </svg>
+              <span class="concert-performer-name">Bass &amp; Kick</span>
+              <span class="concert-performer-pct" data-performer-pct>100%</span>
+            </button>
+
+            <button class="concert-performer concert-performer-lead" type="button" data-concert-performer="vocals" style="--inst-accent: #f472b6;" aria-pressed="false" title="Tap to solo Lead Vocals & Lyrics">
+              <span class="concert-lost-tag" aria-hidden="true">Blurred</span>
+              <svg class="concert-performer-svg" viewBox="0 0 80 88" aria-hidden="true">
+                <circle cx="38" cy="17" r="9"/>
+                <path d="M24 50c2-15 8-22 14-22s12 7 14 22l-4 30H28z"/>
+                <path d="M53 26l-7 10M54 24v56M46 80h16" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+                <circle cx="54" cy="23" r="3.5"/>
+              </svg>
+              <span class="concert-performer-name">Vocals</span>
+              <span class="concert-performer-pct" data-performer-pct>100%</span>
+            </button>
+
+            <button class="concert-performer" type="button" data-concert-performer="guitar" style="--inst-accent: #f59e0b;" aria-pressed="false" title="Tap to solo Lead Guitar & Snare">
+              <span class="concert-lost-tag" aria-hidden="true">Lost</span>
+              <svg class="concert-performer-svg" viewBox="0 0 80 88" aria-hidden="true">
+                <circle cx="38" cy="18" r="8.5"/>
+                <path d="M25 49c2-13 7-20 13-20s11 7 13 20l-4 31H29z"/>
+                <ellipse cx="33" cy="46" rx="12" ry="8" transform="rotate(-22 33 46)"/>
+                <path d="M24 50l40-18" stroke="currentColor" stroke-width="4.2" stroke-linecap="round"/>
+              </svg>
+              <span class="concert-performer-name">Guitar</span>
+              <span class="concert-performer-pct" data-performer-pct>100%</span>
+            </button>
+
+            <button class="concert-performer" type="button" data-concert-performer="cymbals" style="--inst-accent: #a78bfa;" aria-pressed="false" title="Tap to solo Hi-Hats & Cymbals">
+              <span class="concert-lost-tag" aria-hidden="true">Vanished</span>
+              <svg class="concert-performer-svg" viewBox="0 0 80 88" aria-hidden="true">
+                <ellipse cx="26" cy="26" rx="18" ry="4.5" transform="rotate(-12 26 26)"/>
+                <ellipse cx="56" cy="34" rx="16" ry="4" transform="rotate(10 56 34)"/>
+                <path d="M26 26v54M16 80h20M56 34v46M46 80h20" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+                <circle cx="41" cy="54" r="9" fill="none" stroke="currentColor" stroke-width="3.2"/>
+              </svg>
+              <span class="concert-performer-name">Cymbals</span>
+              <span class="concert-performer-pct" data-performer-pct>100%</span>
+            </button>
+          </div>
+
+          <div class="concert-crowd-silhouette" aria-hidden="true"></div>
+        </div>
+
+        <div class="concert-lyric-bar" id="concert-lyric-bar">
+          <div class="concert-lyric-box">
+            <div class="concert-lyric-head">
+              <span class="concert-lyric-kicker">Lead Vocal Mic · Consonant Check</span>
+              <span class="concert-lyric-clarity" id="concert-lyric-clarity">Lyric clarity: 100%</span>
+            </div>
+            <p class="concert-lyric-text" id="concert-lyric-text">“<strong>St</strong>ay <strong>cl</strong>o<strong>s</strong>e <strong>t</strong>ill the hou<strong>s</strong>e ligh<strong>ts</strong> <strong>c</strong>ome up <strong>t</strong>onigh<strong>t</strong>”</p>
+          </div>
+          <p class="concert-stage-summary" id="concert-stage-summary">Every spotlight shines — punchy bass, warm chords, crisp vocal consonants, biting lead guitar, and sparkling cymbals sit together cleanly.</p>
+        </div>
+
+        <div class="concert-instruments-grid" id="concert-instruments-grid" role="list" aria-label="Individual band instruments and audibility">
+          <article class="concert-stem-card" role="listitem" data-concert-card="keys" style="--stem-color: #60a5fa;">
+            <div class="concert-stem-top">
+              <div>
+                <h3>Warm Keys &amp; Chords</h3>
+                <span class="concert-stem-hz">250–900 Hz · Warm mids</span>
+              </div>
+              <strong class="concert-stem-pct" data-stem-pct>100%</strong>
+            </div>
+            <div class="concert-stem-meter" aria-hidden="true"><div class="concert-stem-meter-fill" data-stem-meter-fill style="width: 100%;"></div></div>
+            <div class="concert-stem-bottom">
+              <span class="concert-stem-status" data-stem-status>Warm &amp; rich</span>
+              <div class="concert-stem-btns">
+                <button class="concert-mini-btn" type="button" data-stem-solo aria-pressed="false">Solo</button>
+                <button class="concert-mini-btn" type="button" data-stem-mute aria-pressed="false">Mute</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="concert-stem-card" role="listitem" data-concert-card="bass" style="--stem-color: #10b981;">
+            <div class="concert-stem-top">
+              <div>
+                <h3>Bass &amp; Kick Drum</h3>
+                <span class="concert-stem-hz">50–160 Hz · Deep bass</span>
+              </div>
+              <strong class="concert-stem-pct" data-stem-pct>100%</strong>
+            </div>
+            <div class="concert-stem-meter" aria-hidden="true"><div class="concert-stem-meter-fill" data-stem-meter-fill style="width: 100%;"></div></div>
+            <div class="concert-stem-bottom">
+              <span class="concert-stem-status" data-stem-status>Full punch</span>
+              <div class="concert-stem-btns">
+                <button class="concert-mini-btn" type="button" data-stem-solo aria-pressed="false">Solo</button>
+                <button class="concert-mini-btn" type="button" data-stem-mute aria-pressed="false">Mute</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="concert-stem-card concert-stem-card-vocals" role="listitem" data-concert-card="vocals" style="--stem-color: #f472b6;">
+            <div class="concert-stem-top">
+              <div>
+                <h3>Lead Vocals &amp; Lyrics</h3>
+                <span class="concert-stem-hz">300 Hz + 2–5 kHz · Lyrics</span>
+              </div>
+              <strong class="concert-stem-pct" data-stem-pct>100%</strong>
+            </div>
+            <div class="concert-stem-meter" aria-hidden="true"><div class="concert-stem-meter-fill" data-stem-meter-fill style="width: 100%;"></div></div>
+            <div class="concert-stem-bottom">
+              <span class="concert-stem-status" data-stem-status>Crisp lyrics</span>
+              <div class="concert-stem-btns">
+                <button class="concert-mini-btn" type="button" data-stem-solo aria-pressed="false">Solo</button>
+                <button class="concert-mini-btn" type="button" data-stem-mute aria-pressed="false">Mute</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="concert-stem-card" role="listitem" data-concert-card="guitar" style="--stem-color: #f59e0b;">
+            <div class="concert-stem-top">
+              <div>
+                <h3>Lead Guitar &amp; Snare</h3>
+                <span class="concert-stem-hz">2–5 kHz · 4 kHz danger zone</span>
+              </div>
+              <strong class="concert-stem-pct" data-stem-pct>100%</strong>
+            </div>
+            <div class="concert-stem-meter" aria-hidden="true"><div class="concert-stem-meter-fill" data-stem-meter-fill style="width: 100%;"></div></div>
+            <div class="concert-stem-bottom">
+              <span class="concert-stem-status" data-stem-status>Sharp riff &amp; snare</span>
+              <div class="concert-stem-btns">
+                <button class="concert-mini-btn" type="button" data-stem-solo aria-pressed="false">Solo</button>
+                <button class="concert-mini-btn" type="button" data-stem-mute aria-pressed="false">Mute</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="concert-stem-card" role="listitem" data-concert-card="cymbals" style="--stem-color: #a78bfa;">
+            <div class="concert-stem-top">
+              <div>
+                <h3>Hi-Hats &amp; Cymbals</h3>
+                <span class="concert-stem-hz">6–12 kHz · High shimmer</span>
+              </div>
+              <strong class="concert-stem-pct" data-stem-pct>100%</strong>
+            </div>
+            <div class="concert-stem-meter" aria-hidden="true"><div class="concert-stem-meter-fill" data-stem-meter-fill style="width: 100%;"></div></div>
+            <div class="concert-stem-bottom">
+              <span class="concert-stem-status" data-stem-status>Bright shimmer</span>
+              <div class="concert-stem-btns">
+                <button class="concert-mini-btn" type="button" data-stem-solo aria-pressed="false">Solo</button>
+                <button class="concert-mini-btn" type="button" data-stem-mute aria-pressed="false">Mute</button>
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
