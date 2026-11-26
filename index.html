@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Listen to examples of hearing changes after loud music and tinnitus, explore a 3D inner ear, or compare your own clip in the RNID listening studio.">
   <title>RNID Audio Tool</title>
-  <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./home-video-effects.css">
-  <link rel="stylesheet" href="./home-story.css">
-  <link rel="stylesheet" href="./hearing-guide.css">
-  <link rel="stylesheet" href="./nihl-examples.css">
-  <link rel="stylesheet" href="./freq-band-sim.css">
-  <link rel="stylesheet" href="./studio-filter-response.css">
-  <link rel="stylesheet" href="./studio-layout.css">
-  <link rel="stylesheet" href="./upload-layout.css">
-  <link rel="stylesheet" href="./ear-levels.css">
-  <link rel="stylesheet" href="./audio-explainer.css">
-  <link rel="stylesheet" href="./live-mic.css">
-  <link rel="stylesheet" href="./experience-upgrade.css">
-  <script type="module" src="./app.mjs"></script>
+  <link rel="stylesheet" href="./styles.css?v=37802be8c5">
+  <link rel="stylesheet" href="./home-video-effects.css?v=37802be8c5">
+  <link rel="stylesheet" href="./home-story.css?v=37802be8c5">
+  <link rel="stylesheet" href="./hearing-guide.css?v=37802be8c5">
+  <link rel="stylesheet" href="./nihl-examples.css?v=37802be8c5">
+  <link rel="stylesheet" href="./freq-band-sim.css?v=37802be8c5">
+  <link rel="stylesheet" href="./studio-filter-response.css?v=37802be8c5">
+  <link rel="stylesheet" href="./studio-layout.css?v=37802be8c5">
+  <link rel="stylesheet" href="./upload-layout.css?v=37802be8c5">
+  <link rel="stylesheet" href="./ear-levels.css?v=37802be8c5">
+  <link rel="stylesheet" href="./audio-explainer.css?v=37802be8c5">
+  <link rel="stylesheet" href="./live-mic.css?v=37802be8c5">
+  <link rel="stylesheet" href="./experience-upgrade.css?v=37802be8c5">
+  <script type="module" src="./app.mjs?v=37802be8c5"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -68,12 +68,15 @@
 
   <main class="shell" id="main" tabindex="-1">
     <section class="view listen-view" id="listen" data-view="listen" aria-labelledby="listen-title">
-      <section class="ear-3d-stage" id="ear-3d-stage" aria-labelledby="listen-title">
+      <section class="ear-3d-stage" id="ear-3d-stage" data-zoom-state="overview" aria-labelledby="listen-title">
         <div class="ear-3d-canvas-wrap" id="ear-3d-canvas-wrap" data-zoom-state="overview">
           <svg class="ear-3d-leaders-svg" id="ear-3d-leaders-svg" aria-hidden="true"></svg>
           <div class="ear-3d-pins-layer" id="ear-3d-pins-layer" aria-label="3D ear anatomical callouts"></div>
           <div class="ear-3d-hover-tooltip" id="ear-3d-hover-tooltip" role="tooltip" hidden></div>
+          <p class="ear-mobile-hint" id="ear-mobile-hint" aria-hidden="true">Drag to spin · Pinch to zoom · Tap any structure</p>
+        </div>
 
+        <div class="ear-stage-hud" id="ear-stage-hud">
           <header class="ear-hero-editorial" id="ear-hero-editorial">
             <div class="ear-hero-kicker-row">
               <span class="ear-hero-eyebrow" id="ear-3d-title">Interactive 3D Anatomy</span>
@@ -84,7 +87,7 @@
             <p class="ear-hero-sub">Spin or pinch-zoom the sculpture, slide <strong>Explode</strong> to separate the tiny bones, or touch any structure so the AI Ear Guide explains how it reacts.</p>
           </header>
 
-          <div class="ear-3d-top-tools" role="group" aria-label="3D view tools">
+          <div class="ear-3d-top-tools" id="ear-3d-top-tools" role="group" aria-label="3D view tools">
             <button class="ear-tool-pill" type="button" data-ear-scene="anatomy" aria-pressed="true">Ear sculpture</button>
             <button class="ear-tool-pill" type="button" data-ear-scene="pub" aria-pressed="false">3D Listener &amp; Crowd</button>
             <button class="ear-tool-pill" id="ear-3d-xray" type="button" aria-pressed="false" title="Make outer tissue translucent">X-ray</button>
@@ -93,95 +96,93 @@
             <button class="ear-tool-pill" id="ear-3d-calm" type="button" aria-pressed="false" title="Pause idle motion">Calm</button>
           </div>
 
-          <p class="ear-mobile-hint" id="ear-mobile-hint" aria-hidden="true">Drag to spin · Pinch to zoom · Tap any structure</p>
+          <div class="ear-floating-dock" id="ear-floating-dock">
+            <div class="tinnitus-warning-banner ear-tinnitus-warning" id="ear-tinnitus-warning" role="status" hidden>
+              <span><strong>Sound warning:</strong> High-pitched 3.4 kHz ringing is active — lower volume or stop if sensitive.</span>
+              <button class="ear-tool-pill tinnitus-stop-pill" id="ear-tinnitus-stop" type="button">Turn off ringing</button>
+            </div>
+            <div class="ear-dock-main">
+              <button class="button primary ear-play-pill" id="ear-3d-play-audio" type="button" aria-pressed="false">Play music through ear</button>
+              <div class="ear-3d-quick-effects" role="group" aria-label="Hearing condition and protection">
+                <button class="ear-condition-btn" type="button" data-ear-quick-effect="original" data-effect-color="emerald" aria-pressed="true">Healthy</button>
+                <button class="ear-condition-btn" type="button" data-ear-quick-effect="post_gig" data-effect-color="amber" aria-pressed="false">Post-gig muffled</button>
+                <button class="ear-condition-btn" type="button" data-ear-quick-effect="permanent_notch" data-effect-color="coral" aria-pressed="false">4 kHz notch</button>
+                <button class="ear-condition-btn" type="button" data-ear-quick-effect="severe_hf" data-effect-color="violet" aria-pressed="false">Strong treble loss</button>
+                <button class="ear-condition-btn" type="button" data-ear-quick-effect="foam_plugs" data-effect-color="ochre" aria-pressed="false">Foam plug</button>
+                <button class="ear-condition-btn" type="button" data-ear-quick-effect="musician_plugs" data-effect-color="mint" aria-pressed="false">Musicians’ −15 dB</button>
+                <button class="ear-condition-btn" type="button" data-ear-quick-effect="ringing_demo" data-effect-color="gold" aria-pressed="false">+ Ringing</button>
+              </div>
+            </div>
+
+            <div class="ear-dock-secondary">
+              <div class="ear-explode-control" id="ear-3d-explode-wrap">
+                <button class="ear-tool-pill" id="ear-3d-explode-btn" type="button" aria-pressed="false">Explode</button>
+                <label class="visually-hidden" for="ear-3d-explode">Separate ear anatomy structures</label>
+                <input id="ear-3d-explode" type="range" min="0" max="100" value="0" step="1" title="Slide to separate the outer, middle, and inner ear in 3D space">
+              </div>
+              <div class="ear-explode-control" id="ear-3d-crowd-wrap" hidden>
+                <label class="ear-crowd-label" for="ear-3d-crowd">Bar crowd <output id="ear-3d-crowd-val" for="ear-3d-crowd">45%</output></label>
+                <input id="ear-3d-crowd" type="range" min="0" max="100" value="45" step="5" title="Adjust surrounding crowd voices around the 3D human head">
+              </div>
+              <div class="ear-3d-parts-overlay" role="group" aria-label="Jump to ear structures">
+                <button class="ear-part-jump" type="button" data-ear-part="pinna" aria-pressed="false">01</button>
+                <button class="ear-part-jump" type="button" data-ear-part="canal" aria-pressed="false">02</button>
+                <button class="ear-part-jump" type="button" data-ear-part="earplug" aria-pressed="false">03</button>
+                <button class="ear-part-jump" type="button" data-ear-part="eardrum" aria-pressed="false">04</button>
+                <button class="ear-part-jump" type="button" data-ear-part="ossicles" aria-pressed="false">05</button>
+                <button class="ear-part-jump" type="button" data-ear-part="vestibular" aria-pressed="false">06</button>
+                <button class="ear-part-jump" type="button" data-ear-part="cochlea" aria-pressed="true">07</button>
+                <button class="ear-part-jump" type="button" data-ear-part="nerve" aria-pressed="false">08</button>
+              </div>
+              <div class="ear-3d-cam-tools" role="group" aria-label="3D camera zoom and reset">
+                <button class="ear-tool-pill" id="ear-3d-zoom-in" type="button" title="Zoom in">+</button>
+                <button class="ear-tool-pill" id="ear-3d-zoom-out" type="button" title="Zoom out">−</button>
+                <button class="ear-tool-pill" id="ear-3d-reset-view" type="button" title="Reset 3D view">Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="ear-ai-inspector" id="ear-ai-inspector" data-collapsed="false" aria-label="AI Ear Anatomy Guide">
+            <div class="ear-ai-header">
+              <div class="ear-ai-title-wrap">
+                <div class="ear-ai-kicker-line">
+                  <span class="ear-ai-kicker" id="ear-ai-part-kicker">07 · Inner ear</span>
+                  <span class="ear-ai-status-badge" id="ear-ai-status-badge">AI Ear Guide · Instant</span>
+                </div>
+                <h2 id="ear-ai-part-title">Cochlea &amp; Hair Cells</h2>
+                <p class="ear-ai-part-latin" id="ear-ai-part-latin">Organ of Corti · Tonotopic spiral</p>
+              </div>
+              <button class="ear-note-toggle" id="ear-ai-collapse" type="button" aria-expanded="true">Minimise</button>
+            </div>
+
+            <div class="ear-ai-body">
+              <div class="ear-ai-scroll" id="ear-ai-scroll">
+                <div class="ear-ai-reaction-pill" id="ear-ai-reaction-pill">All hair cells upright · Full sparkle + deep bass</div>
+
+                <div class="ear-ai-progress" id="ear-ai-progress-wrap" hidden>
+                  <progress id="ear-ai-progress" max="1" value="0" aria-label="On-device AI model loading progress"></progress>
+                  <span id="ear-ai-progress-label">Loading on-device AI model…</span>
+                </div>
+
+                <div class="chatbot-thread ear-ai-thread" id="ear-ai-chat-thread" role="log" aria-live="polite">
+                  <p class="chat-bubble bot ear-3d-callout" id="ear-3d-callout">Touch or zoom into any part of the 3D ear to hear and read how it reacts to hearing loss, tinnitus, or earplugs.</p>
+                  <p class="chat-bubble bot ear-ai-live-reply" id="ear-ai-live-reply" hidden></p>
+                </div>
+
+                <div class="ear-ai-starters" id="ear-ai-starters" role="group" aria-label="Questions about this structure"></div>
+              </div>
+
+              <div class="ear-ai-composer-row">
+                <div class="chatbot-composer ear-ai-composer">
+                  <label class="visually-hidden" for="ear-ai-question">Ask the AI Ear Guide how this structure reacts</label>
+                  <input id="ear-ai-question" type="text" maxlength="200" placeholder="Ask AI about this ear part…">
+                  <button class="button chatbot-send-btn" id="ear-ai-ask" type="button">Ask</button>
+                </div>
+                <button class="ear-deepdive-link" id="ear-ai-deepdive" type="button" title="Generate a deeper multi-angle breakdown for this structure">AI Deep-dive</button>
+              </div>
+            </div>
+          </aside>
         </div>
-
-        <div class="ear-floating-dock" id="ear-floating-dock">
-          <div class="tinnitus-warning-banner ear-tinnitus-warning" id="ear-tinnitus-warning" role="status" hidden>
-            <span><strong>Sound warning:</strong> High-pitched 3.4 kHz ringing is active — lower volume or stop if sensitive.</span>
-            <button class="ear-tool-pill tinnitus-stop-pill" id="ear-tinnitus-stop" type="button">Turn off ringing</button>
-          </div>
-          <div class="ear-dock-main">
-            <button class="button primary ear-play-pill" id="ear-3d-play-audio" type="button" aria-pressed="false">Play music through ear</button>
-            <div class="ear-3d-quick-effects" role="group" aria-label="Hearing condition and protection">
-              <button class="ear-condition-btn" type="button" data-ear-quick-effect="original" data-effect-color="emerald" aria-pressed="true">Healthy</button>
-              <button class="ear-condition-btn" type="button" data-ear-quick-effect="post_gig" data-effect-color="amber" aria-pressed="false">Post-gig muffled</button>
-              <button class="ear-condition-btn" type="button" data-ear-quick-effect="permanent_notch" data-effect-color="coral" aria-pressed="false">4 kHz notch</button>
-              <button class="ear-condition-btn" type="button" data-ear-quick-effect="severe_hf" data-effect-color="violet" aria-pressed="false">Strong treble loss</button>
-              <button class="ear-condition-btn" type="button" data-ear-quick-effect="foam_plugs" data-effect-color="ochre" aria-pressed="false">Foam plug</button>
-              <button class="ear-condition-btn" type="button" data-ear-quick-effect="musician_plugs" data-effect-color="mint" aria-pressed="false">Musicians’ −15 dB</button>
-              <button class="ear-condition-btn" type="button" data-ear-quick-effect="ringing_demo" data-effect-color="gold" aria-pressed="false">+ Ringing</button>
-            </div>
-          </div>
-
-          <div class="ear-dock-secondary">
-            <div class="ear-explode-control" id="ear-3d-explode-wrap">
-              <button class="ear-tool-pill" id="ear-3d-explode-btn" type="button" aria-pressed="false">Explode</button>
-              <label class="visually-hidden" for="ear-3d-explode">Separate ear anatomy structures</label>
-              <input id="ear-3d-explode" type="range" min="0" max="100" value="0" step="1" title="Slide to separate the outer, middle, and inner ear in 3D space">
-            </div>
-            <div class="ear-explode-control" id="ear-3d-crowd-wrap" hidden>
-              <label class="ear-crowd-label" for="ear-3d-crowd">Bar crowd <output id="ear-3d-crowd-val" for="ear-3d-crowd">45%</output></label>
-              <input id="ear-3d-crowd" type="range" min="0" max="100" value="45" step="5" title="Adjust surrounding crowd voices around the 3D human head">
-            </div>
-            <div class="ear-3d-parts-overlay" role="group" aria-label="Jump to ear structures">
-              <button class="ear-part-jump" type="button" data-ear-part="pinna" aria-pressed="false">01</button>
-              <button class="ear-part-jump" type="button" data-ear-part="canal" aria-pressed="false">02</button>
-              <button class="ear-part-jump" type="button" data-ear-part="earplug" aria-pressed="false">03</button>
-              <button class="ear-part-jump" type="button" data-ear-part="eardrum" aria-pressed="false">04</button>
-              <button class="ear-part-jump" type="button" data-ear-part="ossicles" aria-pressed="false">05</button>
-              <button class="ear-part-jump" type="button" data-ear-part="vestibular" aria-pressed="false">06</button>
-              <button class="ear-part-jump" type="button" data-ear-part="cochlea" aria-pressed="true">07</button>
-              <button class="ear-part-jump" type="button" data-ear-part="nerve" aria-pressed="false">08</button>
-            </div>
-            <div class="ear-3d-cam-tools" role="group" aria-label="3D camera zoom and reset">
-              <button class="ear-tool-pill" id="ear-3d-zoom-in" type="button" title="Zoom in">+</button>
-              <button class="ear-tool-pill" id="ear-3d-zoom-out" type="button" title="Zoom out">−</button>
-              <button class="ear-tool-pill" id="ear-3d-reset-view" type="button" title="Reset 3D view">Reset</button>
-            </div>
-          </div>
-        </div>
-
-        <aside class="ear-ai-inspector" id="ear-ai-inspector" data-collapsed="false" aria-label="AI Ear Anatomy Guide">
-          <div class="ear-ai-header">
-            <div class="ear-ai-title-wrap">
-              <div class="ear-ai-kicker-line">
-                <span class="ear-ai-kicker" id="ear-ai-part-kicker">07 · Inner ear</span>
-                <span class="ear-ai-status-badge" id="ear-ai-status-badge">AI Ear Guide · Instant</span>
-              </div>
-              <h2 id="ear-ai-part-title">Cochlea &amp; Hair Cells</h2>
-              <p class="ear-ai-part-latin" id="ear-ai-part-latin">Organ of Corti · Tonotopic spiral</p>
-            </div>
-            <button class="ear-note-toggle" id="ear-ai-collapse" type="button" aria-expanded="true">Minimise</button>
-          </div>
-
-          <div class="ear-ai-body">
-            <div class="ear-ai-scroll" id="ear-ai-scroll">
-              <div class="ear-ai-reaction-pill" id="ear-ai-reaction-pill">All hair cells upright · Full sparkle + deep bass</div>
-
-              <div class="ear-ai-progress" id="ear-ai-progress-wrap" hidden>
-                <progress id="ear-ai-progress" max="1" value="0" aria-label="On-device AI model loading progress"></progress>
-                <span id="ear-ai-progress-label">Loading on-device AI model…</span>
-              </div>
-
-              <div class="chatbot-thread ear-ai-thread" id="ear-ai-chat-thread" role="log" aria-live="polite">
-                <p class="chat-bubble bot ear-3d-callout" id="ear-3d-callout">Touch or zoom into any part of the 3D ear to hear and read how it reacts to hearing loss, tinnitus, or earplugs.</p>
-                <p class="chat-bubble bot ear-ai-live-reply" id="ear-ai-live-reply" hidden></p>
-              </div>
-
-              <div class="ear-ai-starters" id="ear-ai-starters" role="group" aria-label="Questions about this structure"></div>
-            </div>
-
-            <div class="ear-ai-composer-row">
-              <div class="chatbot-composer ear-ai-composer">
-                <label class="visually-hidden" for="ear-ai-question">Ask the AI Ear Guide how this structure reacts</label>
-                <input id="ear-ai-question" type="text" maxlength="200" placeholder="Ask AI about this ear part…">
-                <button class="button chatbot-send-btn" id="ear-ai-ask" type="button">Ask</button>
-              </div>
-              <button class="ear-deepdive-link" id="ear-ai-deepdive" type="button" title="Generate a deeper multi-angle breakdown for this structure">AI Deep-dive</button>
-            </div>
-          </div>
-        </aside>
       </section>
 
       <nav class="story-journey" id="story-journey-bar" aria-label="Follow one night out">
@@ -1231,19 +1232,20 @@
         </details>
       </form>
     </section>
-    <div class="tinnitus-warning-modal" id="tinnitus-warning-modal" role="alertdialog" aria-modal="true" aria-labelledby="tinnitus-warning-title" aria-describedby="tinnitus-warning-desc" hidden>
-      <div class="tinnitus-warning-dialog">
-        <span class="tinnitus-warning-kicker">Sound Sensitivity Warning · 3.4 kHz Tone</span>
-        <h2 id="tinnitus-warning-title">High-pitched ringing sound ahead</h2>
-        <p id="tinnitus-warning-desc">This option plays a clear, continuous high-frequency ringing tone to illustrate post-gig tinnitus. Please check that your headphones or speakers are at a comfortable level first, and skip or choose softer hiss if high-pitched tones trigger your tinnitus or sound sensitivity.</p>
-        <div class="tinnitus-warning-actions">
-          <button class="button primary" id="tinnitus-warning-confirm" type="button">Play ringing sound</button>
-          <button class="button secondary" id="tinnitus-warning-use-hiss" type="button">Use softer hiss instead</button>
-          <button class="button utility" id="tinnitus-warning-cancel" type="button">Keep ringing off</button>
-        </div>
-      </div>
-    </div>
     <noscript><p>Enable JavaScript to open the studio. You can play the <a href="./demo/v2/reference.wav">original clip</a>, <a href="./demo/v2/post_gig_muffled_v1.wav">muffled example</a> and <a href="./demo/v2/tinnitus-ringing.wav">tinnitus ringing</a> as WAV files.</p></noscript>
   </main>
+
+  <div class="tinnitus-warning-modal" id="tinnitus-warning-modal" role="alertdialog" aria-modal="true" aria-labelledby="tinnitus-warning-title" aria-describedby="tinnitus-warning-desc" hidden>
+    <div class="tinnitus-warning-dialog">
+      <span class="tinnitus-warning-kicker">Sound Sensitivity Warning · 3.4 kHz Tone</span>
+      <h2 id="tinnitus-warning-title">High-pitched ringing sound ahead</h2>
+      <p id="tinnitus-warning-desc">This option plays a clear, continuous high-frequency ringing tone to illustrate post-gig tinnitus. Please check that your headphones or speakers are at a comfortable level first, and skip or choose softer hiss if high-pitched tones trigger your tinnitus or sound sensitivity.</p>
+      <div class="tinnitus-warning-actions">
+        <button class="button primary" id="tinnitus-warning-confirm" type="button">Play ringing sound</button>
+        <button class="button secondary" id="tinnitus-warning-use-hiss" type="button">Use softer hiss instead</button>
+        <button class="button utility" id="tinnitus-warning-cancel" type="button">Keep ringing off</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

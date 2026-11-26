@@ -6,7 +6,7 @@ import {
   generateEarPartAiResponse,
   getInstantEarPartExplanation,
   getPartStarterQuestions,
-} from './ear-anatomy-ai.mjs';
+} from './ear-anatomy-ai.mjs?v=37802be8c5';
 import {
   ANATOMY_PARTS,
   ANATOMY_PART_BY_ID,
@@ -15,10 +15,10 @@ import {
   buildSpatialLabFloor,
   createStudioEnvironmentTexture,
   normalisePartId,
-} from './ear-anatomy-geometry.mjs';
-import { getEffectTheme } from './output-calibration.mjs';
-import { getTheme, onThemeChange } from './theme.mjs';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs';
+} from './ear-anatomy-geometry.mjs?v=37802be8c5';
+import { getEffectTheme } from './output-calibration.mjs?v=37802be8c5';
+import { getTheme, onThemeChange } from './theme.mjs?v=37802be8c5';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=37802be8c5';
 
 export const ANATOMY_IMPACT_GUIDES = Object.freeze({
   original: {
@@ -205,25 +205,54 @@ export function resolveNonOverlappingPins(items = [], {
   minGapY = 29,
   collideWidth = 114,
   zoomState = 'overview',
+  obstacles = [],
 } = {}) {
   const safeMaxX = Math.max(minX + 40, maxX);
   const safeMaxY = Math.max(minY + 40, maxY);
+  const pinHalfW = Math.round(collideWidth * 0.52);
+  const pinHalfH = Math.round(minGapY * 0.55);
+
+  function pushOutOfObstacles(p) {
+    for (const obs of obstacles) {
+      if (!obs) continue;
+      const oLeft = obs.left - pinHalfW;
+      const oRight = obs.right + pinHalfW;
+      const oTop = obs.top - pinHalfH;
+      const oBottom = obs.bottom + pinHalfH;
+      if (p.lx > oLeft && p.lx < oRight && p.ly > oTop && p.ly < oBottom) {
+        const candidates = [];
+        if (oLeft >= minX) candidates.push({ lx: oLeft, ly: p.ly, cost: Math.abs(p.lx - oLeft) });
+        if (oRight <= safeMaxX) candidates.push({ lx: oRight, ly: p.ly, cost: Math.abs(oRight - p.lx) });
+        if (oTop >= minY) candidates.push({ lx: p.lx, ly: oTop, cost: Math.abs(p.ly - oTop) });
+        if (oBottom <= safeMaxY) candidates.push({ lx: p.lx, ly: oBottom, cost: Math.abs(oBottom - p.ly) });
+        if (candidates.length > 0) {
+          candidates.sort((a, b) => a.cost - b.cost);
+          p.lx = Math.max(minX, Math.min(safeMaxX, candidates[0].lx));
+          p.ly = Math.max(minY, Math.min(safeMaxY, candidates[0].ly));
+        }
+      }
+    }
+  }
+
   const out = items.map((item) => {
     const anchorInSafeArea = item.inFront
       && item.ax >= 10
       && item.ax <= safeMaxX + 36
       && item.ay >= 14
       && item.ay <= safeMaxY + 38;
-    // When zoomed in close, hide peripheral labels whose structures are outside the viewport
     const visible = zoomState === 'close'
       ? (anchorInSafeArea && (item.active || (item.ax >= 22 && item.ax <= safeMaxX + 12 && item.ay >= minY - 26 && item.ay <= safeMaxY + 18)))
       : anchorInSafeArea;
-    return {
+    const p = {
       ...item,
       visible,
       lx: Math.max(minX, Math.min(safeMaxX, item.rawLx)),
       ly: Math.max(minY, Math.min(safeMaxY, item.rawLy)),
     };
+    if (p.visible && obstacles.length > 0) {
+      pushOutOfObstacles(p);
+    }
+    return p;
   });
 
   const visibleItems = out.filter((p) => p.visible);
@@ -245,6 +274,24 @@ export function resolveNonOverlappingPins(items = [], {
             a.ly = Math.max(minY, Math.min(safeMaxY, a.ly - dir * push));
             b.ly = Math.max(minY, Math.min(safeMaxY, b.ly + dir * push));
           }
+        }
+      }
+    }
+    if (obstacles.length > 0) {
+      for (const p of visibleItems) pushOutOfObstacles(p);
+    }
+  }
+
+  // Hide any pin whose anchor or final pill still sits directly behind a HUD card obstacle
+  if (obstacles.length > 0) {
+    for (const p of visibleItems) {
+      for (const obs of obstacles) {
+        if (!obs) continue;
+        const trappedPill = p.lx > obs.left - 40 && p.lx < obs.right + 40 && p.ly > obs.top - 12 && p.ly < obs.bottom + 12;
+        const hiddenAnchor = p.ax > obs.left + 8 && p.ax < obs.right - 8 && p.ay > obs.top + 8 && p.ay < obs.bottom - 8;
+        if (trappedPill || hiddenAnchor) {
+          p.visible = false;
+          break;
         }
       }
     }
@@ -278,6 +325,8 @@ export function connectEar3DStage({
   const mobileHintEl = stageEl.querySelector('#ear-mobile-hint');
   const calloutEl = stageEl.querySelector('#ear-3d-callout');
 
+  const heroEditorialEl = stageEl.querySelector('#ear-hero-editorial');
+  const topToolsEl = stageEl.querySelector('#ear-3d-top-tools');
   const inspectorEl = stageEl.querySelector('#ear-ai-inspector');
   const dockEl = stageEl.querySelector('#ear-floating-dock');
   const inspectorToggleBtn = stageEl.querySelector('#ear-ai-collapse');
@@ -988,7 +1037,7 @@ export function connectEar3DStage({
         scene.add(pubSpaceGroup);
 
         // Camera framed generously in open space
-        const getOverviewTargetX = () => (window.innerWidth > 1020 && !state.inspectorCollapsed ? 0.55 : -0.15);
+        const getOverviewTargetX = () => (window.innerWidth > 1080 && !state.inspectorCollapsed ? 0.55 : -0.15);
 
         const overviewCamera = {
           radius: 9.4,
@@ -1017,7 +1066,7 @@ export function connectEar3DStage({
         focusCameraCallback = (partOrMode, customHitPoint = null) => {
           userZoomedManually = false;
           if (partOrMode === 'pub') {
-            const rightBias = window.innerWidth > 1020 && !state.inspectorCollapsed ? 0.45 : 0;
+            const rightBias = window.innerWidth > 1080 && !state.inspectorCollapsed ? 0.45 : 0;
             desiredTarget.set(rightBias, 0.05, 0.15);
             desiredRadius = 6.2;
             desiredTheta = -0.34;
@@ -1034,7 +1083,7 @@ export function connectEar3DStage({
           const meta = ANATOMY_PART_BY_ID[normalisePartId(partOrMode)];
           if (!meta) return;
           const ex = meta.explodeOffset;
-          const rightPanelBias = window.innerWidth > 1020 && !state.inspectorCollapsed ? 0.48 : 0;
+          const rightPanelBias = window.innerWidth > 1080 && !state.inspectorCollapsed ? 0.48 : 0;
           desiredTarget.set(
             meta.camTarget[0] + ex[0] * state.explodeAmount + rightPanelBias,
             meta.camTarget[1] + ex[1] * state.explodeAmount,
@@ -1314,7 +1363,7 @@ export function connectEar3DStage({
 
           if (!showAnatomy && activePointers.size === 0) {
             // Keep camera smoothly looking at the sculpted 3D human bust while allowing full 360° orbit!
-            const rightBias = window.innerWidth > 1020 && !state.inspectorCollapsed ? 0.45 : 0;
+            const rightBias = window.innerWidth > 1080 && !state.inspectorCollapsed ? 0.45 : 0;
             desiredTarget.x += (rightBias - desiredTarget.x) * 0.04;
           }
           currentTarget.lerp(desiredTarget, 0.085);
@@ -1336,6 +1385,9 @@ export function connectEar3DStage({
           const zoomMetrics = computeZoomUiMetrics(currentRadius, baselineR);
           if (canvasWrap.dataset.zoomState !== zoomMetrics.zoomState) {
             canvasWrap.dataset.zoomState = zoomMetrics.zoomState;
+          }
+          if (stageEl.dataset.zoomState !== zoomMetrics.zoomState) {
+            stageEl.dataset.zoomState = zoomMetrics.zoomState;
           }
           canvasWrap.style.setProperty('--ear-pin-scale', String(zoomMetrics.basePinScale));
 
@@ -1499,18 +1551,35 @@ export function connectEar3DStage({
               }
             });
 
-            // Project Zoom-Reactive Architectural SVG Leader Lines + Anti-Overlapping Callout Tags!
+            // Project Zoom-Reactive Architectural SVG Leader Lines + HUD Obstacle-Aware Anti-Overlapping Callout Tags!
             if (pinsLayer && state.showLabels) {
-              const isDesktopOverlay = window.innerWidth > 1020;
+              const isDesktopOverlay = window.innerWidth > 1080;
+              const wrapRect = canvasWrap.getBoundingClientRect();
+              const obstacles = [];
+              if (isDesktopOverlay && wrapRect.width > 0 && wrapRect.height > 0) {
+                for (const hudEl of [heroEditorialEl, topToolsEl, inspectorEl, dockEl]) {
+                  if (!hudEl || hudEl.hidden) continue;
+                  const r = hudEl.getBoundingClientRect();
+                  if (!r.width || !r.height) continue;
+                  const left = r.left - wrapRect.left;
+                  const top = r.top - wrapRect.top;
+                  const right = r.right - wrapRect.left;
+                  const bottom = r.bottom - wrapRect.top;
+                  if (right > 0 && left < viewWidth && bottom > 0 && top < viewHeight) {
+                    obstacles.push({ left, top, right, bottom });
+                  }
+                }
+              }
+
               const inspectorW = (isDesktopOverlay && inspectorEl && !state.inspectorCollapsed)
-                ? (inspectorEl.offsetWidth || 356) + 28
+                ? (inspectorEl.offsetWidth || 360) + 28
                 : 0;
-              const dockH = (isDesktopOverlay && dockEl) ? (dockEl.offsetHeight || 110) + 24 : 24;
-              const minX = isDesktopOverlay ? 58 : 44;
-              const maxX = Math.max(minX + 80, viewWidth - inspectorW - (isDesktopOverlay ? 56 : 44));
-              const minY = zoomMetrics.zoomState === 'close'
-                ? (isDesktopOverlay ? 78 : 66)
-                : (isDesktopOverlay ? 148 : 88);
+              const dockH = (isDesktopOverlay && dockEl) ? (dockEl.offsetHeight || 110) + 22 : 20;
+              const minX = isDesktopOverlay ? 58 : 42;
+              const maxX = Math.max(minX + 80, viewWidth - inspectorW - (isDesktopOverlay ? 44 : 42));
+              const minY = isDesktopOverlay
+                ? (zoomMetrics.zoomState === 'close' ? 28 : 34)
+                : 22;
               const maxY = Math.max(minY + 60, viewHeight - dockH);
 
               const rawCandidates = [];
@@ -1580,9 +1649,10 @@ export function connectEar3DStage({
                 maxX,
                 minY,
                 maxY,
-                minGapY: isDesktopOverlay ? 30 : 26,
-                collideWidth: isDesktopOverlay ? 118 : 96,
+                minGapY: isDesktopOverlay ? 30 : 25,
+                collideWidth: isDesktopOverlay ? 118 : 94,
                 zoomState: zoomMetrics.zoomState,
+                obstacles,
               });
 
               for (const p of solvedPins) {

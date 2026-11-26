@@ -1,36 +1,36 @@
-import { getSharedWebLlmClient } from './audio-explainer.mjs';
-import { connectAudiologistSandbox } from './audiologist-sandbox.mjs';
-import { assembleComparisonZip } from './bundle.mjs';
-import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs';
-import { connectEar3DStage } from './ear-3d-stage.mjs';
-import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs';
-import { connectFreqBandSim } from './freq-band-sim.mjs';
-import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs';
-import { connectHomeVideo } from './home-video.mjs';
-import { connectHomeVideoEffects } from './home-video-effects.mjs';
-import { connectListeningPreviews } from './listening-previews.mjs';
-import { connectLiveMic } from './live-mic.mjs';
-import { attachMarkerDrag } from './marker-scrubber.mjs';
-import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs';
-import { connectNIHLExamples } from './nihl-examples.mjs';
+import { getSharedWebLlmClient } from './audio-explainer.mjs?v=37802be8c5';
+import { connectAudiologistSandbox } from './audiologist-sandbox.mjs?v=37802be8c5';
+import { assembleComparisonZip } from './bundle.mjs?v=37802be8c5';
+import { CUE_STEP_SAMPLES, cueManifest, cueSample, cueSeconds } from './cue.mjs?v=37802be8c5';
+import { connectEar3DStage } from './ear-3d-stage.mjs?v=37802be8c5';
+import { connectEarLevels, connectStereoEarOutput } from './ear-levels.mjs?v=37802be8c5';
+import { connectFreqBandSim } from './freq-band-sim.mjs?v=37802be8c5';
+import { connectHomeHearingGuide, connectStudioHearingGuide } from './hearing-guide.mjs?v=37802be8c5';
+import { connectHomeVideo } from './home-video.mjs?v=37802be8c5';
+import { connectHomeVideoEffects } from './home-video-effects.mjs?v=37802be8c5';
+import { connectListeningPreviews } from './listening-previews.mjs?v=37802be8c5';
+import { connectLiveMic } from './live-mic.mjs?v=37802be8c5';
+import { attachMarkerDrag } from './marker-scrubber.mjs?v=37802be8c5';
+import { MSBG_MAX_SECONDS, canRenderOnDevice, createMsbgClient } from './msbg-browser.mjs?v=37802be8c5';
+import { connectNIHLExamples } from './nihl-examples.mjs?v=37802be8c5';
 import {
   connectCalibrationControls,
   createCalibrationStage,
   getTinnitusCalibrationLinearBoost,
   onCalibrationChange,
-} from './output-calibration.mjs';
-import { connectVolumeGuardrail } from './safe-listening.mjs';
-import { connectListeningShare, readListeningLink } from './share.mjs';
-import { connectSpectrogram } from './spectrogram.mjs';
-import { connectStoryJourney } from './story-journey.mjs';
-import { connectStudioExplainer } from './studio-explainer.mjs';
-import { connectStudioFilterResponse } from './studio-filter-response.mjs';
-import { displayProfileName, updateStudioFilter } from './studio-filters.mjs';
-import { connectThemeToggle, onThemeChange } from './theme.mjs';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs';
-import { connectUploadPreview, isVideoFile } from './upload-preview.mjs';
-import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs';
-import { connectViewNavigation } from './views.mjs';
+} from './output-calibration.mjs?v=37802be8c5';
+import { connectVolumeGuardrail } from './safe-listening.mjs?v=37802be8c5';
+import { connectListeningShare, readListeningLink } from './share.mjs?v=37802be8c5';
+import { connectSpectrogram } from './spectrogram.mjs?v=37802be8c5';
+import { connectStoryJourney } from './story-journey.mjs?v=37802be8c5';
+import { connectStudioExplainer } from './studio-explainer.mjs?v=37802be8c5';
+import { connectStudioFilterResponse } from './studio-filter-response.mjs?v=37802be8c5';
+import { displayProfileName, updateStudioFilter } from './studio-filters.mjs?v=37802be8c5';
+import { connectThemeToggle, onThemeChange } from './theme.mjs?v=37802be8c5';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=37802be8c5';
+import { connectUploadPreview, isVideoFile } from './upload-preview.mjs?v=37802be8c5';
+import { activeRmsDb, audibleTinnitusGain, tinnitusLoop } from './upload-tinnitus.mjs?v=37802be8c5';
+import { connectViewNavigation } from './views.mjs?v=37802be8c5';
 
 const demo = new URL('./demo/', import.meta.url);
 const collection = new URL('music/collection.json', demo);

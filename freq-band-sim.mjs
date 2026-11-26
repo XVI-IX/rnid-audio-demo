@@ -1,6 +1,6 @@
-import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs';
-import { createBandPlayback } from './freq-band-audio.mjs';
-import { createCalibrationStage } from './output-calibration.mjs';
+import { createCrowdAmbienceBuffer, crowdPercentToGain } from './crowd-ambience.mjs?v=37802be8c5';
+import { createBandPlayback } from './freq-band-audio.mjs?v=37802be8c5';
+import { createCalibrationStage } from './output-calibration.mjs?v=37802be8c5';
 
 export const BAND_LOOP_SOURCES = Object.freeze([
   {
