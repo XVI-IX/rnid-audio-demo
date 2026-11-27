@@ -6,7 +6,7 @@ import {
   generateEarPartAiResponse,
   getInstantEarPartExplanation,
   getPartStarterQuestions,
-} from './ear-anatomy-ai.mjs?v=0f7222afbc';
+} from './ear-anatomy-ai.mjs?v=06bba40fbe';
 import {
   ANATOMY_PARTS,
   ANATOMY_PART_BY_ID,
@@ -15,10 +15,10 @@ import {
   buildSpatialLabFloor,
   createStudioEnvironmentTexture,
   normalisePartId,
-} from './ear-anatomy-geometry.mjs?v=0f7222afbc';
-import { getEffectTheme } from './output-calibration.mjs?v=0f7222afbc';
-import { getTheme, onThemeChange } from './theme.mjs?v=0f7222afbc';
-import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=0f7222afbc';
+} from './ear-anatomy-geometry.mjs?v=06bba40fbe';
+import { getEffectTheme } from './output-calibration.mjs?v=06bba40fbe';
+import { getTheme, onThemeChange } from './theme.mjs?v=06bba40fbe';
+import { confirmRingingPlayback } from './tinnitus-warning.mjs?v=06bba40fbe';
 
 export const ANATOMY_IMPACT_GUIDES = Object.freeze({
   original: {
@@ -1769,33 +1769,45 @@ export function connectEar3DStage({
             anatomy.beaconHalo.scale.setScalar(beaconScale);
             anatomy.beaconHalo.material.opacity = 0.65 - 0.2 * Math.sin(t * 3.8);
 
-            // Earplugs inside canal
+            // External Earplug positioned cleanly OUTSIDE the outer ear (pinna)
             const wantFoam = impact.plugMode === 'foam';
             const wantMusician = impact.plugMode === 'musician';
-            anatomy.foamPlugGroup.visible = wantFoam || anatomy.foamPlugGroup.position.x > -5.6;
-            anatomy.musicianPlugGroup.visible = wantMusician || anatomy.musicianPlugGroup.position.x > -5.6;
-            anatomy.plugSlotRing.material.opacity = (wantFoam || wantMusician) ? 0.06 : 0.3;
+            const inspectingPlug = activePart === 'earplug';
+            anatomy.foamPlugGroup.visible = wantFoam;
+            anatomy.musicianPlugGroup.visible = wantMusician || inspectingPlug || anatomy.musicianPlugGroup.position.x > -6.55;
+            anatomy.plugSlotRing.material.opacity = (wantFoam || wantMusician) ? 0.62 : (inspectingPlug ? 0.44 : 0.24);
+            anatomy.plugSlotRing.scale.setScalar((wantFoam || wantMusician) ? 1.06 + 0.04 * Math.sin(t * 3.0 * motionScale) : 0.94);
 
-            const foamTargetX = wantFoam ? -2.92 : -6.2;
-            const musTargetX = wantMusician ? -2.92 : -6.2;
+            const foamTargetX = wantFoam ? -5.62 : -6.95;
+            const musTargetX = wantMusician ? -5.62 : (inspectingPlug ? -6.12 : -6.75);
             anatomy.foamPlugGroup.position.x += (foamTargetX - anatomy.foamPlugGroup.position.x) * 0.12;
             anatomy.musicianPlugGroup.position.x += (musTargetX - anatomy.musicianPlugGroup.position.x) * 0.12;
+            anatomy.musicianPlugGroup.traverse((child) => {
+              if (child.isMesh && child.material?.transparent) {
+                const targetOp = wantMusician ? 0.88 : (inspectingPlug ? 0.45 : 0.0);
+                child.material.opacity += (targetOp - child.material.opacity) * 0.14;
+              }
+            });
             if (wantFoam) {
               const expand = 1 + 0.045 * Math.sin(t * 2.5 * motionScale);
               anatomy.foamPlugGroup.scale.set(1, expand, expand);
             }
 
-            // Canal acoustic waves (shifted with canal's exploded offset)
+            // Incoming & canal acoustic waves (approaching outside ear -> passing external earplug -> canal)
+            const waveCurve = anatomy.wavePathCurve || anatomy.canalCurve;
             const canalShiftX = ANATOMY_PART_BY_ID.canal.explodeOffset[0] * effectiveExplode;
+            const plugShiftX = ANATOMY_PART_BY_ID.earplug.explodeOffset[0] * effectiveExplode;
             anatomy.waveRings.forEach((ring) => {
-              const u = (ring.userData.phase + t * 0.44 * motionScale) % 1;
-              const pos = anatomy.canalCurve.getPointAt(u);
-              anatomy.canalCurve.getTangentAt(u, waveTangent);
-              ring.position.set(pos.x + canalShiftX, pos.y, pos.z);
+              const u = (ring.userData.phase + t * 0.4 * motionScale) % 1;
+              const pos = waveCurve.getPointAt(u);
+              waveCurve.getTangentAt(u, waveTangent);
+              const shiftX = pos.x < -5.0 ? plugShiftX : canalShiftX;
+              ring.position.set(pos.x + shiftX, pos.y, pos.z);
               ring.quaternion.setFromUnitVectors(upAxis, waveTangent);
 
-              const pastPlug = pos.x > -2.85;
-              let scale = 0.85 + 0.25 * Math.sin(t * 6 * motionScale + ring.userData.phase * 6.2);
+              const pastPlug = pos.x > -5.48;
+              const outerFlare = pos.x < -4.65 ? 1.25 : 1.0;
+              let scale = (0.85 + 0.25 * Math.sin(t * 6 * motionScale + ring.userData.phase * 6.2)) * outerFlare;
               let alpha = Math.sin(u * Math.PI) * 0.72;
               if (ring.userData.isTreble) {
                 ring.material.color.setHex(0x2563eb);

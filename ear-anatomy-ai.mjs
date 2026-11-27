@@ -10,8 +10,8 @@ import {
   buildSafeMedicalResponse,
   cleanExplanationText,
   isMedicalAdviceQuery,
-} from './audio-explainer.mjs?v=0f7222afbc';
-import { ANATOMY_PART_BY_ID, normalisePartId } from './ear-anatomy-geometry.mjs?v=0f7222afbc';
+} from './audio-explainer.mjs?v=06bba40fbe';
+import { ANATOMY_PART_BY_ID, normalisePartId } from './ear-anatomy-geometry.mjs?v=06bba40fbe';
 
 const TECHNICAL_JARGON_REGEX = /\b(?:\d+(?:\.\d+)?\s*(?:k?Hz|hertz|dB|decibels?)|kHz|decibels?|hertz|filterbank|dBFS)\b/i;
 
@@ -87,31 +87,31 @@ const PART_REACTIONS = Object.freeze({
   },
 
   earplug: {
-    role: 'Sits snugly in the outer cartilaginous part of the ear canal to calm dangerous gig and club sound pressure before it ever reaches your eardrum or delicate hair cells.',
+    role: 'Shown just outside your outer ear to illustrate how an acoustic earplug filter calms dangerous concert and club sound waves evenly before they enter the ear.',
     states: {
       original: {
-        status: 'No earplug worn · Fine for quiet rooms, risky at loud gigs',
-        reaction: 'Nothing is sitting in the earplug zone right now. At normal everyday listening volumes your ears are completely happy bare — at loud gigs or clubs, leaving this spot open sends raw speaker blasts straight into your inner ear.',
+        status: 'No earplug active · Safe in quiet rooms, risky at gigs',
+        reaction: 'No earplug filter is active in front of the ear right now. Everyday conversation volumes are completely safe bare, while loud concert speakers send full, unfiltered sound waves straight inward.',
       },
       post_gig: {
         status: 'Unprotected at the gig · Why the hangover happened',
-        reaction: 'Because this protection zone was empty during the gig, hours of intense sound waves slammed straight past here and fatigued your inner-ear hair cells. Giving your ears quiet rest lets temporary muffling settle, and wearing earplugs next time skips the hangover.',
+        reaction: 'Without an earplug calming incoming waves outside the ear, hours of intense concert pressure swept straight inward and fatigued your inner-ear hair cells. Quiet rest lets temporary muffling settle, and using earplugs next time skips the hangover.',
       },
       permanent_notch: {
         status: 'Crucial for protecting your remaining clarity',
-        reaction: 'Once inner-ear hair cells are permanently lost, nothing can regrow them — which makes slipping earplugs into this spot at future concerts the best way to keep every bit of musical clarity you still have.',
+        reaction: 'Once inner-ear hair cells are permanently lost, nothing can regrow them — making filtered earplugs at future gigs the smartest way to protect every bit of musical clarity you still have.',
       },
       severe_hf: {
         status: 'Essential shield for remaining hair cells',
-        reaction: 'Placing an earplug here in loud venues shields your remaining working inner-ear sensors from further wear without cutting you off from the beat and atmosphere.',
+        reaction: 'Using filtered earplugs in loud venues calms incoming sound pressure outside the ear so your remaining inner-ear sensors stay protected while you still feel the beat.',
       },
       asymmetric: {
-        status: 'Protects both ears equally near PA stacks',
-        reaction: 'Wearing earplugs in both canals acts like a safety cushion even when you end up standing right next to a loud bar speaker on one side.',
+        status: 'Protects both ears equally near speaker stacks',
+        reaction: 'Filtered earplugs cushion incoming waves on both sides evenly, even when you end up standing right beside a loud bar speaker on one side.',
       },
       musician_plugs: {
         status: 'Earplug active · Safe AND crystal clear',
-        reaction: 'Soft silicone flanges seal comfortably while the tiny acoustic duct in the middle lowers deep bass, warm vocals, and shimmering cymbals by the same gentle amount — like turning down a master studio fader!',
+        reaction: 'Positioned right outside the ear, the tuned acoustic filter lowers deep bass, warm vocals, and shimmering cymbals by the exact same gentle amount before waves enter — like turning down a master studio fader!',
       },
     },
   },

@@ -43,17 +43,17 @@ export const ANATOMY_PARTS = Object.freeze([
   {
     id: 'earplug',
     index: '03',
-    region: 'Protection site',
-    shortLabel: 'Earplug seal',
-    title: 'Canal Protection Zone',
-    latin: 'Outer cartilaginous seal · Acoustic filter',
+    region: 'Outside ear',
+    shortLabel: 'Earplug',
+    title: 'Filtered Earplug',
+    latin: 'External acoustic filter · Even volume protection',
     icon: '03',
     accent: '#0d9488',
-    explodeOffset: [-0.65, -0.18, 0.22],
-    pinAnchor: [-2.88, -0.32, 0.28],
-    pinLabelOffset: [-3.35, -1.55, 0.3],
-    camTarget: [-2.85, 0.02, 0.08],
-    camSpherical: { radius: 4.4, theta: -0.18, phi: 1.45 },
+    explodeOffset: [-2.25, 0.0, 0.0],
+    pinAnchor: [-5.62, 0.1, 0.22],
+    pinLabelOffset: [-6.45, -1.26, 0.28],
+    camTarget: [-5.55, 0.06, 0.06],
+    camSpherical: { radius: 5.0, theta: -0.24, phi: 1.42 },
   },
   {
     id: 'eardrum',
@@ -315,7 +315,7 @@ export function buildHumanEarAnatomy(THREE) {
   }
 
   // =========================================================================
-  // 01. OUTER EAR: SCULPTED HUMAN PINNA (AURICLE) + TEMPORAL BONE CUTAWAY
+  // 01. OUTER EAR: SCULPTED HUMAN PINNA (AURICLE) — SMOOTH & ANATOMICALLY CLEAN
   // =========================================================================
   const pinnaGroup = new THREE.Group();
   pinnaGroup.position.set(-4.72, 0.04, 0.08);
@@ -331,8 +331,9 @@ export function buildHumanEarAnatomy(THREE) {
     side: THREE.DoubleSide,
   });
 
-  const radSteps = 34;
-  const angSteps = 72;
+  const smoothSig = (val, k = 5) => 1 / (1 + Math.exp(-val * k));
+  const radSteps = 36;
+  const angSteps = 80;
   const pinnaPos = [];
   const pinnaColors = [];
   const pinnaIdx = [];
@@ -345,25 +346,26 @@ export function buildHumanEarAnatomy(THREE) {
       const sinT = Math.sin(theta);
       const cosT = Math.cos(theta);
 
-      const topStretch = sinT > 0 ? 1.62 : 1.42;
-      const anteriorIndent = cosT > 0.18 ? 0.7 - 0.15 * Math.exp(-((sinT - 0.04) ** 2) / 0.16) : 1.03;
-      const lobePlump = sinT < -0.52 ? 0.9 + 0.14 * Math.abs(sinT) : 1.0;
+      // C-infinity smooth auricular silhouette (zero discontinuous step cliffs or spikes!)
+      const topStretch = 1.38 + 0.22 * smoothSig(sinT, 4.2);
+      const anteriorIndent = 1.0 - 0.24 * smoothSig(cosT - 0.18, 4.8) * Math.exp(-((sinT - 0.04) ** 2) / 0.36);
+      const lobePlump = 1.0 + 0.09 * smoothSig(-sinT - 0.48, 4.5);
 
       const localY = sinT * topStretch * rNorm * lobePlump;
-      const localZ = -cosT * 0.96 * rNorm * anteriorIndent;
+      const localZ = -cosT * 0.94 * rNorm * anteriorIndent;
 
-      // Deep concha cavum funnel + antihelix fold + triangular fossa + scapha + curled helix margin
-      const conchaFunnel = -0.72 * Math.exp(-(rNorm * rNorm) / 0.09);
-      const antihelixMask = cosT < 0.38 ? 1 : 0.18;
-      const antihelixRidge = 0.2 * antihelixMask * Math.exp(-((rNorm - 0.58) ** 2) / 0.016);
-      const fossaDip = sinT > 0.45 && cosT > -0.2 ? -0.1 * Math.exp(-((rNorm - 0.72) ** 2) / 0.014) : 0;
-      const scaphaGroove = -0.1 * Math.exp(-((rNorm - 0.81) ** 2) / 0.011) * (sinT > -0.45 ? 1 : 0.1);
-      const helixCurl = 0.26 * Math.exp(-((rNorm - 0.96) ** 2) / 0.008) * (sinT > -0.55 ? 1 : 0.38);
-      const localX = conchaFunnel + antihelixRidge + fossaDip + scaphaGroove + helixCurl - 0.12 * rNorm;
+      // Concha bowl funnels INWARD (+X toward ear canal at -4.60), never poking outward (-X)!
+      const conchaFunnel = 0.34 * Math.exp(-(rNorm * rNorm) / 0.13);
+      const antihelixMask = smoothSig(0.34 - cosT, 4.5);
+      const antihelixRidge = -0.11 * antihelixMask * Math.exp(-((rNorm - 0.58) ** 2) / 0.022);
+      const fossaDip = 0.06 * smoothSig(sinT - 0.38, 5.0) * smoothSig(cosT + 0.15, 4.5) * Math.exp(-((rNorm - 0.72) ** 2) / 0.018);
+      const scaphaGroove = 0.06 * Math.exp(-((rNorm - 0.81) ** 2) / 0.015) * smoothSig(sinT + 0.42, 4.8);
+      const helixCurl = -0.16 * Math.exp(-((rNorm - 0.95) ** 2) / 0.012) * (0.42 + 0.58 * smoothSig(sinT + 0.52, 4.5));
+      const localX = conchaFunnel + antihelixRidge + fossaDip + scaphaGroove + helixCurl + 0.05 * (1 - rNorm);
 
       pinnaPos.push(localX, localY, localZ);
 
-      const shade = Math.max(0, Math.min(1, 0.52 + localX * 0.6));
+      const shade = Math.max(0, Math.min(1, 0.54 - localX * 0.55));
       colTmp.setRGB(0.86 + shade * 0.1, 0.54 + shade * 0.17, 0.47 + shade * 0.16);
       pinnaColors.push(colTmp.r, colTmp.g, colTmp.b);
     }
@@ -389,101 +391,72 @@ export function buildHumanEarAnatomy(THREE) {
   const pinnaVertexMat = skinMat.clone();
   pinnaVertexMat.vertexColors = true;
   const pinnaBowlMesh = new THREE.Mesh(pinnaBowlGeo, pinnaVertexMat);
-  pinnaBowlMesh.rotation.y = 0.22;
+  pinnaBowlMesh.rotation.y = 0.18;
   pinnaGroup.add(pinnaBowlMesh);
 
+  // Smoothly tapered curled helix rim + lobule (tapers cleanly to rounded tips at both ends)
+  const taperEnds = (u) => Math.pow(Math.max(0, Math.sin(u * Math.PI)), 0.28);
   const helixCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-0.24, 0.12, -0.1),
-    new THREE.Vector3(-0.02, 0.58, -0.58),
-    new THREE.Vector3(0.09, 1.4, -0.45),
-    new THREE.Vector3(0.13, 1.66, 0.16),
-    new THREE.Vector3(0.07, 1.16, 0.88),
-    new THREE.Vector3(-0.02, 0.24, 0.98),
-    new THREE.Vector3(-0.08, -0.68, 0.74),
-    new THREE.Vector3(-0.12, -1.36, 0.18),
-    new THREE.Vector3(-0.14, -1.2, -0.34),
+    new THREE.Vector3(0.08, 0.14, -0.14),
+    new THREE.Vector3(-0.04, 0.56, -0.56),
+    new THREE.Vector3(-0.12, 1.36, -0.44),
+    new THREE.Vector3(-0.15, 1.62, 0.16),
+    new THREE.Vector3(-0.12, 1.14, 0.86),
+    new THREE.Vector3(-0.08, 0.22, 0.94),
+    new THREE.Vector3(-0.06, -0.66, 0.72),
+    new THREE.Vector3(-0.05, -1.32, 0.18),
+    new THREE.Vector3(-0.02, -1.16, -0.32),
   ]);
   const helixMesh = new THREE.Mesh(
     buildVariableTubeGeometry(
       THREE,
       helixCurve,
-      80,
+      84,
       18,
-      (u) => (u > 0.75 ? 0.19 + 0.085 * Math.sin(((u - 0.75) / 0.25) * Math.PI) : 0.12 + 0.036 * Math.sin(u * Math.PI)),
+      (u) => Math.max(0.012, taperEnds(u) * (u > 0.74
+        ? 0.17 + 0.075 * Math.sin(((u - 0.74) / 0.26) * Math.PI)
+        : 0.115 + 0.032 * Math.sin(u * Math.PI))),
     ),
     skinMat,
   );
-  helixMesh.rotation.y = 0.22;
+  helixMesh.rotation.y = 0.18;
   pinnaGroup.add(helixMesh);
 
-  // Antihelix stem + Superior & Inferior Crura Y-fork
+  // Antihelix stem + Superior & Inferior Crura Y-fork (tapered seamlessly into bowl)
   const antihelixCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-0.06, -0.54, 0.34),
-    new THREE.Vector3(0.03, 0.18, 0.48),
-    new THREE.Vector3(0.05, 0.8, 0.3),
-    new THREE.Vector3(0.03, 1.16, -0.08),
+    new THREE.Vector3(0.02, -0.5, 0.32),
+    new THREE.Vector3(-0.05, 0.18, 0.46),
+    new THREE.Vector3(-0.07, 0.78, 0.28),
+    new THREE.Vector3(-0.04, 1.12, -0.06),
   ]);
   const antihelixInfCrus = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0.04, 0.68, 0.34),
-    new THREE.Vector3(0.02, 0.86, -0.02),
-    new THREE.Vector3(-0.04, 0.78, -0.34),
+    new THREE.Vector3(-0.06, 0.66, 0.32),
+    new THREE.Vector3(-0.05, 0.84, -0.02),
+    new THREE.Vector3(0.0, 0.76, -0.32),
   ]);
   const antihelixMesh = new THREE.Mesh(
-    buildVariableTubeGeometry(THREE, antihelixCurve, 38, 12, (u) => 0.098 * (1 - 0.25 * u)),
+    buildVariableTubeGeometry(THREE, antihelixCurve, 38, 12, (u) => Math.max(0.01, taperEnds(u) * 0.092 * (1 - 0.22 * u))),
     skinMat,
   );
   const infCrusMesh = new THREE.Mesh(
-    buildVariableTubeGeometry(THREE, antihelixInfCrus, 22, 10, (u) => 0.072 * (1 - 0.2 * u)),
+    buildVariableTubeGeometry(THREE, antihelixInfCrus, 22, 10, (u) => Math.max(0.01, taperEnds(u) * 0.068 * (1 - 0.2 * u))),
     skinMat,
   );
-  antihelixMesh.rotation.y = 0.22;
-  infCrusMesh.rotation.y = 0.22;
+  antihelixMesh.rotation.y = 0.18;
+  infCrusMesh.rotation.y = 0.18;
   pinnaGroup.add(antihelixMesh, infCrusMesh);
 
-  // Tragus + Antitragus flanking the intertragal notch
-  const tragusGeo = new THREE.SphereGeometry(0.24, 20, 16);
-  tragusGeo.scale(0.6, 1.08, 0.8);
+  // Tragus + Antitragus nestled smoothly around the concha entrance
+  const tragusGeo = new THREE.SphereGeometry(0.21, 20, 16);
+  tragusGeo.scale(0.55, 1.02, 0.76);
   const tragusMesh = new THREE.Mesh(tragusGeo, skinMat);
-  tragusMesh.position.set(-0.07, -0.06, -0.52);
+  tragusMesh.position.set(0.02, -0.06, -0.48);
 
-  const antitragusGeo = new THREE.SphereGeometry(0.19, 18, 14);
-  antitragusGeo.scale(0.65, 0.85, 0.95);
+  const antitragusGeo = new THREE.SphereGeometry(0.17, 18, 14);
+  antitragusGeo.scale(0.58, 0.82, 0.9);
   const antitragusMesh = new THREE.Mesh(antitragusGeo, skinMat);
-  antitragusMesh.position.set(-0.09, -0.56, 0.12);
+  antitragusMesh.position.set(0.0, -0.54, 0.12);
   pinnaGroup.add(tragusMesh, antitragusMesh);
-
-  // Sculpted rounded Temporal Bone cross-section arch (subtle warm alabaster)
-  const temporalBoneMat = new THREE.MeshPhysicalMaterial({
-    color: 0xe7dfd3,
-    roughness: 0.68,
-    metalness: 0.01,
-    transparent: true,
-    opacity: 0.34,
-    depthWrite: false,
-    side: THREE.DoubleSide,
-  });
-  temporalBoneMat.userData = { baseOpacity: 0.34 };
-  xrayMaterials.push(temporalBoneMat);
-
-  const supBoneCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0.45, 0.92, -0.24),
-    new THREE.Vector3(1.85, 1.08, -0.26),
-    new THREE.Vector3(3.45, 0.96, -0.24),
-  ]);
-  const infBoneCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0.45, -0.86, -0.24),
-    new THREE.Vector3(1.85, -0.98, -0.26),
-    new THREE.Vector3(3.35, -0.88, -0.24),
-  ]);
-  const temporalSuperior = new THREE.Mesh(
-    buildVariableTubeGeometry(THREE, supBoneCurve, 28, 14, (u) => 0.32 - 0.06 * u),
-    temporalBoneMat,
-  );
-  const temporalInferior = new THREE.Mesh(
-    buildVariableTubeGeometry(THREE, infBoneCurve, 28, 14, (u) => 0.34 - 0.07 * u),
-    temporalBoneMat,
-  );
-  pinnaGroup.add(temporalSuperior, temporalInferior);
 
   registerPart('pinna', pinnaGroup, [pinnaBowlMesh, helixMesh, antihelixMesh, infCrusMesh, tragusMesh, antitragusMesh]);
 
@@ -492,9 +465,17 @@ export function buildHumanEarAnatomy(THREE) {
   // =========================================================================
   const canalGroup = new THREE.Group();
   const canalCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-4.68, 0.02, 0.06),
-    new THREE.Vector3(-3.75, 0.16, 0.12),
-    new THREE.Vector3(-2.55, 0.11, -0.04),
+    new THREE.Vector3(-4.46, 0.04, 0.07),
+    new THREE.Vector3(-3.68, 0.16, 0.12),
+    new THREE.Vector3(-2.52, 0.11, -0.04),
+    new THREE.Vector3(-1.32, 0.02, 0.0),
+  ]);
+  const wavePathCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-6.45, 0.06, 0.08),
+    new THREE.Vector3(-5.58, 0.06, 0.08),
+    new THREE.Vector3(-4.52, 0.05, 0.08),
+    new THREE.Vector3(-3.68, 0.16, 0.12),
+    new THREE.Vector3(-2.52, 0.11, -0.04),
     new THREE.Vector3(-1.32, 0.02, 0.0),
   ]);
 
@@ -543,18 +524,18 @@ export function buildHumanEarAnatomy(THREE) {
   registerPart('canal', canalGroup, [canalBackMesh]);
 
   // =========================================================================
-  // 03. EARPLUG PROTECTION SITE (FOAM + MUSICIANS' −15 dB + SUBTLE RING)
+  // 03. EXTERNAL EARPLUG PROTECTION (POSITIONED OUTSIDE THE OUTER EAR / PINNA)
   // =========================================================================
   const earplugGroup = new THREE.Group();
 
   const plugSlotMat = new THREE.MeshBasicMaterial({
     color: 0x0d9488,
     transparent: true,
-    opacity: 0.34,
+    opacity: 0.36,
   });
-  const plugSlotRing = new THREE.Mesh(new THREE.TorusGeometry(0.47, 0.02, 12, 40), plugSlotMat);
+  const plugSlotRing = new THREE.Mesh(new THREE.TorusGeometry(0.56, 0.022, 14, 44), plugSlotMat);
   plugSlotRing.rotation.y = Math.PI / 2;
-  plugSlotRing.position.set(-2.95, 0.13, 0.04);
+  plugSlotRing.position.set(-5.62, 0.06, 0.08);
   earplugGroup.add(plugSlotRing);
 
   const foamPlugGroup = new THREE.Group();
@@ -564,13 +545,13 @@ export function buildHumanEarAnatomy(THREE) {
     emissiveIntensity: 0.14,
     roughness: 0.88,
   });
-  const foamBody = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.46, 1.18, 28), foamMat);
+  const foamBody = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.42, 0.96, 28), foamMat);
   foamBody.rotation.z = Math.PI / 2;
-  const foamNose = new THREE.Mesh(new THREE.SphereGeometry(0.42, 24, 18), foamMat);
-  foamNose.scale.set(0.75, 1, 1);
-  foamNose.position.x = 0.58;
+  const foamNose = new THREE.Mesh(new THREE.SphereGeometry(0.38, 24, 18), foamMat);
+  foamNose.scale.set(0.72, 1, 1);
+  foamNose.position.x = 0.46;
   foamPlugGroup.add(foamBody, foamNose);
-  foamPlugGroup.position.set(-6.4, 0.13, 0.04);
+  foamPlugGroup.position.set(-6.9, 0.06, 0.08);
   foamPlugGroup.visible = false;
   earplugGroup.add(foamPlugGroup);
 
@@ -578,17 +559,17 @@ export function buildHumanEarAnatomy(THREE) {
   const siliconeMat = new THREE.MeshPhysicalMaterial({
     color: 0x14b8a6,
     emissive: 0x115e59,
-    emissiveIntensity: 0.18,
-    roughness: 0.15,
-    clearcoat: 0.7,
+    emissiveIntensity: 0.2,
+    roughness: 0.16,
+    clearcoat: 0.72,
     transparent: true,
-    opacity: 0.78,
+    opacity: 0.84,
   });
   for (let f = 0; f < 3; f += 1) {
-    const flangeGeo = new THREE.SphereGeometry(0.45 - f * 0.055, 24, 16);
-    flangeGeo.scale(0.48, 1, 1);
+    const flangeGeo = new THREE.SphereGeometry(0.42 - f * 0.055, 24, 16);
+    flangeGeo.scale(0.44, 1, 1);
     const flange = new THREE.Mesh(flangeGeo, siliconeMat);
-    flange.position.x = f * 0.34 - 0.28;
+    flange.position.x = f * 0.28 - 0.18;
     musicianPlugGroup.add(flange);
   }
   const coreMat = new THREE.MeshStandardMaterial({
@@ -598,17 +579,18 @@ export function buildHumanEarAnatomy(THREE) {
     metalness: 0.85,
     roughness: 0.18,
   });
-  const filterStem = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 1.48, 20), coreMat);
+  const filterStem = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 1.18, 20), coreMat);
   filterStem.rotation.z = Math.PI / 2;
-  const filterCap = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.038, 10, 24), coreMat);
+  filterStem.position.x = -0.14;
+  const filterCap = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.04, 10, 24), coreMat);
   filterCap.rotation.y = Math.PI / 2;
-  filterCap.position.x = -0.74;
+  filterCap.position.x = -0.72;
   musicianPlugGroup.add(filterStem, filterCap);
-  musicianPlugGroup.position.set(-6.4, 0.13, 0.04);
-  musicianPlugGroup.visible = false;
+  musicianPlugGroup.position.set(-6.25, 0.06, 0.08);
+  musicianPlugGroup.visible = true;
   earplugGroup.add(musicianPlugGroup);
 
-  registerPart('earplug', earplugGroup, [foamBody, foamNose, filterStem, plugSlotRing]);
+  registerPart('earplug', earplugGroup, [foamBody, foamNose, filterStem, filterCap, plugSlotRing]);
 
   // =========================================================================
   // 04. TYMPANIC MEMBRANE (CONICAL OBLIQUE EARDRUM + UMBO + ANNULUS)
@@ -1058,6 +1040,7 @@ export function buildHumanEarAnatomy(THREE) {
     highlightMeshesByPart,
     xrayMaterials,
     canalCurve,
+    wavePathCurve,
     cochleaCurve,
     cochlearNerveCurve,
     foamPlugGroup,
@@ -1365,15 +1348,20 @@ export function buildSpatialHumanHeadScene(THREE) {
   tagAnatomyHierarchy(rightEarGroup, 'canal', { headSide: 'right' });
   pubSpaceGroup.add(leftEarGroup, rightEarGroup);
 
-  // Miniature Earplugs nestled in both ears when Foam or Musicians' plugs are selected!
-  const miniPlugGeo = new THREE.CylinderGeometry(0.055, 0.055, 0.14, 14);
+  // External Earplugs positioned cleanly OUTSIDE both sculpted pinnae when Earplugs are selected!
+  const miniPlugGeo = new THREE.CylinderGeometry(0.065, 0.052, 0.18, 16);
   miniPlugGeo.rotateZ(Math.PI / 2);
-  const leftMiniPlugMat = new THREE.MeshStandardMaterial({ color: 0x14b8a6, roughness: 0.3 });
+  const leftMiniPlugMat = new THREE.MeshStandardMaterial({
+    color: 0x14b8a6,
+    emissive: 0x0f766e,
+    emissiveIntensity: 0.25,
+    roughness: 0.25,
+  });
   const leftMiniPlug = new THREE.Mesh(miniPlugGeo, leftMiniPlugMat);
-  leftMiniPlug.position.set(-0.83, 0.08, -0.05);
+  leftMiniPlug.position.set(-0.98, 0.10, -0.05);
   leftMiniPlug.visible = false;
   const rightMiniPlug = new THREE.Mesh(miniPlugGeo, leftMiniPlugMat);
-  rightMiniPlug.position.set(0.83, 0.08, -0.05);
+  rightMiniPlug.position.set(0.98, 0.10, -0.05);
   rightMiniPlug.visible = false;
   pubSpaceGroup.add(leftMiniPlug, rightMiniPlug);
 
